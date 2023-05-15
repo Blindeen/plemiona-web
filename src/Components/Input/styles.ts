@@ -13,7 +13,7 @@ export const StyledInput = styled(Input)`
     &:hover,
     &:focus {
       box-shadow: none;
-      border-color: ${palette.brown};
+      border-color: ${palette.black};
     }
   }
 `;

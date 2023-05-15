@@ -25,6 +25,7 @@ export const StyledButton = styled(Button)`
     &:active {
       background-color: ${palette.cream};
       border-color: ${palette.black};
+      box-shadow: none;
     }
 
     &:focus-visible {
@@ -46,7 +47,7 @@ export const StyledButton = styled(Button)`
     }
 
     &:hover {
-      color: ${palette.brown};
+      color: ${palette.black};
     }
   }
 
