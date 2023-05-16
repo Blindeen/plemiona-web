@@ -7,6 +7,7 @@ const palette = {
   goldFusion: '#807E4F',
   portTudorHotel: '#807f77',
   brown: '#964B00',
+  battleshipGray: '#7C8483',
 };
 
 export default palette;
