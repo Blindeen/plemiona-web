@@ -38,7 +38,7 @@ const SessionChoice = () => {
       localStorage.setItem('token', result.token);
       localStorage.setItem('player_id', String(result.player_id));
       localStorage.setItem('game_code', String(result.game_code));
-      pushNotification('success', 'Joining server', 'Enjoy game', 3);
+      pushNotification('success', 'Joining server', 'Enjoy the game', 3);
     } else {
       pushNotification('warning', 'Server not found', 'Please check game code', 3);
     }
