@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-interface BackgroundProps {
+interface ImageHeroProps {
   imageurl: string;
 }
 
-const ImageHero = styled('div')<BackgroundProps>`
+const ImageHero = styled('div')<ImageHeroProps>`
   display: flex;
   align-items: center;
   justify-content: center;
