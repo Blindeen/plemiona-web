@@ -10,8 +10,6 @@ export const StyledButton = styled(Button)`
   width: 100%;
   height: 100%;
 
-  //font-family: CircularStd, sans-serif;
-  
   font-family: Old English Text MT, sans-serif;
   font-size: 18px;
   font-weight: 700;
