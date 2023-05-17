@@ -4,7 +4,7 @@ import palette from 'palette';
 export const CenteredContainer = styled('div')`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   height: 100%;
   width: 100%;
