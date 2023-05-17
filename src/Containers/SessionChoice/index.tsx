@@ -4,10 +4,17 @@ import React, { useState } from 'react';
 import Button from 'Components/Button';
 import Input from 'Components/Input';
 import { Box, CenteredContainer, OptionalText, Tags } from './styles';
+import pushNotification from 'pushNotification';
 
 interface Payload {
   nickname: string;
   game_code: string;
+}
+
+interface Response {
+  player_id: number;
+  game_code: number;
+  token: string;
 }
 
 const SessionChoice = () => {
@@ -19,18 +26,21 @@ const SessionChoice = () => {
 
   const onSubmit = async () => {
     const info: Payload = { nickname, game_code: gameCode };
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/v1/game/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(info),
-      });
-      const result = await response.json();
-      console.log('Success:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    const response = await fetch('http://127.0.0.1:8000/api/v1/game/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(info),
+    });
+    if (response.ok) {
+      const result: Response = await response.json();
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('player_id', String(result.player_id));
+      localStorage.setItem('game_code', String(result.game_code));
+      pushNotification('success', 'Joining server', 'Enjoy game', 3);
+    } else {
+      pushNotification('warning', 'Server not found', 'Please check game code', 3);
     }
   };
 
