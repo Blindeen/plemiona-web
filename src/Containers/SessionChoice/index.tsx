@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box, OptionalText, Tags } from './styles';
-import Button from 'Components/Button';
 import { Col, Row } from 'antd';
+
+import Button from 'Components/Button';
 import Input from 'Components/Input';
 
 const SessionChoice = () => {
@@ -16,7 +16,7 @@ const SessionChoice = () => {
             </Col>
             <Col offset={6} span={12}>
               <Tags>
-                Server Code <OptionalText>(Optional)</OptionalText>
+                Game Code <OptionalText>(Optional)</OptionalText>
               </Tags>
               <Input></Input>
             </Col>
