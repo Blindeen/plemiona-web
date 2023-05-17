@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 import palette from 'palette';
 
+export const CenteredContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
 export const Box = styled('div')`
-  padding-top: 100px;
   background-color: ${palette.dadsRayOfSunshine};
   opacity: 70%;
   border: 5px solid ${palette.brown};
@@ -10,8 +17,8 @@ export const Box = styled('div')`
   border-radius: 10px;
   width: 40vw;
   height: 40vh;
-  min-height: 20vh;
-  min-width: 20vw;
+  min-height: 400px;
+  min-width: 300px;
 `;
 export const Tags = styled('div')`
   font-family: Old English Text MT, sans-serif;

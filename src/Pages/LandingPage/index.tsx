@@ -1,10 +1,10 @@
-import Background from 'Components/Background';
+import ImageHero from 'Components/ImageHero';
 import SessionChoice from 'Containers/SessionChoice';
 
 const LandingPage = () => (
-  <Background imageUrl="/Arts/HomePage.jpg">
+  <ImageHero imageurl="/Arts/HomePage.jpg">
     <SessionChoice />
-  </Background>
+  </ImageHero>
 );
 
 export default LandingPage;
