@@ -15,6 +15,7 @@ interface Response {
   player_id: number;
   game_code: number;
   token: string;
+  error: string;
 }
 
 const SessionChoice = () => {
@@ -33,14 +34,16 @@ const SessionChoice = () => {
       },
       body: JSON.stringify(info),
     });
+    const result: Response = await response.json();
     if (response.ok) {
-      const result: Response = await response.json();
       localStorage.setItem('token', result.token);
       localStorage.setItem('player_id', String(result.player_id));
       localStorage.setItem('game_code', String(result.game_code));
-      pushNotification('success', 'Joining server', 'Enjoy the game', 3);
+      pushNotification('success', 'Joining server', 'Enjoy the game', 5);
+    } else if (response.status == 404) {
+      pushNotification('warning', 'Please', result.error, 5);
     } else {
-      pushNotification('warning', 'Server not found', 'Please check game code', 3);
+      pushNotification('warning', 'Server not found', 'Please check game code', 5);
     }
   };
 
