@@ -2,12 +2,12 @@ import { Col, Row } from 'antd';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import { PlayerList } from 'Containers/Lobby/styles';
+import { PlayerList } from './styles';
 import { useState } from 'react';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
-  
+
   const [playerCount, setPlayerCount] = useState(1);
 
   return (
