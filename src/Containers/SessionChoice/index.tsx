@@ -40,7 +40,7 @@ const SessionChoice = () => {
       localStorage.setItem('player_id', String(result.player_id));
       localStorage.setItem('game_code', String(result.game_code));
       pushNotification('success', 'Joining server', 'Enjoy the game', 5);
-    } else if (response.status == 404) {
+    } else if (response.status === 404) {
       pushNotification('warning', 'Please', result.error, 5);
     } else {
       pushNotification('warning', 'Server not found', 'Please check game code', 5);
