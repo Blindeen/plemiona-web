@@ -20,16 +20,21 @@ export const Box = styled('div')`
   min-height: 400px;
   min-width: 300px;
 `;
+
 export const Tags = styled('div')`
   font-family: Old English Text MT, sans-serif;
   font-weight: 1000;
-  font-size: 20px;
+  font-size: 24px;
   color: ${palette.black};
 `;
 
 export const OptionalText = styled('span')`
   font-family: Old English Text MT, sans-serif;
   font-weight: 1000;
-  font-size: 20px;
+  font-size: 24px;
   color: ${palette.battleshipGray};
+`;
+
+export const CenteredDiv = styled(CenteredContainer)`
+  align-items: center;
 `;
