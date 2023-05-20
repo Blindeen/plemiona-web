@@ -2,7 +2,7 @@ import { Col, Row } from 'antd';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import { PlayerList } from './styles';
+import { PlayerList, StartButton } from './styles';
 import { useState } from 'react';
 
 const Lobby = () => {
@@ -17,12 +17,16 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Button onClick={() => navigator.clipboard.writeText(gameCode)} style={{ fontFamily: 'Arial' }}>
+                <Button
+                  type={'ghost'}
+                  onClick={() => navigator.clipboard.writeText(gameCode)}
+                  style={{ fontFamily: 'Arial' }}
+                >
                   {gameCode}
                 </Button>
               </Col>
               <Col span={12}>
-                <Button>Start</Button>
+                <StartButton disabled={playerCount < 4}>Start</StartButton>
               </Col>
             </Row>
           </Col>
