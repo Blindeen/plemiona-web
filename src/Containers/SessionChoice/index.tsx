@@ -21,30 +21,37 @@ interface Response {
 const SessionChoice = () => {
   const [nickname, setNickname] = useState<string>('');
   const [gameCode, setGameCode] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const newSessionButton = 'Create new session';
   const joinSessionButton = 'Join session';
 
   const onSubmit = async () => {
     const info: Payload = { nickname, game_code: gameCode };
-    const response = await fetch('http://127.0.0.1:8000/api/v1/game/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(info),
-    });
-    const result: Response = await response.json();
-    if (response.ok) {
-      localStorage.setItem('token', result.token);
-      localStorage.setItem('player_id', String(result.player_id));
-      localStorage.setItem('game_code', String(result.game_code));
-      pushNotification('success', 'Joining server', 'Enjoy the game', 5);
-    } else if (response.status === 404) {
-      pushNotification('warning', 'Please', result.error, 5);
-    } else {
-      pushNotification('warning', 'Server not found', 'Please check game code', 5);
+    setLoading(true);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/v1/game/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(info),
+      });
+      const result: Response = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('player_id', String(result.player_id));
+        localStorage.setItem('game_code', String(result.game_code));
+        pushNotification('success', 'Joining server', 'Enjoy the game', 5);
+      } else if (response.status === 404) {
+        pushNotification('warning', 'Please', result.error, 5);
+      } else {
+        pushNotification('warning', 'Server not found', 'Please check game code', 5);
+      }
+    } catch (error) {
+      pushNotification('error', 'Server down', 'Please check your connection', 5);
     }
+    setLoading(false);
   };
 
   return (
@@ -64,7 +71,9 @@ const SessionChoice = () => {
                 <Input maxLength={6} onChange={(e) => setGameCode(e.target.value)}></Input>
               </Col>
               <Col span={24}>
-                <Button onClick={onSubmit}>{gameCode === '' ? newSessionButton : joinSessionButton}</Button>
+                <Button loading={loading} onClick={onSubmit}>
+                  {gameCode === '' ? newSessionButton : joinSessionButton}
+                </Button>
               </Col>
             </Row>
           </Col>
