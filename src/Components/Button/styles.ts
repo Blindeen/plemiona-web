@@ -11,7 +11,7 @@ export const StyledButton = styled(Button)`
   height: 100%;
 
   font-family: Old English Text MT, sans-serif;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 28px;
 
@@ -25,6 +25,7 @@ export const StyledButton = styled(Button)`
     &:hover,
     &:focus,
     &:active {
+      color: ${palette.black};
       background-color: ${palette.cream};
       border-color: ${palette.black};
       box-shadow: none;
