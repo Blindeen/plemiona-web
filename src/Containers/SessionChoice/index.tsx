@@ -11,12 +11,6 @@ interface Payload {
   game_code: string;
 }
 
-interface Response {
-  player_id: number;
-  game_code: number;
-  token: string;
-}
-
 const SessionChoice = () => {
   const [nickname, setNickname] = useState<string>('');
   const [gameCode, setGameCode] = useState<string>('');
@@ -36,14 +30,13 @@ const SessionChoice = () => {
         },
         body: JSON.stringify(info),
       });
+      const { token, player_id, game_code, errors } = await response.json();
       if (response.ok) {
-        const result: Response = await response.json();
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('player_id', String(result.player_id));
-        localStorage.setItem('game_code', String(result.game_code));
+        localStorage.setItem('token', token);
+        localStorage.setItem('player_id', String(player_id));
+        localStorage.setItem('game_code', String(game_code));
         pushNotification('success', 'Joining server', 'Enjoy the game');
       } else {
-        const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {
           pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
         });
