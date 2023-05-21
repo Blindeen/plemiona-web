@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import { Col, Row } from 'antd';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
 import { PlayerList, StartButton } from './styles';
-import { useState } from 'react';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
@@ -17,11 +17,7 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Button
-                  type={'ghost'}
-                  onClick={() => navigator.clipboard.writeText(gameCode)}
-                  style={{ fontFamily: 'Arial' }}
-                >
+                <Button onClick={() => navigator.clipboard.writeText(gameCode)} style={{ fontFamily: 'Arial' }}>
                   {gameCode}
                 </Button>
               </Col>
