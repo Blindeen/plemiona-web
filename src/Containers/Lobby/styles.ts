@@ -18,7 +18,7 @@ export const PlayerList = styled('div')`
 export const PlayerEntry = styled('div')``;
 
 export const StartButton = styled(Button)`
-  background-color: green;
+  background-color: ${palette.green};
   font-family: Old English Text MT, sans-serif;
   font-size: 24px;
   font-weight: 700;
@@ -26,26 +26,26 @@ export const StartButton = styled(Button)`
 
   &.ant-btn-primary {
     &:focus {
-      background-color: green;
+      background-color: ${palette.green};
       color: ${palette.black};
     }
 
     &:active {
-      background-color: green;
+      background-color: ${palette.green};
     }
 
     &:hover {
-      background-color: green;
+      background-color: ${palette.green};
       color: ${palette.black};
     }
 
     &:disabled {
-      background-color: red;
+      background-color: ${palette.red};
       color: ${palette.black};
       border-color: ${palette.portTudorHotel};
 
       &:hover {
-        background-color: red;
+        background-color: ${palette.red};
         color: ${palette.black};
       }
     }

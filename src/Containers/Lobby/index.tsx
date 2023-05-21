@@ -22,7 +22,7 @@ const Lobby = () => {
                 </Button>
               </Col>
               <Col span={12}>
-                <StartButton disabled={playerCount < 4}>Start</StartButton>
+                <StartButton disabled={playerCount < 2}>Start</StartButton>
               </Col>
             </Row>
           </Col>
