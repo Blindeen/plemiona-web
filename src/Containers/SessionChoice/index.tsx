@@ -1,12 +1,12 @@
-import {Col, Row} from 'antd';
-import React, {useState} from 'react';
+import { Col, Row } from 'antd';
+import React, { useState } from 'react';
 
 import Button from 'Components/Button';
 import Input from 'Components/Input';
-import {Box, CenteredContainer, OptionalText, Tags} from 'Components/CommonComponents';
+import { Box, CenteredContainer, OptionalText, Tags } from 'Components/CommonComponents';
 
 import pushNotification from 'pushNotification';
-import {router, routes} from "../../router";
+import { router, routes } from '../../router';
 
 interface Payload {
   nickname: string;
@@ -22,7 +22,7 @@ const SessionChoice = () => {
   const joinSessionButton = 'Join session';
 
   const onSubmit = async () => {
-    const info: Payload = {nickname, game_code: gameCode};
+    const info: Payload = { nickname, game_code: gameCode };
     setLoading(true);
 
     try {
@@ -33,7 +33,7 @@ const SessionChoice = () => {
         },
         body: JSON.stringify(info),
       });
-      const {token, player_id, game_code, errors} = await response.json();
+      const { token, player_id, game_code, errors } = await response.json();
       if (response.ok) {
         localStorage.setItem('token', token);
         localStorage.setItem('player_id', String(player_id));
