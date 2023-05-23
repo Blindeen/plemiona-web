@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import Button from 'Components/Button';
 import Input from 'Components/Input';
 import { Box, CenteredContainer, OptionalText, Tags } from 'Components/CommonComponents';
+
 import pushNotification from 'pushNotification';
+import { router, routes } from '../../router';
 
 interface Payload {
   nickname: string;
@@ -22,6 +24,7 @@ const SessionChoice = () => {
   const onSubmit = async () => {
     const info: Payload = { nickname, game_code: gameCode };
     setLoading(true);
+
     try {
       const response = await fetch('http://127.0.0.1:8000/api/v1/game/', {
         method: 'POST',
@@ -35,7 +38,9 @@ const SessionChoice = () => {
         localStorage.setItem('token', token);
         localStorage.setItem('player_id', String(player_id));
         localStorage.setItem('game_code', String(game_code));
+
         pushNotification('success', 'Joining server', 'Enjoy the game');
+        await router.navigate(routes.lobbyPage);
       } else {
         Object.entries(errors).forEach(([key, value]) => {
           pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);

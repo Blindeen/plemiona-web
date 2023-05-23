@@ -1,11 +1,18 @@
-import React from "react";
-import {createHashRouter} from "react-router-dom";
+import React from 'react';
+import { createHashRouter } from 'react-router-dom';
 
-import App from './App';
+import LandingPage from './Pages/LandingPage';
+import LobbyPage from './Pages/LobbyPage';
+
+export const routes = { landingPage: '/', lobbyPage: 'lobby' };
 
 export const router = createHashRouter([
   {
-    path: "/",
-    element: <App />,
+    path: routes.landingPage,
+    element: <LandingPage />,
+  },
+  {
+    path: routes.lobbyPage,
+    element: <LobbyPage />,
   },
 ]);
