@@ -10,11 +10,9 @@ export const router = createHashRouter([
   {
     path: routes.landingPage,
     element: <LandingPage/>,
-    children: [
-      {
-        path: routes.lobbyPage,
-        element: <LobbyPage/>,
-      },
-    ],
+  },
+  {
+    path: routes.lobbyPage,
+    element: <LobbyPage/>,
   },
 ]);
