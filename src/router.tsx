@@ -1,5 +1,5 @@
 import React from 'react';
-import { createHashRouter } from 'react-router-dom';
+import { createHashRouter, Outlet } from 'react-router-dom';
 
 import LandingPage from './Pages/LandingPage';
 import LobbyPage from './Pages/LobbyPage';
@@ -12,7 +12,12 @@ export const router = createHashRouter([
     element: <LandingPage />,
   },
   {
-    path: routes.lobbyPage,
-    element: <LobbyPage />,
+    element:<Outlet></Outlet>,
+    children: [
+      {
+        path: routes.lobbyPage,
+        element: <LobbyPage />,
+      },
+    ],
   },
 ]);
