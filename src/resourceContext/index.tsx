@@ -13,11 +13,18 @@ type resourcesType = {
   woodIncome: number,
   clay:number,
   clayIncome:number,
-  steel:number,
-  steelIncome:number,
+  iron:number,
+  ironIncome:number,
+
+  warehouse:number,
+  lumberjack:number,
+  stonePit:number,
+  clayPit:number,
+  townHall:number,
+  barracks:number,
 }
 
-const initialResources = {
+const initialResources:resourcesType = {
   owner:{} as playerType,
   players:[] as playerType[],
 
@@ -25,8 +32,15 @@ const initialResources = {
   woodIncome: 1,
   clay:0,
   clayIncome:1,
-  steel:0,
-  steelIncome:1,
+  iron:0,
+  ironIncome:1,
+
+  warehouse:1,
+  lumberjack:1,
+  stonePit:1,
+  clayPit:1,
+  townHall:1,
+  barracks:1,
 }
 
 type resourcesContextType = {
