@@ -3,14 +3,20 @@ import pushNotification from '../pushNotification';
 
 type resourcesType = {
   wood:number,
+  woodIncome: number,
   clay:number,
+  clayIncome:number,
   steel:number,
+  steelIncome:number,
 }
 
 const initialResources = {
   wood:0,
+  woodIncome: 1,
   clay:0,
+  clayIncome:1,
   steel:0,
+  steelIncome:1,
 }
 
 type resourcesContextType = {
@@ -29,9 +35,10 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     socket.onclose = () => pushNotification('info', 'Lobby no longer exists')
 
     socket.onmessage = (event) => {
-      const {owner, players} = JSON.parse(event.data).data
-      console.log(owner)
-      console.log(players)
+      const data = JSON.parse(event.data).data
+      Object.entries(data).forEach(([key, value]) =>
+        resources.hasOwnProperty(key) && setResources({...resources, [key]:value})
+      )
     }
 
     return () => {
