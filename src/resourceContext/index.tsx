@@ -35,7 +35,8 @@ type resourcesContextType = {
   setResources:(resources:resourcesType) => void
 }
 
-export const Resources = React.createContext<resourcesContextType>({resources:initialResources, setResources:() => {}});
+const Resources = React.createContext<resourcesContextType>({resources:initialResources, setResources:() => {}});
+export default Resources
 
 export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [resources, setResources] = useState(initialResources)

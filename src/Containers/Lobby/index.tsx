@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { Col, Row } from 'antd';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
 import { PlayerList, StartButton } from './styles';
 
+import Resources from '../../resourceContext';
+
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
-  const [playerCount, _] = useState(1);
+  const { resources } = useContext(Resources)
+  const { players } = resources
 
   return (
     <Box>
@@ -21,7 +24,7 @@ const Lobby = () => {
                 </Button>
               </Col>
               <Col span={12}>
-                <StartButton disabled={playerCount < 2}>Start</StartButton>
+                <StartButton disabled={players.length < 2}>Start</StartButton>
               </Col>
             </Row>
           </Col>
@@ -29,7 +32,7 @@ const Lobby = () => {
             <Row gutter={[0, 10]}>
               <Col span={24}>
                 <CenteredDiv>
-                  <Tags>Players {playerCount}/8</Tags>
+                  <Tags>Players {players.length}/8</Tags>
                 </CenteredDiv>
               </Col>
               <Col span={24}>
