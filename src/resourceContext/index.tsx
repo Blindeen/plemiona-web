@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import pushNotification from '../pushNotification';
 
 type playerType = {
   id:number,
@@ -43,8 +42,6 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/lobby-socket/?token=${localStorage.getItem('token')}`)
-    socket.onopen = () => pushNotification('success', 'Joining server', 'Enjoy the game');
-    socket.onclose = () => pushNotification('info', 'Lobby no longer exists')
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data).data

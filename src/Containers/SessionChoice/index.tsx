@@ -40,6 +40,7 @@ const SessionChoice = () => {
         localStorage.setItem('game_code', String(game_code));
 
         await router.navigate(routes.lobbyPage);
+        pushNotification('success', 'Joining server', 'Enjoy the game');
       } else {
         Object.entries(errors).forEach(([key, value]) => {
           pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
