@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import pushNotification from '../pushNotification';
 
+type playerType = {
+  id:number,
+  nickname:string,
+}
+
 type resourcesType = {
+  owner:playerType,
+  players:playerType[],
+
   wood:number,
   woodIncome: number,
   clay:number,
@@ -11,6 +19,9 @@ type resourcesType = {
 }
 
 const initialResources = {
+  owner:{} as playerType,
+  players:[] as playerType[],
+
   wood:0,
   woodIncome: 1,
   clay:0,
