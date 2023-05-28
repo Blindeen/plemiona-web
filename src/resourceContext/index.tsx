@@ -63,7 +63,7 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data).data;
 
-      let updatedResources = {} as resourcesType
+      let updatedResources = {}
       Object.entries(data).forEach(([key, value]) =>
         resources.hasOwnProperty(key) && (updatedResources = {...updatedResources, [key]:value})
       );
