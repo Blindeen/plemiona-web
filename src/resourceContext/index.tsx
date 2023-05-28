@@ -25,7 +25,7 @@ type resourcesType = {
 }
 
 const initialResources: resourcesType = {
-  owner: {id:0, nickname:''},
+  owner: { id: 0, nickname: '' },
   players: [] as playerType[],
 
   wood: 0,
@@ -62,12 +62,11 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data).data;
-
-      let updatedResources = {}
-      Object.entries(data).forEach(([key, value]) =>
-        resources.hasOwnProperty(key) && (updatedResources = {...updatedResources, [key]:value})
+      
+      const updated = Object.fromEntries(
+        Object.entries(data).filter(([key, _]) => resources.hasOwnProperty(key)),
       );
-      setResources({...resources, ...updatedResources})
+      setResources({ ...resources, ...updated });
     };
 
     return () => {
