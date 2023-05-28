@@ -39,7 +39,7 @@ const Lobby = () => {
               <Col span={24}>
                 <PlayerList>
                   {players.map(({ nickname, id }) =>
-                    <PlayerEntry>
+                    <PlayerEntry key={id}>
                       {id === owner.id && <CrownOutlined />}
                       {nickname}
                     </PlayerEntry>)}
