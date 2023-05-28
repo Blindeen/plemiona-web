@@ -73,4 +73,3 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, []);
 
   return <Resources.Provider value={{ resources, setResources }}>{children}</Resources.Provider>;
-};
