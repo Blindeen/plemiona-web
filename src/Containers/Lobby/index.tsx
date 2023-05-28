@@ -16,6 +16,15 @@ const Lobby = () => {
   const { resources } = useContext(Resources);
   const { players, owner } = resources;
 
+  const writeToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(gameCode);
+      pushNotification('info', 'Game code copied to clipboard');
+    } catch (error) {
+      pushNotification('error', 'Game code cannot be copied');
+    }
+  }
+
   return (
     <Box>
       <CenteredContainer>
@@ -24,10 +33,7 @@ const Lobby = () => {
             <Row gutter={[10, 20]}>
               <Col span={12}>
                 <Tooltip title='Click to copy game code'>
-                  <Button onClick={async () => {
-                    await navigator.clipboard.writeText(gameCode);
-                    pushNotification('info', 'Game code copied to clipboard');
-                  }} style={{ fontFamily: 'Arial' }}>
+                  <Button onClick={writeToClipboard} style={{ fontFamily: 'Arial' }}>
                     {gameCode}
                   </Button>
                 </Tooltip>
