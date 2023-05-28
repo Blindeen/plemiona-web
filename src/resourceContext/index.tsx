@@ -58,7 +58,7 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [resources, setResources] = useState(initialResources);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/lobby-socket/?token=${localStorage.getItem('token')}`);
+    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data).data;
