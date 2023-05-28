@@ -1,9 +1,9 @@
 import React from 'react';
 import { createHashRouter, Outlet } from 'react-router-dom';
 
-import LandingPage from './Pages/LandingPage';
-import LobbyPage from './Pages/LobbyPage';
-import { ResourcesProvider } from './resourceContext';
+import LandingPage from 'Pages/LandingPage';
+import LobbyPage from 'Pages/LobbyPage';
+import { ResourcesProvider } from 'resourceContext';
 
 export const routes = { landingPage: '/', lobbyPage: 'lobby' };
 

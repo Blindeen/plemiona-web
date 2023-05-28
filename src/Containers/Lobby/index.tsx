@@ -6,7 +6,7 @@ import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComp
 import Button from 'Components/Button';
 import { PlayerEntry, PlayerList, StartButton } from './styles';
 
-import Resources from '../../resourceContext';
+import Resources from 'resourceContext';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
