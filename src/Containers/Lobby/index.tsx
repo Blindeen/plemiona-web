@@ -4,14 +4,14 @@ import { CrownOutlined } from '@ant-design/icons';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import { PlayerList, PlayerEntry, StartButton } from './styles';
+import { PlayerEntry, PlayerList, StartButton } from './styles';
 
 import Resources from '../../resourceContext';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
-  const { resources } = useContext(Resources)
-  const { players, owner } = resources
+  const { resources } = useContext(Resources);
+  const { players, owner } = resources;
 
   return (
     <Box>
@@ -38,9 +38,9 @@ const Lobby = () => {
               </Col>
               <Col span={24}>
                 <PlayerList>
-                  {players.map(({ nickname , id}) =>
+                  {players.map(({ nickname, id }) =>
                     <PlayerEntry>
-                      { id === owner.id && <CrownOutlined /> }
+                      {id === owner.id && <CrownOutlined />}
                       {nickname}
                     </PlayerEntry>)}
                 </PlayerList>

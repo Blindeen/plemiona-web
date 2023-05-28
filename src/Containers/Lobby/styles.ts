@@ -13,7 +13,7 @@ export const PlayerList = styled('div')`
   height: 100%;
   min-height: 200px;
   min-width: 100px;
-  
+
   display: flex;
   justify-content: stretch;
   align-items: center;

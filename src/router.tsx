@@ -14,9 +14,9 @@ export const router = createHashRouter([
   },
   {
     element:
-    <ResourcesProvider>
-      <Outlet/>
-    </ResourcesProvider>,
+      <ResourcesProvider>
+        <Outlet />
+      </ResourcesProvider>,
     children: [
       {
         path: routes.lobbyPage,
