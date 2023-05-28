@@ -25,7 +25,7 @@ type resourcesType = {
 }
 
 const initialResources: resourcesType = {
-  owner: {} as playerType,
+  owner: {id:0, nickname:''},
   players: [] as playerType[],
 
   wood: 0,
