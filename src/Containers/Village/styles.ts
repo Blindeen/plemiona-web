@@ -16,12 +16,14 @@ export const Container = styled('div')`
 
 export const Warehouse = styled('div')`
   position: absolute;
-  width: 256px;
-  height: 256px;
+  width: 200px;
+  height: 200px;
   margin-top: 60px;
   margin-left: 60px;
   background-image: url('/Assets/Buildings/Spichlerz-Tier-1-min.png');
   background-repeat: no-repeat;
+  background-size: 200px;
+  cursor: pointer;
 `;
 
 export const BuildingLvL = styled('div')`
@@ -33,8 +35,14 @@ export const BuildingLvL = styled('div')`
   font-family: Arial, sans-serif;
   font-size: 20px;
   border: 2px solid ${palette.black};
-  border-radius: 4px;
   background-color: ${palette.dadsRayOfSunshine};
+  border-radius: 4px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
 
 export const Building = styled('div')``;
