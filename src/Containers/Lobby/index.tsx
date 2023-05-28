@@ -10,6 +10,8 @@ import Resources from '../../resourceContext';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
+  const selfID = Number(localStorage.getItem('player_id') as string);
+
   const { resources } = useContext(Resources);
   const { players, owner } = resources;
 
@@ -25,7 +27,7 @@ const Lobby = () => {
                 </Button>
               </Col>
               <Col span={12}>
-                <StartButton disabled={players.length < 2}>Start</StartButton>
+                <StartButton disabled={players.length < 2 || selfID !== owner.id}>Start</StartButton>
               </Col>
             </Row>
           </Col>
