@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Col, Row } from 'antd';
+import { Col, Row, Tooltip } from 'antd';
 import { CrownOutlined } from '@ant-design/icons';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
@@ -7,6 +7,7 @@ import Button from 'Components/Button';
 import { PlayerEntry, PlayerList, StartButton } from './styles';
 
 import Resources from 'resourceContext';
+import pushNotification from 'pushNotification';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
@@ -22,9 +23,14 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Button onClick={() => navigator.clipboard.writeText(gameCode)} style={{ fontFamily: 'Arial' }}>
-                  {gameCode}
-                </Button>
+                <Tooltip title='Click to copy game code'>
+                  <Button onClick={async () => {
+                    await navigator.clipboard.writeText(gameCode);
+                    pushNotification('info', 'Game code copied to clipboard');
+                  }} style={{ fontFamily: 'Arial' }}>
+                    {gameCode}
+                  </Button>
+                </Tooltip>
               </Col>
               <Col span={12}>
                 <StartButton disabled={players.length < 2 || selfID !== owner.id}>Start</StartButton>
