@@ -20,7 +20,7 @@ const Lobby = () => {
     try {
       await navigator.clipboard.writeText(gameCode);
       pushNotification('info', 'Game code copied to clipboard');
-    } catch (error) {
+    } catch {
       pushNotification('error', 'Game code cannot be copied');
     }
   }
