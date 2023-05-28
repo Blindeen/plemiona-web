@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { Col, Row } from 'antd';
+import { CrownOutlined } from '@ant-design/icons';
 
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import { PlayerList, StartButton } from './styles';
+import { PlayerEntry, PlayerList, StartButton } from './styles';
+
+import Resources from 'resourceContext';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
+  const selfID = Number(localStorage.getItem('player_id') as string);
 
-  const [playerCount, setPlayerCount] = useState(1);
+  const { resources } = useContext(Resources);
+  const { players, owner } = resources;
 
   return (
     <Box>
@@ -22,7 +27,7 @@ const Lobby = () => {
                 </Button>
               </Col>
               <Col span={12}>
-                <StartButton disabled={playerCount < 2}>Start</StartButton>
+                <StartButton disabled={players.length < 2 || selfID !== owner.id}>Start</StartButton>
               </Col>
             </Row>
           </Col>
@@ -30,11 +35,17 @@ const Lobby = () => {
             <Row gutter={[0, 10]}>
               <Col span={24}>
                 <CenteredDiv>
-                  <Tags>Players {playerCount}/8</Tags>
+                  <Tags>Players {players.length}/8</Tags>
                 </CenteredDiv>
               </Col>
               <Col span={24}>
-                <PlayerList />
+                <PlayerList>
+                  {players.map(({ nickname, id }) =>
+                    <PlayerEntry key={id}>
+                      {id === owner.id && <CrownOutlined />}
+                      {nickname}
+                    </PlayerEntry>)}
+                </PlayerList>
               </Col>
             </Row>
           </Col>

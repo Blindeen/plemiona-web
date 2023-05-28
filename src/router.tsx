@@ -1,8 +1,9 @@
 import React from 'react';
-import { createHashRouter } from 'react-router-dom';
+import { createHashRouter, Outlet } from 'react-router-dom';
 
-import LandingPage from './Pages/LandingPage';
-import LobbyPage from './Pages/LobbyPage';
+import LandingPage from 'Pages/LandingPage';
+import LobbyPage from 'Pages/LobbyPage';
+import { ResourcesProvider } from 'resourceContext';
 
 export const routes = { landingPage: '/', lobbyPage: 'lobby' };
 
@@ -12,7 +13,15 @@ export const router = createHashRouter([
     element: <LandingPage />,
   },
   {
-    path: routes.lobbyPage,
-    element: <LobbyPage />,
+    element:
+      <ResourcesProvider>
+        <Outlet />
+      </ResourcesProvider>,
+    children: [
+      {
+        path: routes.lobbyPage,
+        element: <LobbyPage />,
+      },
+    ],
   },
 ]);
