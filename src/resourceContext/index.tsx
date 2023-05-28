@@ -62,16 +62,14 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data).data;
-      
+
       const updated = Object.fromEntries(
         Object.entries(data).filter(([key, _]) => resources.hasOwnProperty(key)),
       );
       setResources({ ...resources, ...updated });
     };
 
-    return () => {
-      socket.close();
-    };
+    return () => socket.close();
   }, []);
 
   return <Resources.Provider value={{ resources, setResources }}>{children}</Resources.Provider>;
