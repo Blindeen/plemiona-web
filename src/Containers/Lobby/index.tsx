@@ -23,7 +23,7 @@ const Lobby = () => {
     } catch {
       pushNotification('error', 'Game code cannot be copied');
     }
-  }
+  };
 
   return (
     <Box>
@@ -32,7 +32,7 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Tooltip title='Click to copy game code'>
+                <Tooltip title='Click to copy game code' defaultOpen={true}>
                   <Button onClick={writeToClipboard} style={{ fontFamily: 'Arial' }}>
                     {gameCode}
                   </Button>
