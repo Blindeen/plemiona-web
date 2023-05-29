@@ -56,6 +56,11 @@ export const StartButton = styled(Button)`
         background-color: ${palette.red};
         color: ${palette.black};
       }
+
+      &:focus {
+        background-color: ${palette.red};
+        color: ${palette.black};
+      }
     }
   }
 `;
