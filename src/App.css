@@ -3,10 +3,6 @@ body {
     cursor: url('/public/Assets/Cursors/Cursor.png') 2 2, auto;
 }
 
-button:hover {
-    cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
-}
-
-a, a svg {
+a, a svg, button:hover {
     cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
 }

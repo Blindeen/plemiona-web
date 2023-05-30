@@ -1,7 +1,7 @@
-import 'App.css';
 import { RouterProvider } from 'react-router-dom';
 import { useEffect } from 'react';
 import { router } from 'router';
+import 'App.css';
 
 const App = () => {
   useEffect(() => {
@@ -10,6 +10,7 @@ const App = () => {
       'click',
       () => {
         if (audio) {
+          audio.volume = 0.05;
           audio.play();
         }
       },
