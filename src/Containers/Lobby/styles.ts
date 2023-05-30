@@ -13,9 +13,17 @@ export const PlayerList = styled('div')`
   height: 100%;
   min-height: 200px;
   min-width: 100px;
+
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  flex-direction: column;
 `;
 
-export const PlayerEntry = styled('div')``;
+export const PlayerEntry = styled('div')`
+  font-weight: 700;
+  font-size: 18px;
+`;
 
 export const StartButton = styled(Button)`
   background-color: ${palette.green};
@@ -45,6 +53,11 @@ export const StartButton = styled(Button)`
       border-color: ${palette.portTudorHotel};
 
       &:hover {
+        background-color: ${palette.red};
+        color: ${palette.black};
+      }
+
+      &:focus {
         background-color: ${palette.red};
         color: ${palette.black};
       }
