@@ -15,9 +15,9 @@ const WorldMap = () => {
   return (
     <>
       <MapBackground>
+        <Higher>123441</Higher>
+        <Higher>323441</Higher>
       </MapBackground>
-      <Higher>123441</Higher>
-      <Higher>323441</Higher>
     </>
   );
 };
