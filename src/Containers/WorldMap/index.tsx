@@ -22,8 +22,8 @@ const WorldMap = () => {
       ...map[idx].slice(cordX, cordX + FRAGMENT_SIZE),
       ...mapFragment(map, idx + 1),
     ] : [];
-  
-  const squares = (mapFragment() as mapTile[]).map((square, idx) => <MapSquare key={idx}></MapSquare>);
+
+  const squares = mapFragment().map((square, idx) => <MapSquare key={idx}></MapSquare>);
   return (
     <>
       <MapBackground>
