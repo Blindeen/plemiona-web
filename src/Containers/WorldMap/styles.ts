@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import palette from 'palette';
+
 export const MapBackground = styled('div')`
   display: flex;
   flex-direction: row;
@@ -21,4 +23,10 @@ export const MapSquare = styled('div')`
   border-color: black;
   border-width: 0.18px;
   border-style: solid;
+
+  text-align: center;
+  font-family: Old English Text MT, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: ${palette.black};
 `;

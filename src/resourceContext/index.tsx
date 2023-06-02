@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-type playerType = {
+export type playerType = {
   id: number,
   nickname: string,
 }
