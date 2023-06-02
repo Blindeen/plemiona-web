@@ -15,7 +15,7 @@ export const MapBackground = styled('div')`
 `;
 
 export const MapSquare = styled('div')`
-  flex: 11.2%;
+  flex: 14%;
   z-index: 3;
 
   border-color: black;
