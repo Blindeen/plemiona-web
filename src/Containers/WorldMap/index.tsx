@@ -14,17 +14,15 @@ const WorldMap = () => {
     [...Array.from({ length: 16 }, () =>
       ({ type: 'empty', army: null, isTarget: false }),
     )],
-  )];
+  )] as mapTile[][];
   const [{ x: cordX, y: cordY }, setCords] = useState({ x: 3, y: 3 });
 
-  const mapFragment = (map = BEMap.slice(cordY, cordY + FRAGMENT_SIZE), idx = 0): any =>
+  const mapFragment = (map = BEMap.slice(cordY, cordY + FRAGMENT_SIZE), idx = 0): mapTile[] =>
     map[idx] ? [
       ...map[idx].slice(cordX, cordX + FRAGMENT_SIZE),
       ...mapFragment(map, idx + 1),
     ] : [];
-
-  console.log(mapFragment());
-
+  
   const squares = (mapFragment() as mapTile[]).map((square, idx) => <MapSquare key={idx}></MapSquare>);
   return (
     <>
