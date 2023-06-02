@@ -1,4 +1,4 @@
-import { Higher, MapBackground } from 'Containers/WorldMap/styles';
+import { MapBackground, MapSquare } from 'Containers/WorldMap/styles';
 
 type mapTile = {
   type: 'player' | 'empty' | 'barbarians'
@@ -12,11 +12,13 @@ const WorldMap = () => {
       ({ type: 'empty', army: null, isTarget: false }),
     )],
   )];
+
+  const squares = [...Array.from({ length: 64 }, (_, idx) => <MapSquare key={idx}></MapSquare>)];
+  console.log(squares);
   return (
     <>
       <MapBackground>
-        <Higher>123441</Higher>
-        <Higher>323441</Higher>
+        {squares}
       </MapBackground>
     </>
   );
