@@ -46,7 +46,7 @@ const WorldMap = () => {
         setCords({ x: cordX - 1, y: cordY });
         break;
       case 'left':
-        if (cordX >= 15) return;
+        if (cordX >= 9) return;
         setCords({ x: cordX + 1, y: cordY });
         break;
       case 'down':
@@ -54,7 +54,7 @@ const WorldMap = () => {
         setCords({ x: cordX, y: cordY - 1 });
         break;
       case 'up':
-        if (cordY >= 15) return;
+        if (cordY >= 9) return;
         setCords({ x: cordX, y: cordY + 1 });
         break;
     }
