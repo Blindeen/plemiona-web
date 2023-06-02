@@ -41,19 +41,19 @@ const WorldMap = () => {
 
   const handleNavigation = (direction: 'right' | 'left' | 'up' | 'down') => {
     switch (direction) {
-      case 'left':
+      case 'right':
         if (cordX <= 0) return;
         setCords({ x: cordX - 1, y: cordY });
         break;
-      case 'right':
+      case 'left':
         if (cordX >= 15) return;
         setCords({ x: cordX + 1, y: cordY });
         break;
-      case 'up':
+      case 'down':
         if (cordY <= 0) return;
         setCords({ x: cordX, y: cordY - 1 });
         break;
-      case 'down':
+      case 'up':
         if (cordY >= 15) return;
         setCords({ x: cordX, y: cordY + 1 });
         break;
