@@ -19,6 +19,6 @@ export const MapSquare = styled('div')`
   z-index: 3;
 
   border-color: black;
-  border-width: 0.27px;
+  border-width: 0.18px;
   border-style: solid;
 `;
