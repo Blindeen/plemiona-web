@@ -8,17 +8,18 @@ type mapTile = {
 }
 
 const WorldMap = () => {
+  const FRAGMENT_SIZE = 7;
+
   const BEMap = [...Array.from({ length: 16 }, () =>
     [...Array.from({ length: 16 }, () =>
       ({ type: 'empty', army: null, isTarget: false }),
     )],
   )];
-
   const [{ x: cordX, y: cordY }, setCords] = useState({ x: 3, y: 3 });
 
-  const mapFragment = (map = BEMap.slice(cordY, cordY + 7), idx = 0): any =>
+  const mapFragment = (map = BEMap.slice(cordY, cordY + FRAGMENT_SIZE), idx = 0): any =>
     map[idx] ? [
-      ...map[idx].slice(cordX, cordX + 7),
+      ...map[idx].slice(cordX, cordX + FRAGMENT_SIZE),
       ...mapFragment(map, idx + 1),
     ] : [];
 
