@@ -30,7 +30,7 @@ const WorldMap = () => {
     ] : [];
 
   const calculateAbsolute = (relativeIdx: number) => [relativeIdx % FRAGMENT_SIZE + cordX, Math.floor(relativeIdx / FRAGMENT_SIZE) + cordY];
-  
+
   const handleCLick = (relativeIdx: number) => {
     const [absoluteX, absoluteY] = calculateAbsolute(relativeIdx);
     console.log(`${absoluteX} ${absoluteY}`);
@@ -39,7 +39,7 @@ const WorldMap = () => {
 
   const squares = mapFragment().map(({ type, player, army, isTarget }, idx) =>
     <MapSquare
-      onClick={() => handleCLick(idx)}
+      onClick={() => type !== 'empty' && handleCLick(idx)}
       key={idx}>
       {type === 'player' && player?.nickname}
     </MapSquare>,
