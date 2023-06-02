@@ -3,8 +3,8 @@ import { createHashRouter, Outlet } from 'react-router-dom';
 
 import LandingPage from 'Pages/LandingPage';
 import LobbyPage from 'Pages/LobbyPage';
-import { ResourcesProvider } from 'resourceContext';
 import VillageView from 'Pages/VillageView';
+import { ResourcesProvider } from 'resourceContext';
 
 export const routes = { landingPage: '/', lobbyPage: 'lobby', villagePage: 'village' };
 

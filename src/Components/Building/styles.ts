@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import palette from 'palette';
 
 export const StyledBuilding = styled('div')`
@@ -14,6 +15,8 @@ export const BuildingLvL = styled('div')`
   position: absolute;
   width: fit-content;
   height: fit-content;
+  top: 0;
+  left: 0;
   opacity: 70%;
   font-weight: 700;
   font-family: Arial, sans-serif;
@@ -23,7 +26,6 @@ export const BuildingLvL = styled('div')`
   border-radius: 4px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;

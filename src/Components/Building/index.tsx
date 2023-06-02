@@ -1,7 +1,6 @@
 import { BuildingLvL, StyledBuilding } from './styles';
 
 export interface BuildingProps {
-  tier: number;
   name: string;
   lvl: number;
   posX: number;
@@ -12,7 +11,20 @@ export interface BuildingProps {
   posLvlY?: number;
 }
 
-const Building = ({ tier, lvl, name, posX, posY, sizeX, sizeY, posLvlX, posLvlY }: BuildingProps) => {
+const Building = ({
+  lvl = 1,
+  name = 'Building',
+  posX = 0,
+  posY = 0,
+  sizeX = 200,
+  sizeY = 200,
+  posLvlX = 0,
+  posLvlY = 0,
+}: BuildingProps) => {
+  const tierPerLvl: number = 5;
+  const lvlIndex: number = lvl - 1;
+  const baseTier: number = 1;
+
   return (
     <StyledBuilding
       style={{
@@ -20,7 +32,7 @@ const Building = ({ tier, lvl, name, posX, posY, sizeX, sizeY, posLvlX, posLvlY 
         left: posX,
         width: sizeX,
         height: sizeY,
-        backgroundImage: `url(/Assets/Buildings/${name}-Tier-${tier}-min.png)`,
+        backgroundImage: `url(/Assets/Buildings/${name}-Tier-${Math.floor(lvlIndex / tierPerLvl + baseTier)}-min.png)`,
       }}
     >
       <BuildingLvL style={{ top: posLvlY, left: posLvlX }}>{lvl}</BuildingLvL>

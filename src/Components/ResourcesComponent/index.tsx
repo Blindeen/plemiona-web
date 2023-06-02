@@ -1,15 +1,16 @@
-import { ResourcesImg } from './styles';
 import { Col, Row } from 'antd';
 
-interface ResourcesProps {
+import { ResourcesImg } from './styles';
+
+export interface ResourcesProps {
   name: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   capacity: number;
   own: number;
 }
 
-const ResourcesComponent = ({ name, width, height, capacity, own }: ResourcesProps) => {
+const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own }: ResourcesProps) => {
   return (
     <Row align={'middle'}>
       <Col>
@@ -19,7 +20,7 @@ const ResourcesComponent = ({ name, width, height, capacity, own }: ResourcesPro
             height: height,
             backgroundImage: `url('/Assets/ResourcesIcons/${name}.png')`,
           }}
-        ></ResourcesImg>
+        />
       </Col>
       <Col>
         {own}/{capacity}
