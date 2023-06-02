@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { MapBackground, MapImage, MapSquare } from 'Containers/WorldMap/styles';
 import { playerType } from 'resourceContext';
@@ -10,8 +10,11 @@ export type mapTile = {
   isTarget: boolean
 }
 
+export const FRAGMENT_SIZE = 7;
+
 const WorldMap = () => {
-  const FRAGMENT_SIZE = 7;
+
+  const [{ x: cordX, y: cordY }, setCords] = useState({ x: 3, y: 3 });
 
   let BEMap = [...Array.from({ length: 16 }, () =>
     [...Array.from({ length: 16 }, () =>
@@ -21,9 +24,6 @@ const WorldMap = () => {
 
   BEMap[4][4] = { type: 'player', army: null, isTarget: false, player: { nickname: 'Adam', id: 5 } };
 
-  const [{ x: cordX, y: cordY }, setCords] = useState({ x: 3, y: 3 });
-  const [{ x: positionX, y: positionY }, setCurrentPosition] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAGMENT_SIZE), idx = 0): mapTile[] =>
     map[idx] ? [
@@ -40,31 +40,21 @@ const WorldMap = () => {
   };
 
   const handleNavigation = (direction: 'right' | 'left' | 'up' | 'down') => {
-    const containerElement = containerRef.current;
-    if (!containerElement) return;
-
-    const containerWidth = containerElement.offsetWidth;
-    const containerHeight = containerElement.offsetHeight;
-
     switch (direction) {
       case 'left':
         if (cordX <= 0) return;
-        setCurrentPosition({ x: positionX - containerWidth / FRAGMENT_SIZE, y: positionY });
         setCords({ x: cordX - 1, y: cordY });
         break;
       case 'right':
         if (cordX >= 15) return;
-        setCurrentPosition({ x: positionX + containerWidth / FRAGMENT_SIZE, y: positionY });
         setCords({ x: cordX + 1, y: cordY });
         break;
       case 'up':
         if (cordY <= 0) return;
-        setCurrentPosition({ x: positionX, y: positionY - containerHeight / FRAGMENT_SIZE });
         setCords({ x: cordX, y: cordY - 1 });
         break;
       case 'down':
         if (cordY >= 15) return;
-        setCurrentPosition({ x: positionX, y: positionY + containerHeight / FRAGMENT_SIZE });
         setCords({ x: cordX, y: cordY + 1 });
         break;
     }
@@ -72,8 +62,7 @@ const WorldMap = () => {
 
   const squares = mapFragment().map(({ type, player, army, isTarget }, idx) =>
     <MapSquare
-      // onClick={() => type !== 'empty' && handleCLick(idx)}
-      onClick={() => handleNavigation('down')}
+      onClick={() => type !== 'empty' && handleCLick(idx)}
       key={idx}>
       {type === 'player' && player?.nickname}
     </MapSquare>,
@@ -81,11 +70,11 @@ const WorldMap = () => {
 
   return (
     <>
-      <MapBackground ref={containerRef}>
+      <MapBackground>
         <MapImage
           src='/Arts/HomePage.jpg'
-          positionX={positionX}
-          positionY={positionY}
+          cordX={cordX}
+          cordY={cordY}
         />
         {squares}
       </MapBackground>
