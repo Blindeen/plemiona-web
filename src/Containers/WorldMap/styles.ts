@@ -2,6 +2,11 @@ import styled from 'styled-components';
 
 import palette from 'palette';
 
+interface MapImageProps {
+  positionX: number;
+  positionY: number;
+}
+
 export const MapBackground = styled('div')`
   display: flex;
   flex-direction: row;
@@ -9,11 +14,18 @@ export const MapBackground = styled('div')`
   align-items: stretch;
   flex-wrap: wrap;
 
-  background: red;
   z-index: 2;
   position: relative;
+  overflow: hidden;
   width: 784px;
   height: 574px;
+`;
+
+export const MapImage = styled('img')<MapImageProps>`
+  position: absolute;
+  z-index: 2;
+  left: ${({ positionX }) => positionX}px;
+  top: ${({ positionY }) => positionY}px
 `;
 
 export const MapSquare = styled('div')`
