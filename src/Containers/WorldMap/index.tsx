@@ -10,14 +10,16 @@ export type mapTile = {
   isTarget: boolean
 }
 
-export const FRAGMENT_SIZE = 7;
+export const FRAGMENT_SQUARES = 7;
+const SQUARES_X = 16;
+const SQUARES_Y = 16;
 
 const WorldMap = () => {
 
   const [{ x: cordX, y: cordY }, setCords] = useState({ x: 3, y: 3 });
 
-  let BEMap = [...Array.from({ length: 16 }, () =>
-    [...Array.from({ length: 16 }, () =>
+  let BEMap = [...Array.from({ length: SQUARES_Y }, () =>
+    [...Array.from({ length: SQUARES_X }, () =>
       ({ type: 'empty', army: null, isTarget: false }),
     )],
   )] as mapTile[][];
@@ -25,13 +27,13 @@ const WorldMap = () => {
   BEMap[4][4] = { type: 'player', army: null, isTarget: false, player: { nickname: 'Adam', id: 5 } };
 
 
-  const mapFragment = (map = BEMap.slice(cordY, cordY + FRAGMENT_SIZE), idx = 0): mapTile[] =>
+  const mapFragment = (map = BEMap.slice(cordY, cordY + FRAGMENT_SQUARES), idx = 0): mapTile[] =>
     map[idx] ? [
-      ...map[idx].slice(cordX, cordX + FRAGMENT_SIZE),
+      ...map[idx].slice(cordX, cordX + FRAGMENT_SQUARES),
       ...mapFragment(map, idx + 1),
     ] : [];
 
-  const calculateAbsolute = (relativeIdx: number) => [relativeIdx % FRAGMENT_SIZE + cordX, Math.floor(relativeIdx / FRAGMENT_SIZE) + cordY];
+  const calculateAbsolute = (relativeIdx: number) => [relativeIdx % FRAGMENT_SQUARES + cordX, Math.floor(relativeIdx / FRAGMENT_SQUARES) + cordY];
 
   const handleCLick = (relativeIdx: number) => {
     const [absoluteX, absoluteY] = calculateAbsolute(relativeIdx);
@@ -46,7 +48,7 @@ const WorldMap = () => {
         setCords({ x: cordX - 1, y: cordY });
         break;
       case 'right':
-        if (cordX >= 9) return;
+        if (cordX >= SQUARES_X - FRAGMENT_SQUARES) return;
         setCords({ x: cordX + 1, y: cordY });
         break;
       case 'up':
@@ -54,7 +56,7 @@ const WorldMap = () => {
         setCords({ x: cordX, y: cordY - 1 });
         break;
       case 'down':
-        if (cordY >= 9) return;
+        if (cordY >= SQUARES_Y - FRAGMENT_SQUARES) return;
         setCords({ x: cordX, y: cordY + 1 });
         break;
     }

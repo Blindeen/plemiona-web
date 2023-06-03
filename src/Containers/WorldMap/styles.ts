@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import palette from 'palette';
-import { FRAGMENT_SIZE } from 'Containers/WorldMap/index';
+import { FRAGMENT_SQUARES } from 'Containers/WorldMap/index';
 
 const MAP_HEIGHT = 574;
 const MAP_WIDTH = 784;
@@ -28,8 +28,8 @@ export const MapBackground = styled('div')`
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordX }) => -cordX * MAP_WIDTH / FRAGMENT_SIZE}px;
-  top: ${({ cordY }) => -cordY * MAP_HEIGHT / FRAGMENT_SIZE}px
+  left: ${({ cordX }) => -cordX * MAP_WIDTH / FRAGMENT_SQUARES}px;
+  top: ${({ cordY }) => -cordY * MAP_HEIGHT / FRAGMENT_SQUARES}px
 `;
 
 export const MapSquare = styled('div')`
