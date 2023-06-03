@@ -48,22 +48,33 @@ const WorldMap = () => {
     //request with cords
   };
 
-  const moveMap = (direction: direction) => {
+  const isBoundary = (direction: direction) => {
     switch (direction) {
       case DIRECTIONS.left:
-        if (cordX <= 0) return;
+        return cordX <= 0;
+      case DIRECTIONS.right:
+        return cordX >= MAP_SQUARES_X - FRAME_SQUARES_X;
+      case DIRECTIONS.up:
+        return cordY <= 0;
+      case DIRECTIONS.down:
+        return cordY >= MAP_SQUARES_Y - FRAME_SQUARES_Y;
+    }
+  };
+
+  const moveMap = (direction: direction) => {
+    if (isBoundary(direction)) return;
+
+    switch (direction) {
+      case DIRECTIONS.left:
         setCords({ x: cordX - 1, y: cordY });
         break;
       case DIRECTIONS.right:
-        if (cordX >= MAP_SQUARES_X - FRAME_SQUARES_X) return;
         setCords({ x: cordX + 1, y: cordY });
         break;
       case DIRECTIONS.up:
-        if (cordY <= 0) return;
         setCords({ x: cordX, y: cordY - 1 });
         break;
       case DIRECTIONS.down:
-        if (cordY >= MAP_SQUARES_Y - FRAME_SQUARES_Y) return;
         setCords({ x: cordX, y: cordY + 1 });
         break;
     }
@@ -87,6 +98,7 @@ const WorldMap = () => {
         />
         {squares}
         {Object.values(DIRECTIONS).map((direction, idx) =>
+          !isBoundary(direction) &&
           <NavArrow key={idx}
                     direction={direction}
                     onClick={() => moveMap(direction)}
