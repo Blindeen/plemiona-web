@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 import palette from 'palette';
-import { FRAME_SQUARES } from 'Containers/WorldMap/index';
 
 const FRAME_HEIGHT = 574;
 const FRAME_WIDTH = 784;
+
+export const FRAME_SQUARES_X = 7;
+export const FRAME_SQUARES_Y = 5;
 
 interface MapImageProps {
   cordX: number;
@@ -28,16 +30,16 @@ export const MapFrame = styled('div')`
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordX }) => -cordX * FRAME_WIDTH / FRAME_SQUARES}px;
-  top: ${({ cordY }) => -cordY * FRAME_HEIGHT / FRAME_SQUARES}px
+  left: ${({ cordX }) => -cordX * FRAME_WIDTH / FRAME_SQUARES_X}px;
+  top: ${({ cordY }) => -cordY * FRAME_HEIGHT / FRAME_SQUARES_Y}px
 `;
 
 export const MapSquare = styled('div')`
   position: relative;
 
-  flex: 1 1 calc(100% / 7);
-  width: calc(100% / 7);
-  height: calc(100% / 7);
+  flex: 1 1 calc(100% / ${FRAME_SQUARES_X});
+  width: calc(100% / ${FRAME_SQUARES_X});
+  height: calc(100% / ${FRAME_SQUARES_Y});
   z-index: 3;
 
   text-align: center;
