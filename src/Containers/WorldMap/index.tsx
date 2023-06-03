@@ -79,7 +79,7 @@ const WorldMap = () => {
     <>
       <MapFrame>
         <MapImage
-          src='/Arts/HomePage.jpg'
+          src='/Arts/MapImage.png'
           cordX={cordX}
           cordY={cordY}
         />
