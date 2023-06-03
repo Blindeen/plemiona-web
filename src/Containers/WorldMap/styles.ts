@@ -14,11 +14,6 @@ const MAP_IMAGE_HEIGHT = 1856;
 const FRAME_WIDTH = MAP_IMAGE_WIDTH / MAP_SQUARES_X * FRAME_SQUARES_X;
 const FRAME_HEIGHT = MAP_IMAGE_HEIGHT / MAP_SQUARES_Y * FRAME_SQUARES_Y;
 
-interface MapImageProps {
-  cordX: number;
-  cordY: number;
-}
-
 export const MapFrame = styled('div')`
   display: flex;
   flex-direction: row;
@@ -33,11 +28,39 @@ export const MapFrame = styled('div')`
   height: ${FRAME_HEIGHT}px;
 `;
 
+interface MapImageProps {
+  cordX: number;
+  cordY: number;
+}
+
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
   left: ${({ cordX }) => -cordX * FRAME_WIDTH / FRAME_SQUARES_X}px;
   top: ${({ cordY }) => -cordY * FRAME_HEIGHT / FRAME_SQUARES_Y}px
+`;
+
+interface NavArrowProps {
+  direction: 'up';
+}
+
+const handleDirection = ({ direction }: NavArrowProps) => {
+  switch (direction) {
+    case 'up':
+      return { left: 45, top: 1, rotation: 0 };
+  }
+};
+
+export const NavArrow = styled('img')<NavArrowProps>`
+  position: absolute;
+  z-index: 3;
+  left: ${(props) => handleDirection(props).left}%;
+  top: ${(props) => handleDirection(props).top}%;
+  transform: rotate(${(props) => handleDirection(props).rotation}deg);
+
+  background-size: cover;
+  width: 10%;
+  height: 10%;
 `;
 
 export const MapSquare = styled('div')`

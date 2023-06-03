@@ -8,6 +8,7 @@ import {
   MapFrame,
   MapImage,
   MapSquare,
+  NavArrow,
 } from 'Containers/WorldMap/styles';
 import { playerType } from 'resourceContext';
 
@@ -84,6 +85,7 @@ const WorldMap = () => {
           cordY={cordY}
         />
         {squares}
+        <NavArrow onClick={() => moveMap('up')} direction='up' src='/Assets/Buttons/map_arrow_button.png'></NavArrow>
       </MapFrame>
     </>
   );
