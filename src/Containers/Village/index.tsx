@@ -7,7 +7,7 @@ import Resources from 'resourceContext';
 const Village = () => {
   const { resources } = useContext(Resources);
 
-  const Buildings: BuildingProps[] = [
+  const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',
       lvl: resources.lumberjack,
@@ -72,7 +72,7 @@ const Village = () => {
     },
   ];
 
-  const buildings = Buildings.map(({ name, lvl, posX, posY, sizeY, sizeX, posLvlX, posLvlY }, index) => (
+  const buildings = buildingsData.map(({ name, lvl, posX, posY, sizeY, sizeX, posLvlX, posLvlY }, index) => (
     <Building
       key={index}
       name={name}
