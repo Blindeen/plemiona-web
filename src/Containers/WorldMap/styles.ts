@@ -40,27 +40,32 @@ export const MapImage = styled('img')<MapImageProps>`
   top: ${({ cordY }) => -cordY * FRAME_HEIGHT / FRAME_SQUARES_Y}px
 `;
 
+const ARROW_WIDTH = 64;
+const ARROW_HEIGHT = 64;
+
 interface NavArrowProps {
-  direction: 'up';
+  direction: 'up' | 'down';
 }
 
 const handleDirection = ({ direction }: NavArrowProps) => {
   switch (direction) {
     case 'up':
-      return { left: 45, top: 1, rotation: 0 };
+      return { left: (FRAME_WIDTH - ARROW_WIDTH) / 2, top: 5, rotation: 0 };
+    case 'down':
+      return { left: (FRAME_WIDTH - ARROW_WIDTH) / 2, top: FRAME_HEIGHT - ARROW_HEIGHT - 5, rotation: 180 };
   }
 };
 
 export const NavArrow = styled('img')<NavArrowProps>`
   position: absolute;
   z-index: 3;
-  left: ${(props) => handleDirection(props).left}%;
-  top: ${(props) => handleDirection(props).top}%;
+  left: ${(props) => handleDirection(props).left}px;
+  top: ${(props) => handleDirection(props).top}px;
   transform: rotate(${(props) => handleDirection(props).rotation}deg);
 
   background-size: cover;
-  width: 10%;
-  height: 10%;
+  width: ${ARROW_WIDTH}px;
+  height: ${ARROW_HEIGHT}px;
 `;
 
 export const MapSquare = styled('div')`

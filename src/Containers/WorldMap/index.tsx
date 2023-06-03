@@ -85,7 +85,10 @@ const WorldMap = () => {
           cordY={cordY}
         />
         {squares}
-        <NavArrow onClick={() => moveMap('up')} direction='up' src='/Assets/Buttons/map_arrow_button.png'></NavArrow>
+        <NavArrow onClick={() => moveMap('up')} direction='up'
+                  src='/Assets/Buttons/map_arrow_button.png'></NavArrow>
+        <NavArrow onClick={() => moveMap('down')} direction='down'
+                  src='/Assets/Buttons/map_arrow_button.png'></NavArrow>
       </MapFrame>
     </>
   );
