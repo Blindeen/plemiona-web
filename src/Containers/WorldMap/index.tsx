@@ -92,6 +92,8 @@ const WorldMap = () => {
     }
   };
 
+  const resetView = () => setCords(selfMiddle());
+
   const squares = mapFragment().map(({ type, player, army, isTarget }, idx) =>
     <MapSquare
       onClick={() => type !== 'empty' && handleCLick(idx)}
