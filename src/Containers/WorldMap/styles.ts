@@ -102,7 +102,7 @@ export const MapSquare = styled('div')`
 
     border-color: black;
     border-width: 1px;
-    border-color: rgba(0, 0, 255, 0.25);
+    border-color: rgba(0, 0, 255, 0.13);
     border-style: solid;
     box-sizing: border-box;
   }
