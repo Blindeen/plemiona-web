@@ -25,6 +25,8 @@ const Building = ({
   const lvlIndex: number = lvl - 1;
   const baseTier: number = 1;
 
+  const getTier = () => Math.floor(lvlIndex / tierPerLvl + baseTier);
+
   return (
     <StyledBuilding
       style={{
@@ -32,7 +34,7 @@ const Building = ({
         left: posX,
         width: sizeX,
         height: sizeY,
-        backgroundImage: `url(/Assets/Buildings/${name}-Tier-${Math.floor(lvlIndex / tierPerLvl + baseTier)}-min.png)`,
+        backgroundImage: `url(/Assets/Buildings/${name}-Tier-${getTier()}-min.png)`,
       }}
     >
       <BuildingLvL style={{ top: posLvlY, left: posLvlX }}>{lvl}</BuildingLvL>
