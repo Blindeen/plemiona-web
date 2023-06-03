@@ -27,10 +27,10 @@ const WorldMap = () => {
 
   const selfMiddle = () => {
     let middleX = selfX > Math.floor(FRAME_SQUARES_X / 2) ? selfX - Math.floor(FRAME_SQUARES_X / 2) : 0;
-    middleX = selfX < MAP_SQUARES_X - FRAME_SQUARES_X + Math.floor(FRAME_SQUARES_X / 2) ? middleX : MAP_SQUARES_X - FRAME_SQUARES_X;
+    middleX = middleX < MAP_SQUARES_X - FRAME_SQUARES_X ? middleX : MAP_SQUARES_X - FRAME_SQUARES_X;
 
     let middleY = selfY > Math.floor(FRAME_SQUARES_Y / 2) ? selfY - Math.floor(FRAME_SQUARES_Y / 2) : 0;
-    middleY = selfY < MAP_SQUARES_Y - FRAME_SQUARES_Y + Math.floor(FRAME_SQUARES_Y / 2) ? middleY : MAP_SQUARES_Y - FRAME_SQUARES_Y;
+    middleY = middleY < MAP_SQUARES_Y - FRAME_SQUARES_Y ? middleY : MAP_SQUARES_Y - FRAME_SQUARES_Y;
 
     return { x: middleX, y: middleY };
   };
@@ -90,10 +90,6 @@ const WorldMap = () => {
         setCords({ x: cordX, y: cordY + 1 });
         break;
     }
-  };
-
-  const resetFrame = () => {
-
   };
 
   const squares = mapFragment().map(({ type, player, army, isTarget }, idx) =>
