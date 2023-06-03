@@ -42,26 +42,36 @@ export const MapImage = styled('img')<MapImageProps>`
 
 const ARROW_WIDTH = 64;
 const ARROW_HEIGHT = 64;
+const ARROW_MARGIN = 3;
+
+export type direction = 'up' | 'down' | 'left' | 'right'
 
 interface NavArrowProps {
-  direction: 'up' | 'down';
+  direction: direction;
 }
 
-const handleDirection = ({ direction }: NavArrowProps) => {
+export const DIRECTIONS: Record<direction, direction> = { up: 'up', down: 'down', left: 'left', right: 'right' };
+
+const handleDirection = (direction: direction) => {
   switch (direction) {
-    case 'up':
-      return { left: (FRAME_WIDTH - ARROW_WIDTH) / 2, top: 5, rotation: 0 };
-    case 'down':
-      return { left: (FRAME_WIDTH - ARROW_WIDTH) / 2, top: FRAME_HEIGHT - ARROW_HEIGHT - 5, rotation: 180 };
+    case DIRECTIONS.up:
+      return { left: (FRAME_WIDTH - ARROW_WIDTH) / 2, top: ARROW_MARGIN, rotation: 0 };
+    case DIRECTIONS.down:
+      return { left: (FRAME_WIDTH - ARROW_WIDTH) / 2, top: FRAME_HEIGHT - ARROW_HEIGHT - ARROW_MARGIN, rotation: 180 };
+    case DIRECTIONS.left:
+      return { left: ARROW_MARGIN, top: (FRAME_HEIGHT - ARROW_HEIGHT) / 2, rotation: 270 };
+    case DIRECTIONS.right:
+      return { left: FRAME_WIDTH - ARROW_WIDTH - ARROW_MARGIN, top: (FRAME_HEIGHT - ARROW_HEIGHT) / 2, rotation: 90 };
   }
+  return { left: 0, top: 0, rotation: 0 };
 };
 
 export const NavArrow = styled('img')<NavArrowProps>`
   position: absolute;
   z-index: 3;
-  left: ${(props) => handleDirection(props).left}px;
-  top: ${(props) => handleDirection(props).top}px;
-  transform: rotate(${(props) => handleDirection(props).rotation}deg);
+  left: ${({ direction }) => handleDirection(direction).left}px;
+  top: ${({ direction }) => handleDirection(direction).top}px;
+  transform: rotate(${({ direction }) => handleDirection(direction).rotation}deg);
 
   background-size: cover;
   width: ${ARROW_WIDTH}px;

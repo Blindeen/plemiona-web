@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import {
+  direction,
+  DIRECTIONS,
   FRAME_SQUARES_X,
   FRAME_SQUARES_Y,
   MAP_SQUARES_X,
@@ -18,7 +20,6 @@ export type mapTile = {
   army?: null // for now
   isTarget: boolean
 }
-
 
 const WorldMap = () => {
 
@@ -47,21 +48,21 @@ const WorldMap = () => {
     //request with cords
   };
 
-  const moveMap = (direction: 'right' | 'left' | 'up' | 'down') => {
+  const moveMap = (direction: direction) => {
     switch (direction) {
-      case 'left':
+      case DIRECTIONS.left:
         if (cordX <= 0) return;
         setCords({ x: cordX - 1, y: cordY });
         break;
-      case 'right':
+      case DIRECTIONS.right:
         if (cordX >= MAP_SQUARES_X - FRAME_SQUARES_X) return;
         setCords({ x: cordX + 1, y: cordY });
         break;
-      case 'up':
+      case DIRECTIONS.up:
         if (cordY <= 0) return;
         setCords({ x: cordX, y: cordY - 1 });
         break;
-      case 'down':
+      case DIRECTIONS.down:
         if (cordY >= MAP_SQUARES_Y - FRAME_SQUARES_Y) return;
         setCords({ x: cordX, y: cordY + 1 });
         break;
@@ -85,10 +86,12 @@ const WorldMap = () => {
           cordY={cordY}
         />
         {squares}
-        <NavArrow onClick={() => moveMap('up')} direction='up'
-                  src='/Assets/Buttons/map_arrow_button.png'></NavArrow>
-        <NavArrow onClick={() => moveMap('down')} direction='down'
-                  src='/Assets/Buttons/map_arrow_button.png'></NavArrow>
+        {Object.values(DIRECTIONS).map((direction, idx) =>
+          <NavArrow key={idx}
+                    direction={direction}
+                    onClick={() => moveMap(direction)}
+                    src='/Assets/Buttons/map_arrow_button.png'>
+          </NavArrow>)}
       </MapFrame>
     </>
   );
