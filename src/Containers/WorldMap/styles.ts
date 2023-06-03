@@ -28,8 +28,8 @@ export const MapBackground = styled('div')`
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordX }) => cordX * MAP_WIDTH / FRAGMENT_SIZE}px;
-  top: ${({ cordY }) => cordY * MAP_HEIGHT / FRAGMENT_SIZE}px
+  left: ${({ cordX }) => -cordX * MAP_WIDTH / FRAGMENT_SIZE}px;
+  top: ${({ cordY }) => -cordY * MAP_HEIGHT / FRAGMENT_SIZE}px
 `;
 
 export const MapSquare = styled('div')`

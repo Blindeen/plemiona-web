@@ -39,7 +39,7 @@ const WorldMap = () => {
     //request with cords
   };
 
-  const handleNavigation = (direction: 'right' | 'left' | 'up' | 'down') => {
+  const moveMap = (direction: 'right' | 'left' | 'up' | 'down') => {
     switch (direction) {
       case 'left':
         if (cordX <= 0) return;
