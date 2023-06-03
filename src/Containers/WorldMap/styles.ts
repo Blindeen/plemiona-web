@@ -2,11 +2,17 @@ import styled from 'styled-components';
 
 import palette from 'palette';
 
-const FRAME_HEIGHT = 574;
-const FRAME_WIDTH = 784;
-
 export const FRAME_SQUARES_X = 7;
 export const FRAME_SQUARES_Y = 5;
+
+export const MAP_SQUARES_X = 22;
+export const MAP_SQUARES_Y = 16;
+
+const MAP_IMAGE_WIDTH = 2624;
+const MAP_IMAGE_HEIGHT = 1856;
+
+const FRAME_WIDTH = MAP_IMAGE_WIDTH / MAP_SQUARES_X * FRAME_SQUARES_X;
+const FRAME_HEIGHT = MAP_IMAGE_HEIGHT / MAP_SQUARES_Y * FRAME_SQUARES_Y;
 
 interface MapImageProps {
   cordX: number;

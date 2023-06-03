@@ -1,6 +1,14 @@
 import { useState } from 'react';
 
-import { FRAME_SQUARES_X, FRAME_SQUARES_Y, MapFrame, MapImage, MapSquare } from 'Containers/WorldMap/styles';
+import {
+  FRAME_SQUARES_X,
+  FRAME_SQUARES_Y,
+  MAP_SQUARES_X,
+  MAP_SQUARES_Y,
+  MapFrame,
+  MapImage,
+  MapSquare,
+} from 'Containers/WorldMap/styles';
 import { playerType } from 'resourceContext';
 
 export type mapTile = {
@@ -10,8 +18,6 @@ export type mapTile = {
   isTarget: boolean
 }
 
-const MAP_SQUARES_X = 16;
-const MAP_SQUARES_Y = 16;
 
 const WorldMap = () => {
 
