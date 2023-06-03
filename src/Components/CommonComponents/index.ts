@@ -10,6 +10,7 @@ export const CenteredContainer = styled('div')`
   height: 100%;
   width: 100%;
 `;
+
 export const Box = styled('div')`
   background-color: ${palette.dadsRayOfSunshine};
   opacity: 70%;
@@ -38,4 +39,22 @@ export const OptionalText = styled('span')`
 
 export const CenteredDiv = styled(CenteredContainer)`
   align-items: center;
+`;
+
+export const Background = styled('div')`
+  background-image: url('/Arts/Backgrounds/game_page_background.jpg');
+  background-size: cover;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-repeat: repeat;
+  background-position: center;
+`;
+
+export const CenteredBox = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
 `;
