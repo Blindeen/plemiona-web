@@ -92,17 +92,17 @@ export const MapSquare = styled('div')`
   font-size: 18px;
   color: ${palette.black};
 
-  &::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-
-    border-color: black;
-    border-width: 0.18px;
-    border-style: solid;
-    box-sizing: border-box;
-  }
+  //&::after {
+  //  content: "";
+  //  position: absolute;
+  //  width: 100%;
+  //  height: 100%;
+  //  top: 0;
+  //  left: 0;
+  //
+  //  border-color: black;
+  //  border-width: 0.18px;
+  //  border-style: solid;
+  //  box-sizing: border-box;
+}
 `;
