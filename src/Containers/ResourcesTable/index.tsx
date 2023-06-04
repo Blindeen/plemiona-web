@@ -12,17 +12,17 @@ const ResourcesTable = () => {
   const resourcesTable: ResourcesProps[] = [
     {
       name: 'iron',
-      own: resources.iron,
+      own: resources.resources.iron,
       capacity: 100,
     },
     {
       name: 'clay',
-      own: resources.iron,
+      own: resources.resources.clay,
       capacity: 100,
     },
     {
       name: 'wood',
-      own: resources.iron,
+      own: resources.resources.wood,
       capacity: 100,
     },
   ];

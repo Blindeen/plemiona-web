@@ -10,7 +10,7 @@ const Village = () => {
   const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',
-      lvl: resources.lumberjack,
+      lvl: resources.sawmill.lvl,
       posX: 550,
       posY: 480,
       sizeX: 200,
@@ -20,7 +20,7 @@ const Village = () => {
     },
     {
       name: 'Spichlerz',
-      lvl: resources.warehouse,
+      lvl: resources.warehouse.lvl,
       posX: 280,
       posY: 200,
       sizeX: 200,
@@ -28,7 +28,7 @@ const Village = () => {
     },
     {
       name: 'Koszary',
-      lvl: resources.barracks,
+      lvl: resources.barracks.lvl,
       posX: 10,
       posY: 400,
       sizeX: 200,
@@ -36,7 +36,7 @@ const Village = () => {
     },
     {
       name: 'Cegielnia',
-      lvl: resources.clayPit,
+      lvl: resources.clayPit.lvl,
       posX: 50,
       posY: 150,
       sizeX: 200,
@@ -44,7 +44,7 @@ const Village = () => {
     },
     {
       name: 'Kuznia',
-      lvl: resources.stonePit,
+      lvl: resources.ironMine.lvl,
       posX: 280,
       posY: 20,
       sizeX: 180,
@@ -52,21 +52,11 @@ const Village = () => {
     },
     {
       name: 'Ratusz',
-      lvl: resources.townHall,
+      lvl: resources.townHall.lvl,
       posX: 500,
       posY: 50,
       sizeX: 250,
       sizeY: 250,
-      posLvlX: 30,
-      posLvlY: 40,
-    },
-    {
-      name: 'Wall',
-      lvl: 1,
-      posX: 300,
-      posY: 400,
-      sizeX: 200,
-      sizeY: 200,
       posLvlX: 30,
       posLvlY: 40,
     },
@@ -86,7 +76,11 @@ const Village = () => {
     />
   ));
 
-  return <Container>{buildings}</Container>;
+  return (
+    <>
+      <Container>{buildings}</Container>
+    </>
+  );
 };
 
 export default Village;

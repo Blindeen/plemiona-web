@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Col, Row, Tooltip } from 'antd';
 import { CrownOutlined } from '@ant-design/icons';
 
@@ -15,6 +15,7 @@ const Lobby = () => {
 
   const { resources } = useContext(Resources);
   const { players, owner } = resources;
+  const [loading, setLoading] = useState<boolean>(false);
 
   const writeToClipboard = async () => {
     try {
@@ -25,6 +26,31 @@ const Lobby = () => {
     }
   };
 
+  const startGame = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/v1/game/start/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('token') as string,
+        },
+      });
+      if (response.ok) {
+        pushNotification('success', 'Starting game', 'Enjoy the game');
+      } else {
+        const { errors } = await response.json();
+        Object.entries(errors).forEach(([key, value]) => {
+          pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
+        });
+      }
+    } catch (error) {
+      pushNotification('error', 'Server down', 'Please check your connection');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Box>
       <CenteredContainer>
@@ -32,14 +58,16 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Tooltip title='Click to copy game code' defaultOpen={true}>
+                <Tooltip title="Click to copy game code" defaultOpen={true}>
                   <Button onClick={writeToClipboard} style={{ fontFamily: 'Arial' }}>
                     {gameCode}
                   </Button>
                 </Tooltip>
               </Col>
               <Col span={12}>
-                <StartButton disabled={players.length < 2 || selfID !== owner.id}>Start</StartButton>
+                <StartButton onClick={startGame} disabled={players.length < 2 || selfID !== owner.id}>
+                  Start
+                </StartButton>
               </Col>
             </Row>
           </Col>
@@ -52,11 +80,12 @@ const Lobby = () => {
               </Col>
               <Col span={24}>
                 <PlayerList>
-                  {players.map(({ nickname, id }) =>
+                  {players.map(({ nickname, id }) => (
                     <PlayerEntry key={id}>
                       {id === owner.id && <CrownOutlined />}
                       {nickname}
-                    </PlayerEntry>)}
+                    </PlayerEntry>
+                  ))}
                 </PlayerList>
               </Col>
             </Row>
