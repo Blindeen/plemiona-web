@@ -4,25 +4,25 @@ import { Col, Row } from 'antd';
 
 import { ResourcesView } from './styles';
 import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
-import Resources from 'resourceContext';
+import GameSessionState from 'resourceContext';
 
 const ResourcesTable = () => {
-  const { resources } = useContext(Resources);
+  const { gameState } = useContext(GameSessionState);
 
   const resourcesTable: ResourcesProps[] = [
     {
       name: 'iron',
-      own: resources.resources.iron,
+      own: gameState.resources.iron,
       capacity: 100,
     },
     {
       name: 'clay',
-      own: resources.resources.clay,
+      own: gameState.resources.clay,
       capacity: 100,
     },
     {
       name: 'wood',
-      own: resources.resources.wood,
+      own: gameState.resources.wood,
       capacity: 100,
     },
   ];

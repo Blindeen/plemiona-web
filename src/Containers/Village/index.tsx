@@ -2,15 +2,15 @@ import { useContext } from 'react';
 
 import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
-import Resources from 'resourceContext';
+import GameSessionState from 'resourceContext';
 
 const Village = () => {
-  const { resources } = useContext(Resources);
+  const { gameState } = useContext(GameSessionState);
 
   const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',
-      lvl: resources.sawmill.lvl,
+      lvl: gameState.buildings.sawmill.lvl,
       posX: 550,
       posY: 480,
       sizeX: 200,
@@ -20,7 +20,7 @@ const Village = () => {
     },
     {
       name: 'Spichlerz',
-      lvl: resources.warehouse.lvl,
+      lvl: gameState.buildings.warehouse.lvl,
       posX: 280,
       posY: 200,
       sizeX: 200,
@@ -28,7 +28,7 @@ const Village = () => {
     },
     {
       name: 'Koszary',
-      lvl: resources.barracks.lvl,
+      lvl: gameState.buildings.barracks.lvl,
       posX: 10,
       posY: 400,
       sizeX: 200,
@@ -36,7 +36,7 @@ const Village = () => {
     },
     {
       name: 'Cegielnia',
-      lvl: resources.clayPit.lvl,
+      lvl: gameState.buildings.clayPit.lvl,
       posX: 50,
       posY: 150,
       sizeX: 200,
@@ -44,7 +44,7 @@ const Village = () => {
     },
     {
       name: 'Kuznia',
-      lvl: resources.ironMine.lvl,
+      lvl: gameState.buildings.ironMine.lvl,
       posX: 280,
       posY: 20,
       sizeX: 180,
@@ -52,7 +52,7 @@ const Village = () => {
     },
     {
       name: 'Ratusz',
-      lvl: resources.townHall.lvl,
+      lvl: gameState.buildings.townHall.lvl,
       posX: 500,
       posY: 50,
       sizeX: 250,

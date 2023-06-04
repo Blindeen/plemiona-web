@@ -6,15 +6,15 @@ import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComp
 import Button from 'Components/Button';
 import { PlayerEntry, PlayerList, StartButton } from './styles';
 
-import Resources from 'resourceContext';
+import GameSessionState from 'resourceContext';
 import pushNotification from 'pushNotification';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('game_code') as string;
   const selfID = Number(localStorage.getItem('player_id') as string);
 
-  const { resources } = useContext(Resources);
-  const { players, owner } = resources;
+  const { gameState } = useContext(GameSessionState);
+  const { players, owner } = gameState;
   const [loading, setLoading] = useState<boolean>(false);
 
   const writeToClipboard = async () => {
@@ -65,7 +65,7 @@ const Lobby = () => {
                 </Tooltip>
               </Col>
               <Col span={12}>
-                <StartButton onClick={startGame} disabled={players.length < 2 || selfID !== owner.id}>
+                <StartButton onClick={startGame} loading={loading} disabled={players.length < 2 || selfID !== owner.id}>
                   Start
                 </StartButton>
               </Col>
