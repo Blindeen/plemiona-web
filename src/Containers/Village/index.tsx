@@ -6,7 +6,6 @@ import GameSessionState from 'resourceContext';
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
-
   const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',

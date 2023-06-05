@@ -13,17 +13,17 @@ const ResourcesTable = () => {
     {
       name: 'iron',
       own: gameState.resources.iron,
-      capacity: 100,
+      capacity: gameState.resourcesCapacity,
     },
     {
       name: 'clay',
       own: gameState.resources.clay,
-      capacity: 100,
+      capacity: gameState.resourcesCapacity,
     },
     {
       name: 'wood',
       own: gameState.resources.wood,
-      capacity: 100,
+      capacity: gameState.resourcesCapacity,
     },
   ];
 
@@ -35,7 +35,9 @@ const ResourcesTable = () => {
 
   return (
     <ResourcesView>
-      <Row gutter={[20, 20]}>{resourcesComp}</Row>
+      <Row gutter={[120, 0]} justify={'center'} style={{ marginRight: '10' }}>
+        {resourcesComp}
+      </Row>
     </ResourcesView>
   );
 };

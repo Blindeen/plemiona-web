@@ -12,8 +12,8 @@ export interface ResourcesProps {
 
 const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own }: ResourcesProps) => {
   return (
-    <Row align={'middle'}>
-      <Col>
+    <Row align={'middle'} gutter={[10, 0]}>
+      <Col style={{ margin: 'auto' }}>
         <ResourcesImg
           style={{
             width: width,
@@ -22,7 +22,7 @@ const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own }: Re
           }}
         />
       </Col>
-      <Col>
+      <Col style={{ margin: 'auto' }}>
         {own}/{capacity}
       </Col>
     </Row>

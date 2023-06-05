@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { router, routes } from 'router';
 
 export interface Resources {
   wood: number;
@@ -53,12 +54,12 @@ const initialResources: gameSessionStateType = {
   resourcesCapacity: 0,
 
   buildings: {
-    warehouse: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    sawmill: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    ironMine: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    clayPit: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    townHall: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    barracks: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    warehouse: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    sawmill: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    ironMine: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    clayPit: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    townHall: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    barracks: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
   },
 };
 
@@ -81,7 +82,7 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     socket.onmessage = (event) => {
       const { type, data } = JSON.parse(event.data);
-
+      if (type === 'start_game_session') router.navigate(routes.villagePage);
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState({ ...gameState, ...updated });
     };
