@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface Resources {
   wood: number;
@@ -76,11 +76,13 @@ export default GameSessionState;
 
 export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [gameState, setGameState] = useState(initialResources);
+  const resourceUpdater = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
+      clearTimeout(resourceUpdater.current);
       const { data } = JSON.parse(event.data);
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
@@ -91,7 +93,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   useEffect(() => {
-    const resourceUpdater = setTimeout(() => {
+    resourceUpdater.current = setTimeout(() => {
       setGameState({
         ...gameState,
         resources: {
@@ -101,8 +103,8 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
         },
       });
     }, 1000);
-    
-    return () => clearTimeout(resourceUpdater);
+
+    return () => clearTimeout(resourceUpdater.current);
   }, [gameState]);
 
   return <GameSessionState.Provider value={{ gameState, setGameState }}>{children}</GameSessionState.Provider>;
