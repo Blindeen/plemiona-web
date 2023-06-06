@@ -75,12 +75,12 @@ export default GameSessionState;
 export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [gameState, setGameState] = useState(initialResources);
   const resourceUpdater = useRef<NodeJS.Timeout>();
+  const updatedState = useRef<gameSessionStateType>(initialResources);
 
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
-      clearTimeout(resourceUpdater.current);
       const { type, data } = JSON.parse(event.data);
 
       if (type === 'start_game_session') {
@@ -88,7 +88,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
-      setGameState({ ...gameState, ...updated });
+      updatedState.current = { ...gameState, ...updated };
     };
 
     return () => socket.close();
@@ -96,14 +96,15 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   useEffect(() => {
     resourceUpdater.current = setTimeout(() => {
-      setGameState({
-        ...gameState,
+      setGameState(updatedState.current);
+      updatedState.current = {
+        ...updatedState.current,
         resources: {
-          wood: gameState.resources.wood + gameState.resourcesIncome.wood,
-          iron: gameState.resources.iron + gameState.resourcesIncome.iron,
-          clay: gameState.resources.clay + gameState.resourcesIncome.clay,
+          wood: updatedState.current.resources.wood + updatedState.current.resourcesIncome.wood,
+          iron: updatedState.current.resources.iron + updatedState.current.resourcesIncome.iron,
+          clay: updatedState.current.resources.clay + updatedState.current.resourcesIncome.clay,
         },
-      });
+      };
     }, 1000);
 
     return () => clearTimeout(resourceUpdater.current);
