@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { playerType } from 'resourceContext';
 import {
   direction,
   DIRECTIONS,
@@ -11,18 +12,16 @@ import {
   MapImage,
   MapSquare,
   NavArrow,
-} from 'Containers/WorldMap/styles';
-import { playerType } from 'resourceContext';
+} from './styles';
 
 export type mapTile = {
-  type: 'player' | 'empty' | 'barbarians'
-  player?: playerType
-  army?: null // for now
-  isTarget: boolean
-}
+  type: 'player' | 'empty' | 'barbarians';
+  player?: playerType;
+  army?: null; // for now
+  isTarget: boolean;
+};
 
 const WorldMap = () => {
-
   const { x: selfX, y: selfY } = { x: 3, y: 5 };
 
   const selfMiddle = () => {
@@ -37,22 +36,21 @@ const WorldMap = () => {
 
   const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
 
-  let BEMap = [...Array.from({ length: MAP_SQUARES_Y }, () =>
-    [...Array.from({ length: MAP_SQUARES_X }, () =>
-      ({ type: 'empty', army: null, isTarget: false }),
-    )],
-  )] as mapTile[][];
+  let BEMap = [
+    ...Array.from({ length: MAP_SQUARES_Y }, () => [
+      ...Array.from({ length: MAP_SQUARES_X }, () => ({ type: 'empty', army: null, isTarget: false })),
+    ]),
+  ] as mapTile[][];
 
   BEMap[selfY][selfX] = { type: 'player', army: null, isTarget: false, player: { nickname: 'Adam', id: 5 } };
 
-
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
-    map[idx] ? [
-      ...map[idx].slice(cordX, cordX + FRAME_SQUARES_X),
-      ...mapFragment(map, idx + 1),
-    ] : [];
+    map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
 
-  const calculateAbsolute = (relativeIdx: number) => [relativeIdx % FRAME_SQUARES_X + cordX, Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY];
+  const calculateAbsolute = (relativeIdx: number) => [
+    (relativeIdx % FRAME_SQUARES_X) + cordX,
+    Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY,
+  ];
 
   const handleCLick = (relativeIdx: number) => {
     const [absoluteX, absoluteY] = calculateAbsolute(relativeIdx);
@@ -94,30 +92,28 @@ const WorldMap = () => {
 
   const resetView = () => setCords(selfMiddle());
 
-  const squares = mapFragment().map(({ type, player, army, isTarget }, idx) =>
-    <MapSquare
-      onClick={() => type !== 'empty' && handleCLick(idx)}
-      key={idx}>
+  const squares = mapFragment().map(({ type, player, army, isTarget }, idx) => (
+    <MapSquare onClick={() => type !== 'empty' && handleCLick(idx)} key={idx}>
       {type === 'player' && player?.nickname}
-    </MapSquare>,
-  );
+    </MapSquare>
+  ));
 
   return (
-  <MapFrame>
-    <MapImage
-      src='/Arts/MapImage.png'
-      cordX={cordX}
-      cordY={cordY}
-    />
-    {squares}
-    {Object.values(DIRECTIONS).map((direction, idx) =>
-      !isBoundary(direction) &&
-      <NavArrow key={idx}
-                direction={direction}
-                onClick={() => moveMap(direction)}
-                src='/Assets/Buttons/map_arrow_button.png'>
-      </NavArrow>)}
-  </MapFrame>
+    <MapFrame>
+      <MapImage src="/Arts/MapImage.png" cordX={cordX} cordY={cordY} />
+      {squares}
+      {Object.values(DIRECTIONS).map(
+        (direction, idx) =>
+          !isBoundary(direction) && (
+            <NavArrow
+              key={idx}
+              direction={direction}
+              onClick={() => moveMap(direction)}
+              src="/Assets/Buttons/map_arrow_button.png"
+            ></NavArrow>
+          )
+      )}
+    </MapFrame>
   );
 };
 

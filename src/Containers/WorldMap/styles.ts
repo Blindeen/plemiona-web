@@ -11,8 +11,8 @@ export const MAP_SQUARES_Y = 16;
 const MAP_IMAGE_WIDTH = 2624;
 const MAP_IMAGE_HEIGHT = 1856;
 
-const FRAME_WIDTH = MAP_IMAGE_WIDTH / MAP_SQUARES_X * FRAME_SQUARES_X;
-const FRAME_HEIGHT = MAP_IMAGE_HEIGHT / MAP_SQUARES_Y * FRAME_SQUARES_Y;
+const FRAME_WIDTH = (MAP_IMAGE_WIDTH / MAP_SQUARES_X) * FRAME_SQUARES_X;
+const FRAME_HEIGHT = (MAP_IMAGE_HEIGHT / MAP_SQUARES_Y) * FRAME_SQUARES_Y;
 
 export const MapFrame = styled('div')`
   display: flex;
@@ -36,15 +36,15 @@ interface MapImageProps {
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordX }) => -cordX * FRAME_WIDTH / FRAME_SQUARES_X}px;
-  top: ${({ cordY }) => -cordY * FRAME_HEIGHT / FRAME_SQUARES_Y}px
+  left: ${({ cordX }) => (-cordX * FRAME_WIDTH) / FRAME_SQUARES_X}px;
+  top: ${({ cordY }) => (-cordY * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
 `;
 
 const ARROW_WIDTH = 64;
 const ARROW_HEIGHT = 64;
 const ARROW_MARGIN = 3;
 
-export type direction = 'up' | 'down' | 'left' | 'right'
+export type direction = 'up' | 'down' | 'left' | 'right';
 
 interface NavArrowProps {
   direction: direction;
@@ -93,7 +93,7 @@ export const MapSquare = styled('div')`
   color: ${palette.black};
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
