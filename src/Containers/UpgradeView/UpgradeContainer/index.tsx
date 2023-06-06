@@ -1,38 +1,25 @@
 import { useState } from 'react';
 import { Button, Col, Row } from 'antd';
 
-import ResourcesComponent from 'Components/ResourcesComponent';
+import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
 
 import { Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 
-const UpgradeContainer = ({
-  name = '',
-  availableResources = {} as Resources,
-  upgradeCost = {} as Resources,
-  onLoadingChange = (input: boolean) => {},
-  loading = false,
-}) => {
+export interface UpgradeContainerProps {
+  name: string;
+  upgradeCost: Resources;
+  availableResources: Resources;
+  onLoading: (e: boolean) => {};
+  loading: boolean;
+}
+
+const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, loading }: UpgradeContainerProps) => {
   const [upgradeDuration, setUpgradeDuration] = useState('Upgrade');
   const [disable, setDisable] = useState(false);
 
-  class Timer {
-    constructor(public counter: number) {
-      setDisable(true);
-      let intervalId = setInterval(() => {
-        this.counter = this.counter - 1;
-        setUpgradeDuration(`${Math.floor(this.counter / 60)}:${this.counter % 60}`);
-        if (this.counter === 0) {
-          clearInterval(intervalId);
-          setDisable(false);
-          setUpgradeDuration('Upgrade');
-        }
-      }, 1000);
-    }
-  }
-
   const upgradeBuilding = async () => {
-    onLoadingChange(true);
+    onLoading(true);
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/v1/game/building/${name}/upgrade/`, {
         method: 'POST',
@@ -42,7 +29,7 @@ const UpgradeContainer = ({
         },
       });
       if (response.ok) {
-        pushNotification('success', 'Starting game', 'Enjoy the game');
+        pushNotification('success', `Starting building ${name}`, 'Enjoy the game');
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {
@@ -52,43 +39,46 @@ const UpgradeContainer = ({
     } catch (error) {
       pushNotification('error', 'Server down', 'Please check your connection');
     } finally {
-      onLoadingChange(false);
-      new Timer(90);
+      onLoading(false);
     }
   };
+
+  const resourcesForUpgrade: ResourcesProps[] = [
+    {
+      name: 'wood',
+      width: 48,
+      height: 48,
+      capacity: upgradeCost.wood,
+      own: availableResources.wood,
+    },
+    {
+      name: 'clay',
+      width: 48,
+      height: 48,
+      capacity: upgradeCost.clay,
+      own: availableResources.clay,
+    },
+    {
+      name: 'iron',
+      width: 48,
+      height: 48,
+      capacity: upgradeCost.iron,
+      own: availableResources.iron,
+    },
+  ];
+
+  const resourcesContainer = resourcesForUpgrade.map(({ name, width, height, own, capacity }, index) => (
+    <Col span={6}>
+      <ResourcesComponent key={index} name={name} width={width} height={height} own={own} capacity={capacity} />
+    </Col>
+  ));
 
   return (
     <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
       <Col span={4}>
         <div style={{ width: 'fit-content' }}>{name}</div>
       </Col>
-      <Col span={6}>
-        <ResourcesComponent
-          width={48}
-          height={48}
-          capacity={upgradeCost.clay}
-          name={'clay'}
-          own={availableResources.clay}
-        />
-      </Col>
-      <Col span={6}>
-        <ResourcesComponent
-          width={48}
-          height={48}
-          capacity={upgradeCost.iron}
-          name={'iron'}
-          own={availableResources.iron}
-        />
-      </Col>
-      <Col span={6}>
-        <ResourcesComponent
-          width={48}
-          height={48}
-          capacity={upgradeCost.wood}
-          name={'wood'}
-          own={availableResources.wood}
-        />
-      </Col>
+      {resourcesContainer}
       <Col span={2}>
         <Button disabled={disable} loading={loading} onClick={upgradeBuilding}>
           {upgradeDuration}

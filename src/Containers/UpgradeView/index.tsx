@@ -3,16 +3,8 @@ import { useContext, useState } from 'react';
 import { Col, Divider, Row } from 'antd';
 
 import { TownHallWindow } from 'Containers/UpgradeView/styles';
-import UpgradeContainer from 'Containers/UpgradeView/UpgradeContainer';
-import GameSessionState, { Resources } from 'GameSessionContext';
-
-interface UpgradeContainerProps {
-  name: String;
-  upgradeCost: Resources;
-  availableResources: Resources;
-  onLoadingChange: (e: boolean) => {};
-  loading: boolean;
-}
+import UpgradeContainer, { UpgradeContainerProps } from 'Containers/UpgradeView/UpgradeContainer';
+import GameSessionState from 'GameSessionContext';
 
 const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const { gameState } = useContext(GameSessionState);
@@ -22,12 +14,64 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
     setLoading(input);
   };
 
-  // const upgradeContainers : UpgradeContainerProps[] {
-  //   {
-  //     name:'barracks';
-  //     upgradeCost
-  //   },
-  // }
+  const upgradeContainers: UpgradeContainerProps[] = [
+    {
+      name: 'barracks',
+      upgradeCost: gameState.buildings.barracks.upgradeCost,
+      availableResources: gameState.resources,
+      onLoading: () => onLoadingChange,
+      loading: loading,
+    },
+    {
+      name: 'sawmill',
+      upgradeCost: gameState.buildings.sawmill.upgradeCost,
+      availableResources: gameState.resources,
+      onLoading: () => onLoadingChange,
+      loading: loading,
+    },
+    {
+      name: 'warehouse',
+      upgradeCost: gameState.buildings.warehouse.upgradeCost,
+      availableResources: gameState.resources,
+      onLoading: () => onLoadingChange,
+      loading: loading,
+    },
+    {
+      name: 'townHall',
+      upgradeCost: gameState.buildings.townHall.upgradeCost,
+      availableResources: gameState.resources,
+      onLoading: () => onLoadingChange,
+      loading: loading,
+    },
+    {
+      name: 'clayPit',
+      upgradeCost: gameState.buildings.clayPit.upgradeCost,
+      availableResources: gameState.resources,
+      onLoading: () => onLoadingChange,
+      loading: loading,
+    },
+    {
+      name: 'ironMine',
+      upgradeCost: gameState.buildings.ironMine.upgradeCost,
+      availableResources: gameState.resources,
+      onLoading: () => onLoadingChange,
+      loading: loading,
+    },
+  ];
+
+  const upgrades = upgradeContainers.map(({ name, availableResources, upgradeCost, onLoading, loading }, index) => (
+    <>
+      <UpgradeContainer
+        key={index}
+        name={name}
+        availableResources={availableResources}
+        upgradeCost={upgradeCost}
+        onLoading={onLoading}
+        loading={loading}
+      />
+      <Divider />
+    </>
+  ));
 
   return (
     <TownHallWindow
@@ -39,55 +83,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
       keyboard={true}
     >
       <Row align={'middle'} gutter={[0, 0]} style={{ margin: 'auto' }}>
-        <Col span={20}>
-          <UpgradeContainer
-            name={'barracks'}
-            upgradeCost={gameState.buildings.barracks.upgradeCost}
-            availableResources={gameState.resources}
-            onLoadingChange={onLoadingChange}
-            loading={loading}
-          />
-          <Divider />
-          <UpgradeContainer
-            name={gameState.buildings.barracks.name}
-            upgradeCost={gameState.buildings.barracks.upgradeCost}
-            availableResources={gameState.resources}
-            onLoadingChange={onLoadingChange}
-            loading={loading}
-          />
-          <Divider />
-          <UpgradeContainer
-            name={'barracks'}
-            upgradeCost={gameState.buildings.barracks.upgradeCost}
-            availableResources={gameState.resources}
-            onLoadingChange={onLoadingChange}
-            loading={loading}
-          />
-          <Divider />
-          <UpgradeContainer
-            name={gameState.buildings.barracks.name}
-            upgradeCost={gameState.buildings.barracks.upgradeCost}
-            availableResources={gameState.resources}
-            onLoadingChange={onLoadingChange}
-            loading={loading}
-          />
-          <Divider />
-          <UpgradeContainer
-            name={'barracks'}
-            upgradeCost={gameState.buildings.barracks.upgradeCost}
-            availableResources={gameState.resources}
-            onLoadingChange={onLoadingChange}
-            loading={loading}
-          />
-          <Divider />
-          <UpgradeContainer
-            name={gameState.buildings.barracks.name}
-            upgradeCost={gameState.buildings.barracks.upgradeCost}
-            availableResources={gameState.resources}
-            onLoadingChange={onLoadingChange}
-            loading={loading}
-          />
-        </Col>
+        <Col span={20}>{upgrades}</Col>
       </Row>
     </TownHallWindow>
   );
