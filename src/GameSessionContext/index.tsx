@@ -81,6 +81,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
+      clearTimeout(resourceUpdater.current);
       const { type, data } = JSON.parse(event.data);
 
       if (type === 'start_game_session') {
@@ -108,7 +109,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }, 1000);
 
     return () => clearTimeout(resourceUpdater.current);
-  }, [gameState]);
+  }, [updatedState.current]);
 
   return <GameSessionState.Provider value={{ gameState, setGameState }}>{children}</GameSessionState.Provider>;
 };
