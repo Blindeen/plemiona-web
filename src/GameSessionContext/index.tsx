@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { router, routes } from 'router';
 
 export type Resource = 'wood' | 'clay' | 'iron';
-export type Resources = Record<Resource, number>
+export type Resources = Record<Resource, number>;
 
 interface Village {
   x: number;
@@ -67,8 +67,7 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {
-  },
+  setGameState: () => {},
 });
 export default GameSessionState;
 
@@ -79,16 +78,16 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
-    socket.onmessage = (event) => {
+    socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
       const { type, data } = JSON.parse(event.data);
 
-      if (type === 'start_game_session') {
-        router.navigate(routes.worldPage);
-      }
-
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
-      setGameState({ ...gameState, ...updated });
+      setGameState((prevState) => ({ ...prevState, ...updated }));
+
+      if (type === 'start_game_session') {
+        await router.navigate(routes.worldPage);
+      }
     };
 
     return () => socket.close();
