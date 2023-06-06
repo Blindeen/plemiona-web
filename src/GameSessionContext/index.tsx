@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { router, routes } from 'router';
 
-export interface Resources {
-  wood: number;
-  clay: number;
-  iron: number;
-}
+export type Resource = 'wood' | 'clay' | 'iron';
+export type Resources = Record<Resource, number>
 
 interface Village {
   x: number;
@@ -70,7 +67,8 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {},
+  setGameState: () => {
+  },
 });
 export default GameSessionState;
 
