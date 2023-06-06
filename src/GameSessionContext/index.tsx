@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { router, routes } from 'router';
 
 export type Resource = 'wood' | 'clay' | 'iron';
-export type Resources = Record<Resource, number>
+export type Resources = Record<Resource, number>;
 
 interface Village {
   x: number;
@@ -67,28 +67,27 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {
-  },
+  setGameState: () => {},
 });
 export default GameSessionState;
 
 export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [gameState, setGameState] = useState(initialResources);
   const resourceUpdater = useRef<NodeJS.Timeout>();
-  const updatedState = useRef<gameSessionStateType>(initialResources);
 
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
-    socket.onmessage = (event) => {
+    socket.onmessage = async (event) => {
+      clearTimeout(resourceUpdater.current);
       const { type, data } = JSON.parse(event.data);
 
-      if (type === 'start_game_session') {
-        router.navigate(routes.worldPage);
-      }
-
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
-      updatedState.current = { ...updatedState.current, ...updated };
+      setGameState((prevState) => ({ ...prevState, ...updated }));
+
+      if (type === 'start_game_session') {
+        await router.navigate(routes.worldPage);
+      }
     };
 
     return () => socket.close();
@@ -96,15 +95,14 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   useEffect(() => {
     resourceUpdater.current = setTimeout(() => {
-      setGameState(updatedState.current);
-      updatedState.current = {
-        ...updatedState.current,
+      setGameState({
+        ...gameState,
         resources: {
-          wood: updatedState.current.resources.wood + updatedState.current.resourcesIncome.wood,
-          iron: updatedState.current.resources.iron + updatedState.current.resourcesIncome.iron,
-          clay: updatedState.current.resources.clay + updatedState.current.resourcesIncome.clay,
+          wood: gameState.resources.wood + gameState.resourcesIncome.wood,
+          iron: gameState.resources.iron + gameState.resourcesIncome.iron,
+          clay: gameState.resources.clay + gameState.resourcesIncome.clay,
         },
-      };
+      });
     }, 1000);
 
     return () => clearTimeout(resourceUpdater.current);
