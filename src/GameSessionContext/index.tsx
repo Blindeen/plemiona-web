@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { router, routes } from 'router';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface Resources {
   wood: number;
@@ -54,41 +53,59 @@ const initialResources: gameSessionStateType = {
   resourcesCapacity: 0,
 
   buildings: {
-    warehouse: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    sawmill: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    ironMine: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    clayPit: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    townHall: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    barracks: { name: '', lvl: 1, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    warehouse: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    sawmill: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    ironMine: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    clayPit: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    townHall: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    barracks: { name: '', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
   },
 };
 
-type resourcesContextType = {
+type GameSessionContextType = {
   gameState: gameSessionStateType;
   setGameState: (resources: gameSessionStateType) => void;
 };
 
-const GameSessionState = React.createContext<resourcesContextType>({
+const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {},
+  setGameState: () => {
+  },
 });
 export default GameSessionState;
 
-export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [gameState, setGameState] = useState(initialResources);
+  const resourceUpdater = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
-      const { type, data } = JSON.parse(event.data);
-      if (type === 'start_game_session') router.navigate(routes.villagePage);
+      clearTimeout(resourceUpdater.current);
+      const { data } = JSON.parse(event.data);
+
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState({ ...gameState, ...updated });
     };
 
     return () => socket.close();
   }, []);
+
+  useEffect(() => {
+    resourceUpdater.current = setTimeout(() => {
+      setGameState({
+        ...gameState,
+        resources: {
+          wood: gameState.resources.wood + gameState.resourcesIncome.wood,
+          iron: gameState.resources.iron + gameState.resourcesIncome.iron,
+          clay: gameState.resources.clay + gameState.resourcesIncome.clay,
+        },
+      });
+    }, 1000);
+
+    return () => clearTimeout(resourceUpdater.current);
+  }, [gameState]);
 
   return <GameSessionState.Provider value={{ gameState, setGameState }}>{children}</GameSessionState.Provider>;
 };

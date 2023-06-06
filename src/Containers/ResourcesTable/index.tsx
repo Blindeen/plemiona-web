@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 
 import { ResourcesView } from './styles';
 import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
-import GameSessionState from 'resourceContext';
+import GameSessionState from 'GameSessionContext';
 
 const ResourcesTable = () => {
   const { gameState } = useContext(GameSessionState);
