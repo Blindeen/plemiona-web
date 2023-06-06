@@ -4,7 +4,7 @@ import ImageHero from 'Components/ImageHero';
 const WorldPage = () => {
   return (
     <ImageHero imageurl='/Arts/HomePage.jpg'>
-      <WorldMap></WorldMap>
+      <WorldMap />
     </ImageHero>
   );
 };
