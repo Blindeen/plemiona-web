@@ -14,6 +14,7 @@ const ImageHero = styled('div')<ImageHeroProps>`
   height: 100vh;
   background-repeat: no-repeat;
   background-position: center;
+  z-index: 1;
 `;
 
 export default ImageHero;
