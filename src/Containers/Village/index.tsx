@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
-import GameSessionState from 'resourceContext';
+import GameSessionState from 'GameSessionContext';
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
@@ -71,8 +71,8 @@ const Village = () => {
       posY={posY}
       sizeX={sizeX}
       sizeY={sizeY}
-      posLvlX={posLvlX}
-      posLvlY={posLvlY}
+      posLvlX={posLvlX as number}
+      posLvlY={posLvlY as number}
     />
   ));
 

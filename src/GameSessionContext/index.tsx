@@ -62,25 +62,26 @@ const initialResources: gameSessionStateType = {
   },
 };
 
-type resourcesContextType = {
+type GameSessionContextType = {
   gameState: gameSessionStateType;
   setGameState: (resources: gameSessionStateType) => void;
 };
 
-const GameSessionState = React.createContext<resourcesContextType>({
+const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {},
+  setGameState: () => {
+  },
 });
 export default GameSessionState;
 
-export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [gameState, setGameState] = useState(initialResources);
 
   useEffect(() => {
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
-      const { type, data } = JSON.parse(event.data);
+      const { data } = JSON.parse(event.data);
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState({ ...gameState, ...updated });

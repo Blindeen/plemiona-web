@@ -6,7 +6,7 @@ import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComp
 import Button from 'Components/Button';
 import { PlayerEntry, PlayerList, StartButton } from './styles';
 
-import GameSessionState from 'resourceContext';
+import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 
 const Lobby = () => {
@@ -58,7 +58,7 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Tooltip title="Click to copy game code" defaultOpen={true}>
+                <Tooltip title='Click to copy game code' defaultOpen={true}>
                   <Button onClick={writeToClipboard} style={{ fontFamily: 'Arial' }}>
                     {gameCode}
                   </Button>
