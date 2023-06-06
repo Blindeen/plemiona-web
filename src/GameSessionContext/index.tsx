@@ -90,5 +90,20 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     return () => socket.close();
   }, []);
 
+  useEffect(() => {
+    const resourceUpdater = setTimeout(() => {
+      setGameState({
+        ...gameState,
+        resources: {
+          wood: gameState.resources.wood + gameState.resourcesIncome.wood,
+          iron: gameState.resources.iron + gameState.resourcesIncome.iron,
+          clay: gameState.resources.clay + gameState.resourcesIncome.clay,
+        },
+      });
+    }, 1000);
+    
+    return () => clearTimeout(resourceUpdater);
+  }, [gameState]);
+
   return <GameSessionState.Provider value={{ gameState, setGameState }}>{children}</GameSessionState.Provider>;
 };
