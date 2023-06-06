@@ -5,8 +5,9 @@ import LandingPage from 'Pages/LandingPage';
 import LobbyPage from 'Pages/LobbyPage';
 import VillageView from 'Pages/VillageView';
 import { ResourcesProvider } from 'resourceContext';
+import WorldPage from 'Pages/WorldPage';
 
-export const routes = { landingPage: '/', lobbyPage: 'lobby', villagePage: 'village' };
+export const routes = { landingPage: '/', lobbyPage: 'lobby', villagePage: 'village', worldPage: 'world' };
 
 export const router = createHashRouter([
   {
@@ -23,6 +24,10 @@ export const router = createHashRouter([
       {
         path: routes.lobbyPage,
         element: <LobbyPage />,
+      },
+      {
+        path: routes.worldPage,
+        element: <WorldPage />,
       },
       {
         path: routes.villagePage,
