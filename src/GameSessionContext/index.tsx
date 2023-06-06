@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { router, routes } from 'router';
 
 export interface Resources {
   wood: number;
@@ -69,8 +70,7 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {
-  },
+  setGameState: () => {},
 });
 export default GameSessionState;
 
@@ -83,7 +83,11 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     socket.onmessage = (event) => {
       clearTimeout(resourceUpdater.current);
-      const { data } = JSON.parse(event.data);
+      const { type, data } = JSON.parse(event.data);
+
+      if (type === 'start_game_session') {
+        router.navigate(routes.lobbyPage);
+      }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState({ ...gameState, ...updated });

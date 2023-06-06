@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { Button, Col, Row } from 'antd';
 
 import ResourcesComponent from 'Components/ResourcesComponent';
-import { Resources } from 'resourceContext';
+
+import { Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
-import { useState } from 'react';
 
 const UpgradeContainer = ({
   name = '',

@@ -4,7 +4,7 @@ import { Col, Divider, Row } from 'antd';
 
 import { TownHallWindow } from 'Containers/UpgradeView/styles';
 import UpgradeContainer from 'Containers/UpgradeView/UpgradeContainer';
-import GameSessionState, { Resources } from 'resourceContext';
+import GameSessionState, { Resources } from 'GameSessionContext';
 
 interface UpgradeContainerProps {
   name: String;
