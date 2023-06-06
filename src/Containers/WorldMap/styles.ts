@@ -29,15 +29,15 @@ export const MapFrame = styled('div')`
 `;
 
 interface MapImageProps {
-  cordX: number;
-  cordY: number;
+  cordx: number;
+  cordy: number;
 }
 
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordX }) => (-cordX * FRAME_WIDTH) / FRAME_SQUARES_X}px;
-  top: ${({ cordY }) => (-cordY * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
+  left: ${({ cordx }) => (-cordx * FRAME_WIDTH) / FRAME_SQUARES_X}px;
+  top: ${({ cordy }) => (-cordy * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
 `;
 
 const ARROW_WIDTH = 64;
