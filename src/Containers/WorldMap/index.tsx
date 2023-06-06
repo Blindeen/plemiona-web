@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { playerType } from 'resourceContext';
+import { playerType } from 'GameSessionContext';
 import {
   direction,
   DIRECTIONS,
@@ -42,7 +42,12 @@ const WorldMap = () => {
     ]),
   ] as mapTile[][];
 
-  BEMap[selfY][selfX] = { type: 'player', army: null, isTarget: false, player: { nickname: 'Adam', id: 5 } };
+  BEMap[selfY][selfX] = {
+    type: 'player',
+    army: null,
+    isTarget: false,
+    player: { nickname: 'Adam', id: 5, morale: 100, village: { x: 0, y: 0 } },
+  };
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
@@ -110,7 +115,7 @@ const WorldMap = () => {
               direction={direction}
               onClick={() => moveMap(direction)}
               src="/Assets/Buttons/map_arrow_button.png"
-            ></NavArrow>
+            />
           )
       )}
     </MapFrame>

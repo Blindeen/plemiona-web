@@ -12,7 +12,7 @@ interface Village {
   y: number;
 }
 
-type playerType = {
+export type playerType = {
   id: number;
   nickname: string;
   morale: number;
@@ -86,7 +86,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
       const { type, data } = JSON.parse(event.data);
 
       if (type === 'start_game_session') {
-        router.navigate(routes.lobbyPage);
+        router.navigate(routes.worldPage);
       }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));

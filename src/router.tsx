@@ -7,7 +7,6 @@ import WorldPage from 'Pages/WorldPage';
 
 import { GameSessionProvider } from 'GameSessionContext';
 
-
 export const routes = { landingPage: '/', lobbyPage: 'lobby', villagePage: 'village', worldPage: 'world' };
 
 export const router = createHashRouter([
