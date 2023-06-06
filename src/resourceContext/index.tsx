@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
 export type playerType = {
-  id: number,
-  nickname: string,
-}
+  id: number;
+  nickname: string;
+};
 
 type resourcesType = {
-  owner: playerType,
-  players: playerType[],
+  owner: playerType;
+  players: playerType[];
 
-  wood: number,
-  woodIncome: number,
-  clay: number,
-  clayIncome: number,
-  iron: number,
-  ironIncome: number,
+  wood: number;
+  woodIncome: number;
+  clay: number;
+  clayIncome: number;
+  iron: number;
+  ironIncome: number;
 
-  warehouse: number,
-  lumberjack: number,
-  stonePit: number,
-  clayPit: number,
-  townHall: number,
-  barracks: number,
-}
+  warehouse: number;
+  lumberjack: number;
+  stonePit: number;
+  clayPit: number;
+  townHall: number;
+  barracks: number;
+};
 
 const initialResources: resourcesType = {
   owner: { id: 0, nickname: '' },
@@ -44,13 +44,13 @@ const initialResources: resourcesType = {
 };
 
 type resourcesContextType = {
-  resources: resourcesType,
-  setResources: (resources: resourcesType) => void
-}
+  resources: resourcesType;
+  setResources: (resources: resourcesType) => void;
+};
 
 const Resources = React.createContext<resourcesContextType>({
-  resources: initialResources, setResources: () => {
-  },
+  resources: initialResources,
+  setResources: () => {},
 });
 export default Resources;
 
@@ -61,11 +61,8 @@ export const ResourcesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = (event) => {
-      const data = JSON.parse(event.data).data;
-
-      const updated = Object.fromEntries(
-        Object.entries(data).filter(([key, _]) => resources.hasOwnProperty(key)),
-      );
+      const { type, data } = JSON.parse(event.data);
+      const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => resources.hasOwnProperty(key)));
       setResources({ ...resources, ...updated });
     };
 

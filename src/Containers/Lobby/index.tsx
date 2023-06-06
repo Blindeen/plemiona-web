@@ -2,16 +2,16 @@ import { useContext } from 'react';
 import { Col, Row, Tooltip } from 'antd';
 import { CrownOutlined } from '@ant-design/icons';
 
-import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import { PlayerEntry, PlayerList, StartButton } from './styles';
+import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
 
 import Resources from 'resourceContext';
 import pushNotification from 'pushNotification';
+import { PlayerEntry, PlayerList, StartButton } from './styles';
 
 const Lobby = () => {
-  const gameCode = localStorage.getItem('game_code') as string;
-  const selfID = Number(localStorage.getItem('player_id') as string);
+  const gameCode = localStorage.getItem('gameCode') as string;
+  const selfID = Number(localStorage.getItem('playerId') as string);
 
   const { resources } = useContext(Resources);
   const { players, owner } = resources;
@@ -32,7 +32,7 @@ const Lobby = () => {
           <Col span={16} offset={4}>
             <Row gutter={[10, 20]}>
               <Col span={12}>
-                <Tooltip title='Click to copy game code' defaultOpen={true}>
+                <Tooltip title="Click to copy game code" defaultOpen={true}>
                   <Button onClick={writeToClipboard} style={{ fontFamily: 'Arial' }}>
                     {gameCode}
                   </Button>
@@ -52,11 +52,12 @@ const Lobby = () => {
               </Col>
               <Col span={24}>
                 <PlayerList>
-                  {players.map(({ nickname, id }) =>
+                  {players.map(({ nickname, id }) => (
                     <PlayerEntry key={id}>
                       {id === owner.id && <CrownOutlined />}
                       {nickname}
-                    </PlayerEntry>)}
+                    </PlayerEntry>
+                  ))}
                 </PlayerList>
               </Col>
             </Row>

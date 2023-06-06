@@ -1,6 +1,7 @@
 body {
     margin: 0;
     cursor: url('/public/Assets/Cursors/Cursor.png') 2 2, auto;
+    overflow-x: hidden;
 }
 
 a, a svg, button:hover {
