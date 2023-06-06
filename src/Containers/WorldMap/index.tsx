@@ -103,23 +103,21 @@ const WorldMap = () => {
   );
 
   return (
-    <>
-      <MapFrame>
-        <MapImage
-          src='/Arts/MapImage.png'
-          cordX={cordX}
-          cordY={cordY}
-        />
-        {squares}
-        {Object.values(DIRECTIONS).map((direction, idx) =>
-          !isBoundary(direction) &&
-          <NavArrow key={idx}
-                    direction={direction}
-                    onClick={() => moveMap(direction)}
-                    src='/Assets/Buttons/map_arrow_button.png'>
-          </NavArrow>)}
-      </MapFrame>
-    </>
+  <MapFrame>
+    <MapImage
+      src='/Arts/MapImage.png'
+      cordX={cordX}
+      cordY={cordY}
+    />
+    {squares}
+    {Object.values(DIRECTIONS).map((direction, idx) =>
+      !isBoundary(direction) &&
+      <NavArrow key={idx}
+                direction={direction}
+                onClick={() => moveMap(direction)}
+                src='/Assets/Buttons/map_arrow_button.png'>
+      </NavArrow>)}
+  </MapFrame>
   );
 };
 
