@@ -48,7 +48,7 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
 
         const requestTime = new Date();
         requestTime.setMinutes(new Date().getSeconds() + gameState.buildings[name].upgradeDuration);
-        localStorage.setItem(`${name}_update`, requestTime.toString());
+        localStorage.setItem(`${name}_upgrade`, requestTime.toString());
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {
