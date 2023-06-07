@@ -3,8 +3,8 @@ import { Fragment, useContext, useState } from 'react';
 import { Col, Divider, Row } from 'antd';
 
 import { TownHallWindow } from 'Containers/UpgradeView/styles';
-import UpgradeContainer, { UpgradeContainerProps } from 'Containers/UpgradeView/UpgradeContainer';
-import GameSessionState from 'GameSessionContext';
+import UpgradeContainer from 'Containers/UpgradeView/UpgradeContainer';
+import GameSessionState, { Building } from 'GameSessionContext';
 
 const UpgradeView = ({
                        open = true, setOpen = (e: boolean) => {
@@ -17,50 +17,13 @@ const UpgradeView = ({
     setLoading(input);
   };
 
-  const upgradeContainers: UpgradeContainerProps[] = [
-    {
-      name: 'barracks',
-      upgradeCost: gameState.buildings.barracks.upgradeCost,
-      availableResources: gameState.resources,
-      onLoading: () => onLoadingChange,
-      loading: loading,
-    },
-    {
-      name: 'sawmill',
-      upgradeCost: gameState.buildings.sawmill.upgradeCost,
-      availableResources: gameState.resources,
-      onLoading: () => onLoadingChange,
-      loading: loading,
-    },
-    {
-      name: 'warehouse',
-      upgradeCost: gameState.buildings.warehouse.upgradeCost,
-      availableResources: gameState.resources,
-      onLoading: () => onLoadingChange,
-      loading: loading,
-    },
-    {
-      name: 'townHall',
-      upgradeCost: gameState.buildings.townHall.upgradeCost,
-      availableResources: gameState.resources,
-      onLoading: () => onLoadingChange,
-      loading: loading,
-    },
-    {
-      name: 'clayPit',
-      upgradeCost: gameState.buildings.clayPit.upgradeCost,
-      availableResources: gameState.resources,
-      onLoading: () => onLoadingChange,
-      loading: loading,
-    },
-    {
-      name: 'ironMine',
-      upgradeCost: gameState.buildings.ironMine.upgradeCost,
-      availableResources: gameState.resources,
-      onLoading: () => onLoadingChange,
-      loading: loading,
-    },
-  ];
+  const upgradeContainers = Array.from(Object.keys(gameState.buildings), name => ({
+    name: name as Building,
+    upgradeCost: gameState.buildings[name as Building].upgradeCost,
+    availableResources: gameState.resources,
+    onLoading: () => onLoadingChange,
+    loading: loading,
+  }));
 
   const upgrades = upgradeContainers.map(({ name, availableResources, upgradeCost, onLoading, loading }, idx) => (
     <Fragment key={idx}>
