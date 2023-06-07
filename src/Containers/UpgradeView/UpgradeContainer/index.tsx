@@ -67,9 +67,9 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
     },
   ];
 
-  const resourcesContainer = resourcesForUpgrade.map(({ name, width, height, own, capacity }, index) => (
-    <Col span={6}>
-      <ResourcesComponent key={index} name={name} width={width} height={height} own={own} capacity={capacity} />
+  const resourcesContainer = resourcesForUpgrade.map(({ name, width, height, own, capacity }, idx) => (
+    <Col key={idx} span={6}>
+      <ResourcesComponent name={name} width={width as number} height={height as number} own={own} capacity={capacity} />
     </Col>
   ));
 

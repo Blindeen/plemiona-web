@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 
 import { Col, Divider, Row } from 'antd';
 
@@ -6,7 +6,10 @@ import { TownHallWindow } from 'Containers/UpgradeView/styles';
 import UpgradeContainer, { UpgradeContainerProps } from 'Containers/UpgradeView/UpgradeContainer';
 import GameSessionState from 'GameSessionContext';
 
-const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
+const UpgradeView = ({
+                       open = true, setOpen = (e: boolean) => {
+  },
+                     }) => {
   const { gameState } = useContext(GameSessionState);
   const [loading, setLoading] = useState(false);
 
@@ -59,10 +62,9 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
     },
   ];
 
-  const upgrades = upgradeContainers.map(({ name, availableResources, upgradeCost, onLoading, loading }, index) => (
-    <>
+  const upgrades = upgradeContainers.map(({ name, availableResources, upgradeCost, onLoading, loading }, idx) => (
+    <Fragment key={idx}>
       <UpgradeContainer
-        key={index}
         name={name}
         availableResources={availableResources}
         upgradeCost={upgradeCost}
@@ -70,7 +72,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
         loading={loading}
       />
       <Divider />
-    </>
+    </Fragment>
   ));
 
   return (
