@@ -32,7 +32,6 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
 
   const upgradeDate = localStorage.getItem(`${name}_upgrade`);
   const upgradeTime = upgradeDate ? new Date(upgradeDate as string).getTime() - new Date().getTime() : 0;
-  const upgradeLabel = msToUpgradeLabel(upgradeTime);
 
   const upgradeBuilding = async () => {
     onLoading(true);
@@ -101,7 +100,7 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
       {resourcesContainer}
       <Col span={2}>
         <Button disabled={upgradeTime > 0} loading={loading} onClick={upgradeBuilding}>
-          {upgradeLabel}
+          {msToUpgradeLabel(upgradeTime)}
         </Button>
       </Col>
     </Row>
