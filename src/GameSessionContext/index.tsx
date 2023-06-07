@@ -96,7 +96,8 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {},
+  setGameState: () => {
+  },
 });
 export default GameSessionState;
 
@@ -120,14 +121,17 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   useEffect(() => {
     resourceUpdater.current = setTimeout(() => {
-      setGameState({
-        ...gameState,
-        resources: {
-          wood: gameState.resources.wood + gameState.resourcesIncome.wood,
-          iron: gameState.resources.iron + gameState.resourcesIncome.iron,
-          clay: gameState.resources.clay + gameState.resourcesIncome.clay,
-        },
-      });
+      setGameState((prevState) => ({
+        ...prevState,
+        resources:
+          Object.fromEntries(
+            Object.entries(prevState.resources).map(([key, quantity]) =>
+              quantity < prevState.resourcesCapacity
+                ? [key, quantity + prevState.resourcesIncome[key as Resource]]
+                : [key, quantity],
+            ),
+          ) as Resources,
+      }));
     }, 1000);
     return () => clearTimeout(resourceUpdater.current);
   }, [gameState]);
