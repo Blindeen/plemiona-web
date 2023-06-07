@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { router, routes } from 'router';
 
 export type Resource = 'wood' | 'clay' | 'iron';
 export type Resources = Record<Resource, number>;
@@ -110,14 +109,10 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
-      const { type, data } = JSON.parse(event.data);
+      const { data } = JSON.parse(event.data);
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState((prevState) => ({ ...prevState, ...updated }));
-
-      if (type === 'start_game_session') {
-        await router.navigate(routes.worldPage);
-      }
     };
 
     return () => socket.close();

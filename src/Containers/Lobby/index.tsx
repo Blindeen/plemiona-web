@@ -8,6 +8,7 @@ import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComp
 import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 import { PlayerEntry, PlayerList, StartButton } from './styles';
+import { router } from 'router';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('gameCode') as string;
@@ -38,6 +39,7 @@ const Lobby = () => {
       });
       if (response.ok) {
         pushNotification('success', 'Starting game', 'Enjoy the game');
+        router.navigate('village');
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {
