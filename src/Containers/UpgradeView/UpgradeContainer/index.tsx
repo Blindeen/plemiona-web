@@ -1,22 +1,38 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { Button, Col, Row } from 'antd';
 
 import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
 
-import { Resources } from 'GameSessionContext';
+import GameSessionState, { Building, Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 
 export interface UpgradeContainerProps {
-  name: string;
+  name: Building;
   upgradeCost: Resources;
   availableResources: Resources;
   onLoading: (e: boolean) => {};
   loading: boolean;
 }
 
+const padTo2Digits = (num: number) => num.toString().padStart(2, '0');
+
+const msToUpgradeLabel = (milliseconds: number) => {
+  if (milliseconds <= 0) return 'Upgrade';
+
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+
+  seconds = seconds % 60;
+
+  return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
+};
+
 const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, loading }: UpgradeContainerProps) => {
-  const [upgradeDuration, setUpgradeDuration] = useState('Upgrade');
-  const [disable, setDisable] = useState(false);
+  const { gameState } = useContext(GameSessionState);
+
+  const upgradeDate = localStorage.getItem(`${name}_upgrade`);
+  const upgradeTime = upgradeDate ? new Date(upgradeDate as string).getTime() - new Date().getTime() : 0;
+  const upgradeLabel = msToUpgradeLabel(upgradeTime);
 
   const upgradeBuilding = async () => {
     onLoading(true);
@@ -30,6 +46,10 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
       });
       if (response.ok) {
         pushNotification('success', `Starting building ${name}`, 'Enjoy the game');
+
+        const requestTime = new Date();
+        requestTime.setMinutes(new Date().getMinutes() + gameState.buildings[name].upgradeDuration);
+        localStorage.setItem(`${name}_update`, requestTime.toString());
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {
@@ -80,8 +100,8 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
       </Col>
       {resourcesContainer}
       <Col span={2}>
-        <Button disabled={disable} loading={loading} onClick={upgradeBuilding}>
-          {upgradeDuration}
+        <Button disabled={upgradeTime > 0} loading={loading} onClick={upgradeBuilding}>
+          {upgradeLabel}
         </Button>
       </Col>
     </Row>

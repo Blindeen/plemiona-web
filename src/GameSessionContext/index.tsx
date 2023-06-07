@@ -15,6 +15,8 @@ export type playerType = {
   village: Village;
 };
 
+export type Building = 'warehouse' | 'sawmill' | 'ironMine' | 'clayPit' | 'townHall' | 'barracks';
+
 export interface BuildingType {
   name: string;
   level: number;
@@ -31,14 +33,7 @@ type gameSessionStateType = {
   resourcesIncome: Resources;
   resourcesCapacity: number;
 
-  buildings: {
-    warehouse: BuildingType;
-    sawmill: BuildingType;
-    ironMine: BuildingType;
-    clayPit: BuildingType;
-    townHall: BuildingType;
-    barracks: BuildingType;
-  };
+  buildings: Record<Building, BuildingType>
 };
 
 const initialResources: gameSessionStateType = {
