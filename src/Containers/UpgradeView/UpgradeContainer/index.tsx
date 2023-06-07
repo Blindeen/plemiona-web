@@ -47,7 +47,7 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
         pushNotification('success', `Starting building ${name}`, 'Enjoy the game');
 
         const requestTime = new Date();
-        requestTime.setMinutes(new Date().getMinutes() + gameState.buildings[name].upgradeDuration);
+        requestTime.setMinutes(new Date().getSeconds() + gameState.buildings[name].upgradeDuration);
         localStorage.setItem(`${name}_update`, requestTime.toString());
       } else {
         const { errors } = await response.json();
