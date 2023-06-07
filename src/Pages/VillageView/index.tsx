@@ -1,14 +1,16 @@
+import { useState } from 'react';
+
 import { Button, Col, Divider, Row } from 'antd';
+
+import { router } from 'router';
 
 import Village from 'Containers/Village';
 import ResourcesTable from 'Containers/ResourcesTable';
 import { Background, CenteredBox } from 'Components/CommonComponents';
 import UpgradeView from 'Containers/UpgradeView';
-import { useState } from 'react';
-import { router } from 'router';
 
 const VillageView = () => {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   return (
     <>
