@@ -14,6 +14,8 @@ export interface UpgradeContainerProps {
   loading: boolean;
 }
 
+const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+
 const padTo2Digits = (num: number) => num.toString().padStart(2, '0');
 
 const msToUpgradeLabel = (milliseconds: number) => {
@@ -36,7 +38,7 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
   const upgradeBuilding = async () => {
     onLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/v1/game/building/${name}/upgrade/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/game/building/${camelToSnakeCase(name)}/upgrade/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
