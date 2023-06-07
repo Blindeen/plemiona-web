@@ -16,11 +16,11 @@ export type playerType = {
   village: Village;
 };
 
-interface Building {
+export interface BuildingType {
   name: string;
-  lvl: number;
+  level: number;
   upgradeDuration: number;
-  maxLvl: number;
+  maxLevel: number;
   upgradeCost: Resources;
 }
 
@@ -33,12 +33,12 @@ type gameSessionStateType = {
   resourcesCapacity: number;
 
   buildings: {
-    warehouse: Building;
-    sawmill: Building;
-    ironMine: Building;
-    clayPit: Building;
-    townHall: Building;
-    barracks: Building;
+    warehouse: BuildingType;
+    sawmill: BuildingType;
+    ironMine: BuildingType;
+    clayPit: BuildingType;
+    townHall: BuildingType;
+    barracks: BuildingType;
   };
 };
 
@@ -51,12 +51,42 @@ const initialResources: gameSessionStateType = {
   resourcesCapacity: 0,
 
   buildings: {
-    warehouse: { name: 'warehouse', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    sawmill: { name: 'sawmill', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    ironMine: { name: 'iron_mine', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    clayPit: { name: 'clay_pit', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    townHall: { name: 'town_hall', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
-    barracks: { name: 'barracks', lvl: 0, maxLvl: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    warehouse: {
+      name: 'warehouse',
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
+    sawmill: { name: 'sawmill', level: 0, maxLevel: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    ironMine: {
+      name: 'iron_mine',
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
+    clayPit: {
+      name: 'clay_pit',
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
+    townHall: {
+      name: 'town_hall',
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
+    barracks: {
+      name: 'barracks',
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
   },
 };
 
@@ -104,7 +134,6 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
         },
       });
     }, 1000);
-
     return () => clearTimeout(resourceUpdater.current);
   }, [gameState]);
 
