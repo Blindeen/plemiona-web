@@ -61,6 +61,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
 
   const upgrades = upgradeContainers.map(({ name, availableResources, upgradeCost, onLoading, loading }, index) => (
     <>
+      <Divider />
       <UpgradeContainer
         key={index}
         name={name}
@@ -69,7 +70,6 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
         onLoading={onLoading}
         loading={loading}
       />
-      <Divider />
     </>
   ));
 
@@ -81,6 +81,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
       onCancel={() => setOpen(false)}
       width={650}
       keyboard={true}
+      footer={false}
     >
       <Row align={'middle'} gutter={[0, 0]} style={{ margin: 'auto' }}>
         <Col span={20}>{upgrades}</Col>
