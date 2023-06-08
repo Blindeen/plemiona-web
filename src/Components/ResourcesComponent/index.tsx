@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
 
-import { ResourcesImg } from './styles';
+import { ResourcesImg, ResourcesTag } from './styles';
 
 export interface ResourcesProps {
   name: string;
@@ -12,8 +12,8 @@ export interface ResourcesProps {
 
 const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own }: ResourcesProps) => {
   return (
-    <Row align={'middle'}>
-      <Col>
+    <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
+      <Col style={{ margin: 'auto' }}>
         <ResourcesImg
           style={{
             width: width,
@@ -22,8 +22,10 @@ const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own }: Re
           }}
         />
       </Col>
-      <Col>
-        {own}/{capacity}
+      <Col style={{ margin: 'auto' }}>
+        <ResourcesTag>
+          {Math.floor(own)} / {Math.floor(capacity)}
+        </ResourcesTag>
       </Col>
     </Row>
   );

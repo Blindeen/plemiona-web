@@ -1,16 +1,16 @@
 import { useContext } from 'react';
 
+import GameSessionState from 'GameSessionContext';
+
 import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
-import Resources from 'resourceContext';
 
 const Village = () => {
-  const { resources } = useContext(Resources);
-
+  const { gameState } = useContext(GameSessionState);
   const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',
-      lvl: resources.lumberjack,
+      lvl: gameState.buildings.sawmill.level,
       posX: 550,
       posY: 480,
       sizeX: 200,
@@ -20,7 +20,7 @@ const Village = () => {
     },
     {
       name: 'Spichlerz',
-      lvl: resources.warehouse,
+      lvl: gameState.buildings.warehouse.level,
       posX: 280,
       posY: 200,
       sizeX: 200,
@@ -28,7 +28,7 @@ const Village = () => {
     },
     {
       name: 'Koszary',
-      lvl: resources.barracks,
+      lvl: gameState.buildings.barracks.level,
       posX: 10,
       posY: 400,
       sizeX: 200,
@@ -36,7 +36,7 @@ const Village = () => {
     },
     {
       name: 'Cegielnia',
-      lvl: resources.clayPit,
+      lvl: gameState.buildings.clayPit.level,
       posX: 50,
       posY: 150,
       sizeX: 200,
@@ -44,7 +44,7 @@ const Village = () => {
     },
     {
       name: 'Kuznia',
-      lvl: resources.stonePit,
+      lvl: gameState.buildings.ironMine.level,
       posX: 280,
       posY: 20,
       sizeX: 180,
@@ -52,21 +52,11 @@ const Village = () => {
     },
     {
       name: 'Ratusz',
-      lvl: resources.townHall,
+      lvl: gameState.buildings.townHall.level,
       posX: 500,
       posY: 50,
       sizeX: 250,
       sizeY: 250,
-      posLvlX: 30,
-      posLvlY: 40,
-    },
-    {
-      name: 'Wall',
-      lvl: 1,
-      posX: 300,
-      posY: 400,
-      sizeX: 200,
-      sizeY: 200,
       posLvlX: 30,
       posLvlY: 40,
     },
@@ -81,12 +71,16 @@ const Village = () => {
       posY={posY}
       sizeX={sizeX}
       sizeY={sizeY}
-      posLvlX={posLvlX}
-      posLvlY={posLvlY}
+      posLvlX={posLvlX as number}
+      posLvlY={posLvlY as number}
     />
   ));
 
-  return <Container>{buildings}</Container>;
+  return (
+    <>
+      <Container>{buildings}</Container>
+    </>
+  );
 };
 
 export default Village;

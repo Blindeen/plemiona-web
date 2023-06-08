@@ -4,6 +4,6 @@ body {
     overflow-x: hidden;
 }
 
-a, a svg, button:hover {
+a, a svg, button {
     cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
 }

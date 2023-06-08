@@ -7,10 +7,5 @@ export const ResourcesView = styled('div')`
   box-shadow: ${palette.black} 0 0 5px 5px;
   min-width: 760px;
   border-radius: 12px;
-`;
-
-export const Clay = styled('div')`
-  width: 64px;
-  height: 64px;
-  background-image: url('/Assets/ResourcesIcons/clay.png');
+  user-select: none;
 `;
