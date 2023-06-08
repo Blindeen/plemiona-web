@@ -1,20 +1,24 @@
-import { useContext } from 'react';
-import { Button, Col, Row } from 'antd';
+import { Fragment, useContext } from 'react';
+import { Col, Row } from 'antd';
 
 import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
 
-import GameSessionState, { Building, Resources } from 'GameSessionContext';
+import GameSessionState, { Building, BuildingType, Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
+import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
 
 export interface UpgradeContainerProps {
   name: Building;
-  upgradeCost: Resources;
+  buildingContext: BuildingType;
   availableResources: Resources;
   onLoading: (e: boolean) => {};
   loading: boolean;
 }
 
-const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+const nameToDisplayName = (str: string) =>
+  (str.charAt(0).toUpperCase() + str.slice(1)).replace(/([a-z])([A-Z])/g, '$1 $2');
 
 const padTo2Digits = (num: number) => num.toString().padStart(2, '0');
 
@@ -29,8 +33,18 @@ const msToUpgradeLabel = (milliseconds: number) => {
   return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
 };
 
-const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, loading }: UpgradeContainerProps) => {
+const upgradeDurationSecondsLabel = (seconds: number) => {
+  let minutes = Math.floor(seconds / 60);
+
+  seconds = seconds % 60;
+
+  return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
+};
+
+const UpgradeContainer = ({ name, buildingContext, availableResources, onLoading, loading }: UpgradeContainerProps) => {
   const { gameState } = useContext(GameSessionState);
+
+  const displayName = nameToDisplayName(name);
 
   const upgradeDate = localStorage.getItem(`${name}_upgrade`);
   const upgradeTime = upgradeDate ? new Date(upgradeDate as string).getTime() - new Date().getTime() : 0;
@@ -46,7 +60,7 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
         },
       });
       if (response.ok) {
-        pushNotification('success', `Starting building ${name}`, 'Enjoy the game');
+        pushNotification('success', `Starting building : ${displayName}`);
 
         const requestTime = new Date();
         requestTime.setSeconds(new Date().getSeconds() + gameState.buildings[name].upgradeDuration);
@@ -69,27 +83,27 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
       name: 'wood',
       width: 48,
       height: 48,
-      capacity: upgradeCost.wood,
+      capacity: buildingContext.upgradeCost.wood,
       own: availableResources.wood,
     },
     {
       name: 'clay',
       width: 48,
       height: 48,
-      capacity: upgradeCost.clay,
+      capacity: buildingContext.upgradeCost.clay,
       own: availableResources.clay,
     },
     {
       name: 'iron',
       width: 48,
       height: 48,
-      capacity: upgradeCost.iron,
+      capacity: buildingContext.upgradeCost.iron,
       own: availableResources.iron,
     },
   ];
 
   const resourcesContainer = resourcesForUpgrade.map(({ name, width, height, own, capacity }, idx) => (
-    <Col key={idx} span={6}>
+    <Col key={idx} span={5}>
       <ResourcesComponent name={name} width={width as number} height={height as number} own={own} capacity={capacity} />
     </Col>
   ));
@@ -97,14 +111,37 @@ const UpgradeContainer = ({ name, upgradeCost, availableResources, onLoading, lo
   return (
     <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
       <Col span={4}>
-        <div style={{ width: 'fit-content' }}>{name}</div>
+        <NameTag>{displayName}</NameTag>
+        <NameTag>Level: {buildingContext.level}</NameTag>
       </Col>
-      {resourcesContainer}
-      <Col span={2}>
-        <Button disabled={upgradeTime > 0} loading={loading} onClick={upgradeBuilding}>
-          {msToUpgradeLabel(upgradeTime)}
-        </Button>
-      </Col>
+      {buildingContext.level != buildingContext.maxLevel ? (
+        <Fragment>
+          {resourcesContainer}
+          <Col span={3}>
+            <TimeTag>{upgradeDurationSecondsLabel(buildingContext.upgradeDuration)}</TimeTag>
+          </Col>
+          <Col span={2}>
+            <UpgradeButton
+              disabled={
+                buildingContext.upgradeCost.iron > availableResources.iron ||
+                buildingContext.upgradeCost.wood > availableResources.wood ||
+                buildingContext.upgradeCost.clay > availableResources.clay ||
+                upgradeTime > 0
+              }
+              loading={loading}
+              onClick={upgradeBuilding}
+            >
+              {msToUpgradeLabel(upgradeTime)}
+            </UpgradeButton>
+          </Col>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Col span={20}>
+            <MaxLvlTag>Max level reached</MaxLvlTag>
+          </Col>
+        </Fragment>
+      )}
     </Row>
   );
 };
