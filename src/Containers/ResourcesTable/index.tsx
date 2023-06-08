@@ -11,12 +11,16 @@ const ResourcesTable = () => {
 
   return (
     <ResourcesView>
-      <Row gutter={[120, 0]} justify={'center'} style={{ marginRight: '10' }}>
-        {Object.keys(gameState.resources).map((resource, idx) =>
+      <Row gutter={[120, 0]} justify={'center'} align={'middle'} style={{ marginRight: '10' }}>
+        {Object.keys(gameState.resources).map((resource, idx) => (
           <Col key={idx}>
-            <ResourcesComponent name={resource} capacity={gameState.resourcesCapacity}
-                                own={gameState.resources[resource as Resource]} />
-          </Col>)}
+            <ResourcesComponent
+              name={resource}
+              capacity={gameState.resourcesCapacity}
+              own={gameState.resources[resource as Resource]}
+            />
+          </Col>
+        ))}
       </Row>
     </ResourcesView>
   );
