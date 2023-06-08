@@ -114,7 +114,7 @@ const UpgradeContainer = ({ name, buildingContext, availableResources, onLoading
         <NameTag>{displayName}</NameTag>
         <NameTag>Level: {buildingContext.level}</NameTag>
       </Col>
-      {buildingContext.level != buildingContext.maxLevel ? (
+      {buildingContext.level !== buildingContext.maxLevel ? (
         <Fragment>
           {resourcesContainer}
           <Col span={3}>
