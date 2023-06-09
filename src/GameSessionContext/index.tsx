@@ -15,19 +15,17 @@ export type playerType = {
   village: Village;
 };
 
-export type Building = 'warehouse' | 'sawmill' | 'ironMine' | 'clayPit' | 'townHall' | 'barracks';
-export type Unit = 'spearman' | 'archer' | 'axeman' | 'swordsman';
+export type BuildingType = 'warehouse' | 'sawmill' | 'ironMine' | 'clayPit' | 'townHall' | 'barracks';
+export type UnitType = 'spearman' | 'archer' | 'axeman' | 'swordsman';
 
-export interface BuildingType {
-  name: string;
+export interface BuildingInterface {
   level: number;
   upgradeDuration: number;
   maxLevel: number;
   upgradeCost: Resources;
 }
 
-interface UnitType {
-  name: string;
+export interface UnitInterface {
   count: number;
   speed: number;
   trainingCost: Resources;
@@ -45,8 +43,8 @@ type gameSessionStateType = {
   resourcesIncome: Resources;
   resourcesCapacity: number;
 
-  buildings: Record<Building, BuildingType>;
-  units: Record<Unit, UnitType>;
+  buildings: Record<BuildingType, BuildingInterface>;
+  units: Record<UnitType, UnitInterface>;
 };
 
 const initialResources: gameSessionStateType = {
@@ -59,36 +57,36 @@ const initialResources: gameSessionStateType = {
 
   buildings: {
     warehouse: {
-      name: 'warehouse',
       level: 0,
       maxLevel: 0,
       upgradeCost: { wood: 0, iron: 0, clay: 0 },
       upgradeDuration: 0,
     },
-    sawmill: { name: 'sawmill', level: 0, maxLevel: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    sawmill: {
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
     ironMine: {
-      name: 'iron_mine',
       level: 0,
       maxLevel: 0,
       upgradeCost: { wood: 0, iron: 0, clay: 0 },
       upgradeDuration: 0,
     },
     clayPit: {
-      name: 'clay_pit',
       level: 0,
       maxLevel: 0,
       upgradeCost: { wood: 0, iron: 0, clay: 0 },
       upgradeDuration: 0,
     },
     townHall: {
-      name: 'town_hall',
       level: 0,
       maxLevel: 0,
       upgradeCost: { wood: 0, iron: 0, clay: 0 },
       upgradeDuration: 0,
     },
     barracks: {
-      name: 'barracks',
       level: 0,
       maxLevel: 0,
       upgradeCost: { wood: 0, iron: 0, clay: 0 },
@@ -97,7 +95,6 @@ const initialResources: gameSessionStateType = {
   },
   units: {
     archer: {
-      name: 'archer',
       count: 0,
       speed: 0,
       trainingCost: { wood: 0, iron: 0, clay: 0 },
@@ -107,7 +104,6 @@ const initialResources: gameSessionStateType = {
       defensiveStrength: 0,
     },
     spearman: {
-      name: 'spearman',
       count: 0,
       speed: 0,
       trainingCost: { wood: 0, iron: 0, clay: 0 },
@@ -117,7 +113,6 @@ const initialResources: gameSessionStateType = {
       defensiveStrength: 0,
     },
     swordsman: {
-      name: 'swordsman',
       count: 0,
       speed: 0,
       trainingCost: { wood: 0, iron: 0, clay: 0 },
@@ -127,7 +122,6 @@ const initialResources: gameSessionStateType = {
       defensiveStrength: 0,
     },
     axeman: {
-      name: 'axeman',
       count: 0,
       speed: 0,
       trainingCost: { wood: 0, iron: 0, clay: 0 },
