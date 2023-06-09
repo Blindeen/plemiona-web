@@ -16,6 +16,7 @@ export type playerType = {
 };
 
 export type Building = 'warehouse' | 'sawmill' | 'ironMine' | 'clayPit' | 'townHall' | 'barracks';
+export type Unit = 'spearman' | 'archer' | 'axeman' | 'swordsman';
 
 export interface BuildingType {
   name: string;
@@ -23,6 +24,17 @@ export interface BuildingType {
   upgradeDuration: number;
   maxLevel: number;
   upgradeCost: Resources;
+}
+
+interface UnitType {
+  name: string;
+  count: number;
+  speed: number;
+  trainingCost: Resources;
+  trainingDuration: number;
+  carryingCapacity: number;
+  offensiveStrength: number;
+  defensiveStrength: number;
 }
 
 type gameSessionStateType = {
@@ -33,7 +45,8 @@ type gameSessionStateType = {
   resourcesIncome: Resources;
   resourcesCapacity: number;
 
-  buildings: Record<Building, BuildingType>
+  buildings: Record<Building, BuildingType>;
+  units: Record<Unit, UnitType>;
 };
 
 const initialResources: gameSessionStateType = {
@@ -82,6 +95,48 @@ const initialResources: gameSessionStateType = {
       upgradeDuration: 0,
     },
   },
+  units: {
+    archer: {
+      name: 'archer',
+      count: 0,
+      speed: 0,
+      trainingCost: { wood: 0, iron: 0, clay: 0 },
+      trainingDuration: 0,
+      carryingCapacity: 0,
+      offensiveStrength: 0,
+      defensiveStrength: 0,
+    },
+    spearman: {
+      name: 'spearman',
+      count: 0,
+      speed: 0,
+      trainingCost: { wood: 0, iron: 0, clay: 0 },
+      trainingDuration: 0,
+      carryingCapacity: 0,
+      offensiveStrength: 0,
+      defensiveStrength: 0,
+    },
+    swordsman: {
+      name: 'swordsman',
+      count: 0,
+      speed: 0,
+      trainingCost: { wood: 0, iron: 0, clay: 0 },
+      trainingDuration: 0,
+      carryingCapacity: 0,
+      offensiveStrength: 0,
+      defensiveStrength: 0,
+    },
+    axeman: {
+      name: 'axeman',
+      count: 0,
+      speed: 0,
+      trainingCost: { wood: 0, iron: 0, clay: 0 },
+      trainingDuration: 0,
+      carryingCapacity: 0,
+      offensiveStrength: 0,
+      defensiveStrength: 0,
+    },
+  },
 };
 
 type GameSessionContextType = {
@@ -91,8 +146,7 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {
-  },
+  setGameState: () => {},
 });
 export default GameSessionState;
 
@@ -110,7 +164,6 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState((prevState) => ({ ...prevState, ...updated }));
     };
-
     return () => socket.close();
   }, []);
 
@@ -118,14 +171,13 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     resourceUpdater.current = setTimeout(() => {
       setGameState((prevState) => ({
         ...prevState,
-        resources:
-          Object.fromEntries(
-            Object.entries(prevState.resources).map(([key, quantity]) =>
-              quantity < prevState.resourcesCapacity
-                ? [key, quantity + prevState.resourcesIncome[key as Resource]]
-                : [key, quantity],
-            ),
-          ) as Resources,
+        resources: Object.fromEntries(
+          Object.entries(prevState.resources).map(([key, quantity]) =>
+            quantity < prevState.resourcesCapacity
+              ? [key, quantity + prevState.resourcesIncome[key as Resource]]
+              : [key, quantity]
+          )
+        ) as Resources,
       }));
     }, 1000);
     return () => clearTimeout(resourceUpdater.current);
