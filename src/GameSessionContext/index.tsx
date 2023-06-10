@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import merge from 'lodash.merge';
+
 export type Resource = 'wood' | 'clay' | 'iron';
 export type Resources = Record<Resource, number>;
 
@@ -156,7 +158,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
       const { data } = JSON.parse(event.data);
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
-      setGameState((prevState) => ({ ...prevState, ...updated }));
+      setGameState((prevState) => merge({}, prevState, updated));
     };
     return () => socket.close();
   }, []);
