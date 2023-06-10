@@ -1,18 +1,16 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { Col, Row } from 'antd';
 
 import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
 
-import GameSessionState, { Building, BuildingType, Resources } from 'GameSessionContext';
+import GameSessionState, { BuildingInterface, BuildingType, Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
 
 export interface UpgradeContainerProps {
-  name: Building;
-  buildingContext: BuildingType;
+  name: BuildingType;
+  buildingContext: BuildingInterface;
   availableResources: Resources;
-  onLoading: (e: boolean) => {};
-  loading: boolean;
 }
 
 const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
@@ -41,8 +39,9 @@ const upgradeDurationSecondsLabel = (seconds: number) => {
   return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
 };
 
-const UpgradeContainer = ({ name, buildingContext, availableResources, onLoading, loading }: UpgradeContainerProps) => {
+const UpgradeContainer = ({ name, buildingContext, availableResources }: UpgradeContainerProps) => {
   const { gameState } = useContext(GameSessionState);
+  const [loading, onLoading] = useState(false);
 
   const displayName = nameToDisplayName(name);
 

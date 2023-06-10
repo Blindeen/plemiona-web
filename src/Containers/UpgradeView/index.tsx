@@ -1,36 +1,23 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext } from 'react';
 
 import { Col, Divider, Row } from 'antd';
 
 import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
 import UpgradeContainer from 'Containers/UpgradeView/UpgradeContainer';
-import GameSessionState, { Building } from 'GameSessionContext';
+import GameSessionState, { BuildingType } from 'GameSessionContext';
 
 const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const { gameState } = useContext(GameSessionState);
-  const [loading, setLoading] = useState(false);
-
-  const onLoadingChange = (input: boolean) => {
-    setLoading(input);
-  };
 
   const upgradeContainers = Array.from(Object.keys(gameState.buildings), (name) => ({
-    name: name as Building,
+    name: name as BuildingType,
     availableResources: gameState.resources,
-    buildingContext: gameState.buildings[name as Building],
-    onLoading: () => onLoadingChange,
-    loading: loading,
+    buildingContext: gameState.buildings[name as BuildingType],
   }));
 
-  const upgrades = upgradeContainers.map(({ name, availableResources, buildingContext, onLoading, loading }, idx) => (
+  const upgrades = upgradeContainers.map(({ name, availableResources, buildingContext }, idx) => (
     <Fragment key={idx}>
-      <UpgradeContainer
-        name={name}
-        availableResources={availableResources}
-        buildingContext={buildingContext}
-        onLoading={onLoading}
-        loading={loading}
-      />
+      <UpgradeContainer name={name} availableResources={availableResources} buildingContext={buildingContext} />
       <Divider />
     </Fragment>
   ));
