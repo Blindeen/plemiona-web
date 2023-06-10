@@ -1,12 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import GameSessionState from 'GameSessionContext';
 
 import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
+import RecruitmentView from 'Containers/RecruitmentView';
+import UpgradeView from 'Containers/UpgradeView';
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
+  const [building, setBuilding] = useState(false);
+  const [recruit, setRecruit] = useState(false);
+
   const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',
@@ -33,6 +38,7 @@ const Village = () => {
       posY: 400,
       sizeX: 200,
       sizeY: 200,
+      onClick: () => setRecruit(true),
     },
     {
       name: 'Cegielnia',
@@ -59,10 +65,10 @@ const Village = () => {
       sizeY: 250,
       posLvlX: 30,
       posLvlY: 40,
+      onClick: () => setBuilding(true),
     },
   ];
-
-  const buildings = buildingsData.map(({ name, lvl, posX, posY, sizeY, sizeX, posLvlX, posLvlY }, index) => (
+  const buildings = buildingsData.map(({ name, lvl, posX, posY, sizeY, sizeX, posLvlX, posLvlY, onClick }, index) => (
     <Building
       key={index}
       name={name}
@@ -73,11 +79,14 @@ const Village = () => {
       sizeY={sizeY}
       posLvlX={posLvlX as number}
       posLvlY={posLvlY as number}
+      onClick={onClick}
     />
   ));
 
   return (
     <>
+      {recruit && <RecruitmentView open={recruit} setOpen={setRecruit} />}
+      {building && <UpgradeView open={building} setOpen={setBuilding} />}
       <Container>{buildings}</Container>
     </>
   );
