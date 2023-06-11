@@ -4,6 +4,7 @@ import { playerType } from 'GameSessionContext';
 import {
   direction,
   DIRECTIONS,
+  Frame,
   FRAME_SQUARES_X,
   FRAME_SQUARES_Y,
   MAP_SQUARES_X,
@@ -104,21 +105,24 @@ const WorldMap = () => {
   ));
 
   return (
-    <MapFrame>
-      <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
-      {squares}
-      {Object.values(DIRECTIONS).map(
-        (direction, idx) =>
-          !isBoundary(direction) && (
-            <NavArrow
-              key={idx}
-              direction={direction}
-              onClick={() => moveMap(direction)}
-              src="/Assets/Buttons/map_arrow_button.png"
-            />
-          )
-      )}
-    </MapFrame>
+    <>
+      <Frame />
+      <MapFrame>
+        <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
+        {squares}
+        {Object.values(DIRECTIONS).map(
+          (direction, idx) =>
+            !isBoundary(direction) && (
+              <NavArrow
+                key={idx}
+                direction={direction}
+                onClick={() => moveMap(direction)}
+                src="/Assets/Buttons/map_arrow_button.png"
+              />
+            )
+        )}
+      </MapFrame>
+    </>
   );
 };
 

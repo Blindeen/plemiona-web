@@ -14,6 +14,15 @@ const MAP_IMAGE_HEIGHT = 1856;
 const FRAME_WIDTH = (MAP_IMAGE_WIDTH / MAP_SQUARES_X) * FRAME_SQUARES_X;
 const FRAME_HEIGHT = (MAP_IMAGE_HEIGHT / MAP_SQUARES_Y) * FRAME_SQUARES_Y;
 
+export const Frame = styled('div')`
+  position: absolute;
+  z-index: 5;
+  border: 200px solid transparent;
+  border-image: url('/Arts/MapFrame.png') 30 fill / 10px / 10px stretch;
+  width: ${FRAME_WIDTH}px;
+  height: ${FRAME_HEIGHT}px;
+`;
+
 export const MapFrame = styled('div')`
   display: flex;
   flex-direction: row;
@@ -68,7 +77,7 @@ const handleDirection = (direction: direction) => {
 
 export const NavArrow = styled('img')<NavArrowProps>`
   position: absolute;
-  z-index: 3;
+  z-index: 6;
   left: ${({ direction }) => handleDirection(direction).left}px;
   top: ${({ direction }) => handleDirection(direction).top}px;
   transform: rotate(${({ direction }) => handleDirection(direction).rotation}deg);
