@@ -11,4 +11,4 @@ export const StyledTable = styled(Table)`
   .ant-table-tbody > tr > td {
     background-color: ${palette.dadsRayOfSunshine};
   }
-`;
+` as typeof Table;

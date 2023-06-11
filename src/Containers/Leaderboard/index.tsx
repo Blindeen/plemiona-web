@@ -1,6 +1,6 @@
-import { StyledTable } from 'Containers/Leaderboard/styles';
+import { ColumnsType } from 'antd/es/table';
 
-import GameSessionState from 'GameSessionContext';
+import { StyledTable } from 'Containers/Leaderboard/styles';
 
 interface PlayerRecord {
   id: number;
@@ -9,7 +9,7 @@ interface PlayerRecord {
 }
 
 const Leaderboard = () => {
-  const columns = [
+  const columns: ColumnsType<PlayerRecord> = [
     {
       title: 'Id',
       dataIndex: 'id',
@@ -45,7 +45,7 @@ const Leaderboard = () => {
     },
   ];
 
-  return <StyledTable columns={columns} dataSource={data} pagination={false} />;
+  return <StyledTable columns={columns} dataSource={data} rowKey={(record) => record.id} pagination={false} />;
 };
 
 export default Leaderboard;
