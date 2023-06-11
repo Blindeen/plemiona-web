@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Col, Row, Tooltip } from 'antd';
 import { CrownOutlined } from '@ant-design/icons';
 
@@ -12,11 +12,17 @@ import { router } from 'router';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('gameCode') as string;
-  const selfID = Number(localStorage.getItem('playerId') as string);
+  const selfID = Number(localStorage.getItem('playerId'));
 
   const { gameState } = useContext(GameSessionState);
   const { players, owner } = gameState;
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (gameState.hasGameStarted) {
+      router.navigate('village');
+    }
+  }, [gameState.hasGameStarted]);
 
   const writeToClipboard = async () => {
     try {
@@ -39,7 +45,6 @@ const Lobby = () => {
       });
       if (response.ok) {
         pushNotification('success', 'Starting game', 'Enjoy the game');
-        router.navigate('village');
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {

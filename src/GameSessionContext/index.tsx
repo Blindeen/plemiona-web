@@ -26,6 +26,8 @@ export interface BuildingType {
 }
 
 type gameSessionStateType = {
+  hasGameStarted: boolean;
+
   owner: playerType;
   players: playerType[];
 
@@ -33,10 +35,12 @@ type gameSessionStateType = {
   resourcesIncome: Resources;
   resourcesCapacity: number;
 
-  buildings: Record<Building, BuildingType>
+  buildings: Record<Building, BuildingType>;
 };
 
 const initialResources: gameSessionStateType = {
+  hasGameStarted: false,
+
   owner: { id: 0, nickname: '', morale: 100, village: { x: 0, y: 0 } },
   players: [] as playerType[],
 
@@ -91,8 +95,7 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {
-  },
+  setGameState: () => {},
 });
 export default GameSessionState;
 
@@ -105,7 +108,16 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
-      const { data } = JSON.parse(event.data);
+      const { type, data } = JSON.parse(event.data);
+
+      // When game session starts `start_game_session` is received
+      // or `fetch_game_session_state` on reconnect to fetch current game state
+      if (type === 'start_game_session' || type === 'fetch_game_session_state') {
+        setGameState((prevState) => ({
+          ...prevState,
+          hasGameStarted: true,
+        }));
+      }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState((prevState) => ({ ...prevState, ...updated }));
@@ -118,14 +130,13 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     resourceUpdater.current = setTimeout(() => {
       setGameState((prevState) => ({
         ...prevState,
-        resources:
-          Object.fromEntries(
-            Object.entries(prevState.resources).map(([key, quantity]) =>
-              quantity < prevState.resourcesCapacity
-                ? [key, quantity + prevState.resourcesIncome[key as Resource]]
-                : [key, quantity],
-            ),
-          ) as Resources,
+        resources: Object.fromEntries(
+          Object.entries(prevState.resources).map(([key, quantity]) =>
+            quantity < prevState.resourcesCapacity
+              ? [key, quantity + prevState.resourcesIncome[key as Resource]]
+              : [key, quantity]
+          )
+        ) as Resources,
       }));
     }, 1000);
     return () => clearTimeout(resourceUpdater.current);
