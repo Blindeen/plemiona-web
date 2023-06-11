@@ -7,9 +7,9 @@ import {
   Frame,
   FRAME_SQUARES_X,
   FRAME_SQUARES_Y,
+  Map,
   MAP_SQUARES_X,
   MAP_SQUARES_Y,
-  MapFrame,
   MapImage,
   MapSquare,
   NavArrow,
@@ -105,9 +105,8 @@ const WorldMap = () => {
   ));
 
   return (
-    <>
-      <Frame />
-      <MapFrame>
+    <Frame>
+      <Map>
         <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
@@ -121,8 +120,8 @@ const WorldMap = () => {
               />
             )
         )}
-      </MapFrame>
-    </>
+      </Map>
+    </Frame>
   );
 };
 
