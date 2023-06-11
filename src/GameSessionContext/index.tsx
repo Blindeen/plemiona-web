@@ -15,6 +15,12 @@ export type playerType = {
   village: Village;
 };
 
+export type leaderboardRecord = {
+  id: number;
+  nickname: string;
+  points: number;
+};
+
 export type Building = 'warehouse' | 'sawmill' | 'ironMine' | 'clayPit' | 'townHall' | 'barracks';
 
 export interface BuildingType {
@@ -28,6 +34,7 @@ export interface BuildingType {
 type gameSessionStateType = {
   owner: playerType;
   players: playerType[];
+  leaderboard: leaderboardRecord[];
 
   resources: Resources;
   resourcesIncome: Resources;
@@ -39,6 +46,7 @@ type gameSessionStateType = {
 const initialResources: gameSessionStateType = {
   owner: { id: 0, nickname: '', morale: 100, village: { x: 0, y: 0 } },
   players: [] as playerType[],
+  leaderboard: [] as leaderboardRecord[],
 
   resources: { wood: 0, iron: 0, clay: 0 },
   resourcesIncome: { wood: 1, iron: 1, clay: 1 },
