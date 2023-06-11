@@ -15,12 +15,13 @@ const FRAME_WIDTH = (MAP_IMAGE_WIDTH / MAP_SQUARES_X) * FRAME_SQUARES_X;
 const FRAME_HEIGHT = (MAP_IMAGE_HEIGHT / MAP_SQUARES_Y) * FRAME_SQUARES_Y;
 
 export const Frame = styled('div')`
+  pointer-events: none;
   position: absolute;
   z-index: 5;
   border: 200px solid transparent;
   border-image: url('/Arts/MapFrame.png') 30 fill / 10px / 10px stretch;
-  width: ${FRAME_WIDTH}px;
-  height: ${FRAME_HEIGHT}px;
+  width: ${FRAME_WIDTH - 50}px;
+  height: ${FRAME_HEIGHT - 200}px;
 `;
 
 export const MapFrame = styled('div')`
