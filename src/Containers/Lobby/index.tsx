@@ -2,17 +2,17 @@ import { useContext, useEffect, useState } from 'react';
 import { Col, Row, Tooltip } from 'antd';
 import { CrownOutlined } from '@ant-design/icons';
 
-import Button from 'Components/Button';
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
+import Button from 'Components/Button';
 
+import { PlayerEntry, PlayerList, StartButton } from './styles';
 import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
-import { PlayerEntry, PlayerList, StartButton } from './styles';
 import { router } from 'router';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('gameCode') as string;
-  const selfID = Number(localStorage.getItem('playerId'));
+  const selfID = Number(localStorage.getItem('playerId') as string);
 
   const { gameState } = useContext(GameSessionState);
   const { players, owner } = gameState;
