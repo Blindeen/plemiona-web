@@ -6,6 +6,8 @@ import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
 import RecruitmentView from 'Containers/RecruitmentView';
 import UpgradeView from 'Containers/UpgradeView';
+import { StyledBuilding } from 'Components/Building/styles';
+import { router } from 'router';
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
@@ -87,7 +89,13 @@ const Village = () => {
     <>
       {recruit && <RecruitmentView open={recruit} setOpen={setRecruit} />}
       {building && <UpgradeView open={building} setOpen={setBuilding} />}
-      <Container>{buildings}</Container>
+      <Container>
+        {buildings}
+        <StyledBuilding
+          onClick={() => router.navigate('world')}
+          style={{ width: 200, height: 200, top: 450, left: 300 }}
+        />
+      </Container>
     </>
   );
 };
