@@ -1,42 +1,114 @@
-import { Col, Divider, Input, Row } from 'antd';
-import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
 import { useContext, useState } from 'react';
+
+import { Col, Divider, Row } from 'antd';
+
+import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
+
 import GameSessionState from 'GameSessionContext';
-import { NameTag } from 'Containers/UpgradeView/UpgradeContainer/styles';
+import { TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
 import ResourcesComponent from 'Components/ResourcesComponent';
-import Button from 'Components/Button';
+import pushNotification from 'pushNotification';
+import { upgradeDurationSecondsLabel } from 'utils';
+import RecruitmentContainer, { RecruitmentContainerProps } from 'Containers/RecruitmentView/RecruitmentContainer';
 
 const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const { gameState } = useContext(GameSessionState);
 
-  const [inputArcher, setInputArcher] = useState('0');
-  const [inputSwordsman, setInputSwordsman] = useState('0');
-  const [inputAxeman, setInputAxeman] = useState('0');
-  const [inputSpearman, setInputSpearman] = useState('0');
+  const [loading, onLoading] = useState(false);
 
-  var allUpgradeCostWood =
-    +inputArcher * gameState.units.archer.trainingCost.wood +
-    +inputSwordsman * gameState.units.swordsman.trainingCost.wood +
-    +inputSpearman * gameState.units.spearman.trainingCost.wood +
-    +inputAxeman * gameState.units.axeman.trainingCost.wood;
+  const [inputArcher, setInputArcher] = useState(0);
+  const [inputSwordsman, setInputSwordsman] = useState(0);
+  const [inputAxeman, setInputAxeman] = useState(0);
+  const [inputSpearman, setInputSpearman] = useState(0);
 
-  var allUpgradeCostClay =
-    +inputArcher * gameState.units.archer.trainingCost.clay +
-    +inputSwordsman * gameState.units.swordsman.trainingCost.clay +
-    +inputSpearman * gameState.units.spearman.trainingCost.clay +
-    +inputAxeman * gameState.units.axeman.trainingCost.clay;
+  const allRecruitCostWood =
+    inputArcher * gameState.units.archer.trainingCost.wood +
+    inputSwordsman * gameState.units.swordsman.trainingCost.wood +
+    inputSpearman * gameState.units.spearman.trainingCost.wood +
+    inputAxeman * gameState.units.axeman.trainingCost.wood;
 
-  var allUpgradeCostIron =
-    +inputArcher * gameState.units.archer.trainingCost.iron +
-    +inputSwordsman * gameState.units.swordsman.trainingCost.iron +
-    +inputSpearman * gameState.units.spearman.trainingCost.iron +
-    +inputAxeman * gameState.units.axeman.trainingCost.iron;
+  const allRecruitCostClay =
+    inputArcher * gameState.units.archer.trainingCost.clay +
+    inputSwordsman * gameState.units.swordsman.trainingCost.clay +
+    inputSpearman * gameState.units.spearman.trainingCost.clay +
+    inputAxeman * gameState.units.axeman.trainingCost.clay;
 
-  var allUpgradeTime =
-    +inputArcher * gameState.units.archer.trainingDuration +
-    +inputSwordsman * gameState.units.swordsman.trainingDuration +
-    +inputSpearman * gameState.units.spearman.trainingDuration +
-    +inputAxeman * gameState.units.axeman.trainingDuration;
+  const allRecruitCostIron =
+    inputArcher * gameState.units.archer.trainingCost.iron +
+    inputSwordsman * gameState.units.swordsman.trainingCost.iron +
+    inputSpearman * gameState.units.spearman.trainingCost.iron +
+    inputAxeman * gameState.units.axeman.trainingCost.iron;
+
+  const allRecruitTime =
+    inputArcher * gameState.units.archer.trainingDuration +
+    inputSwordsman * gameState.units.swordsman.trainingDuration +
+    inputSpearman * gameState.units.spearman.trainingDuration +
+    inputAxeman * gameState.units.axeman.trainingDuration;
+
+  const unitData: RecruitmentContainerProps[] = [
+    {
+      name: 'archer',
+      unit: gameState.units.archer,
+      input: inputArcher,
+      setInput: setInputArcher,
+    },
+    {
+      name: 'swordsman',
+      unit: gameState.units.swordsman,
+      input: inputSwordsman,
+      setInput: setInputSwordsman,
+    },
+    {
+      name: 'axeman',
+      unit: gameState.units.axeman,
+      input: inputAxeman,
+      setInput: setInputAxeman,
+    },
+    {
+      name: 'spearman',
+      unit: gameState.units.spearman,
+      input: inputSpearman,
+      setInput: setInputSpearman,
+    },
+  ];
+
+  const units = unitData.map(({ name, unit, input, setInput }, key) => (
+    <RecruitmentContainer key={key} name={name} unit={unit} input={input} setInput={setInput} />
+  ));
+
+  const recruitUnits = async () => {
+    onLoading(true);
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/game/train_units/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('token') as string,
+        },
+        body: JSON.stringify({
+          units: [
+            { name: 'archer', count: inputArcher },
+            { name: 'axeman', count: inputAxeman },
+            { name: 'spearman', count: inputSpearman },
+            { name: 'swordsman', count: inputSwordsman },
+          ],
+        }),
+      });
+      if (response.ok) {
+        pushNotification('success', `Starting recruiting`);
+      } else {
+        const { errors } = await response.json();
+        console.log(errors);
+        Object.entries(errors).forEach(([key, value]) => {
+          pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
+        });
+      }
+    } catch (error) {
+      pushNotification('error', 'Server down', 'Please check your connection');
+    } finally {
+      onLoading(false);
+    }
+  };
 
   return (
     <TownHallWindow
@@ -54,141 +126,62 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
             <Col span={4}>
               <ResourcesNameTag>Unit</ResourcesNameTag>
             </Col>
-            <Col span={15}>
+            <Col span={12}>
               <ResourcesNameTag>Resources Cost</ResourcesNameTag>
             </Col>
-            <Col span={3}>
+            <Col span={5}>
               <ResourcesNameTag>Time</ResourcesNameTag>
             </Col>
-            <Col span={2}></Col>
+            <Col span={2}>
+              <ResourcesNameTag>Input</ResourcesNameTag>
+            </Col>
+            <Col span={1} />
           </Row>
           <p />
-          <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
-            <Col span={4}>
-              <NameTag>Swordsman</NameTag>
-              <NameTag>Count : {gameState.units.archer.count}</NameTag>
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'wood'} own={gameState.units.swordsman.trainingCost.wood} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'clay'} own={gameState.units.swordsman.trainingCost.clay} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'iron'} own={gameState.units.swordsman.trainingCost.iron} />
-            </Col>
-            <Col span={3}></Col>
-            <Col span={2}>
-              <Input maxLength={2} type="number" onChange={(e) => setInputSwordsman(e.target.value)}></Input>
-            </Col>
-            <Col span={3}></Col>
-          </Row>
-          <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
-            <Col span={4}>
-              <NameTag>Spearman</NameTag>
-              <NameTag>Count : {gameState.units.spearman.count}</NameTag>
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'wood'} own={gameState.units.spearman.trainingCost.wood} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'clay'} own={gameState.units.spearman.trainingCost.clay} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'iron'} own={gameState.units.spearman.trainingCost.iron} />
-            </Col>
-            <Col span={3}></Col>
-            <Col span={2}>
-              <Input maxLength={2} onChange={(e) => setInputSpearman(e.target.value)}></Input>
-            </Col>
-            <Col span={3}></Col>
-          </Row>
-          <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
-            <Col span={4}>
-              <NameTag>Axeman</NameTag>
-              <NameTag>Count : {gameState.units.axeman.count}</NameTag>
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'wood'} own={gameState.units.axeman.trainingCost.wood} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'clay'} own={gameState.units.axeman.trainingCost.clay} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'iron'} own={gameState.units.axeman.trainingCost.iron} />
-            </Col>
-            <Col span={3}></Col>
-            <Col span={2}>
-              <Input maxLength={2} onChange={(e) => setInputAxeman(e.target.value)}></Input>
-            </Col>
-            <Col span={3}></Col>
-          </Row>
-          <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
-            <Col span={4}>
-              <NameTag>Archer</NameTag>
-              <NameTag>Count : {gameState.units.archer.count}</NameTag>
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'wood'} own={gameState.units.archer.trainingCost.wood} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'clay'} own={gameState.units.archer.trainingCost.clay} />
-            </Col>
-            <Col span={4}>
-              <ResourcesComponent name={'iron'} own={gameState.units.archer.trainingCost.iron} />
-            </Col>
-            <Col span={3}></Col>
-            <Col span={2}>
-              <Input maxLength={2} onChange={(e) => setInputArcher(e.target.value)}></Input>
-            </Col>
-            <Col span={3}></Col>
-          </Row>
+          {units}
           <Divider />
           <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
-            <Col span={15} offset={4}>
+            <Col span={18} offset={2}>
               <ResourcesNameTag>Resources Cost</ResourcesNameTag>
             </Col>
-            <Col span={3}>
+            <Col span={4}>
               <ResourcesNameTag>Time</ResourcesNameTag>
             </Col>
-            <Col span={2}></Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
-            <Col span={2}>
-              <ResourcesNameTag>Total :</ResourcesNameTag>
-            </Col>
-            <Col span={6}>
-              <ResourcesComponent name={'wood'} own={allUpgradeCostWood} capacity={gameState.resources.wood} />
-            </Col>
-            <Col span={6}>
-              <ResourcesComponent name={'clay'} own={allUpgradeCostClay} capacity={gameState.resources.clay} />
-            </Col>
-            <Col span={6}>
-              <ResourcesComponent name={'iron'} own={allUpgradeCostIron} capacity={gameState.resources.iron} />
-            </Col>
-            <Col span={4}></Col>
           </Row>
           <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
             <Col span={2}>
               <ResourcesNameTag>Total :</ResourcesNameTag>
             </Col>
             <Col span={6}>
-              <ResourcesComponent name={'wood'} own={allUpgradeCostWood} capacity={gameState.resources.wood} />
+              <ResourcesComponent name={'wood'} own={allRecruitCostWood} capacity={gameState.resources.wood} />
             </Col>
             <Col span={6}>
-              <ResourcesComponent name={'clay'} own={allUpgradeCostClay} capacity={gameState.resources.clay} />
+              <ResourcesComponent name={'clay'} own={allRecruitCostClay} capacity={gameState.resources.clay} />
             </Col>
             <Col span={6}>
-              <ResourcesComponent name={'iron'} own={allUpgradeCostIron} capacity={gameState.resources.iron} />
+              <ResourcesComponent name={'iron'} own={allRecruitCostIron} capacity={gameState.resources.iron} />
             </Col>
-            <Col span={4}></Col>
+            <Col span={4}>
+              <TimeTag> {upgradeDurationSecondsLabel(allRecruitTime)}</TimeTag>
+            </Col>
           </Row>
         </Col>
-        <Col offset={22} span={2}>
+        <Col offset={21} span={2}>
           <Row>
-            <Button>Recruit</Button>
+            <UpgradeButton
+              disabled={
+                !(
+                  allRecruitCostClay <= gameState.resources.clay &&
+                  allRecruitCostWood <= gameState.resources.wood &&
+                  allRecruitCostIron <= gameState.resources.iron &&
+                  allRecruitTime > 0
+                )
+              }
+              loading={loading}
+              onClick={recruitUnits}
+            >
+              Recruit
+            </UpgradeButton>
           </Row>
         </Col>
       </Row>
