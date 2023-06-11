@@ -6,38 +6,13 @@ import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponen
 import GameSessionState, { BuildingInterface, BuildingType, Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
+import { camelToSnakeCase, msToUpgradeLabel, nameToDisplayName, upgradeDurationSecondsLabel } from 'utils';
 
 export interface UpgradeContainerProps {
   name: BuildingType;
   buildingContext: BuildingInterface;
   availableResources: Resources;
 }
-
-const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-
-const nameToDisplayName = (str: string) =>
-  (str.charAt(0).toUpperCase() + str.slice(1)).replace(/([a-z])([A-Z])/g, '$1 $2');
-
-const padTo2Digits = (num: number) => num.toString().padStart(2, '0');
-
-const msToUpgradeLabel = (milliseconds: number) => {
-  if (milliseconds <= 0) return 'Upgrade';
-
-  let seconds = Math.floor(milliseconds / 1000);
-  let minutes = Math.floor(seconds / 60);
-
-  seconds = seconds % 60;
-
-  return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
-};
-
-const upgradeDurationSecondsLabel = (seconds: number) => {
-  let minutes = Math.floor(seconds / 60);
-
-  seconds = seconds % 60;
-
-  return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
-};
 
 const UpgradeContainer = ({ name, buildingContext, availableResources }: UpgradeContainerProps) => {
   const { gameState } = useContext(GameSessionState);
