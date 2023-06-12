@@ -14,7 +14,7 @@ export interface RecruitmentContainerProps {
 
 const RecruitmentContainer = ({ name, unit, input, setInput }: RecruitmentContainerProps) => {
   return (
-    <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
+    <Row align="middle" justify="center" gutter={[10, 0]}>
       <Col span={4}>
         <NameTag>{nameToDisplayName(name)}</NameTag>
         <NameTag>Count : {unit.count}</NameTag>
