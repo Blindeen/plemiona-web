@@ -18,6 +18,10 @@ export const StyledTable = styled(Table)`
   .ant-table-tbody > tr > td {
     background-color: ${palette.dadsRayOfSunshine};
     border-color: ${palette.brown};
+
+    &:hover {
+      background-color: ${palette.dadsRayOfSunshine} !important;
+    }
   }
 
   .ant-table-cell {
