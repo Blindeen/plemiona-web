@@ -1,13 +1,13 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Col, Row, Tooltip } from 'antd';
 import { CrownOutlined } from '@ant-design/icons';
 
-import Button from 'Components/Button';
 import { Box, CenteredContainer, CenteredDiv, Tags } from 'Components/CommonComponents';
+import Button from 'Components/Button';
 
+import { PlayerEntry, PlayerList, StartButton } from './styles';
 import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
-import { PlayerEntry, PlayerList, StartButton } from './styles';
 import { router } from 'router';
 
 const Lobby = () => {
@@ -17,6 +17,12 @@ const Lobby = () => {
   const { gameState } = useContext(GameSessionState);
   const { players, owner } = gameState;
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (gameState.hasGameStarted) {
+      router.navigate('village');
+    }
+  }, [gameState.hasGameStarted]);
 
   const writeToClipboard = async () => {
     try {
@@ -39,7 +45,6 @@ const Lobby = () => {
       });
       if (response.ok) {
         pushNotification('success', 'Starting game', 'Enjoy the game');
-        router.navigate('village');
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {

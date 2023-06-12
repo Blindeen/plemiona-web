@@ -28,6 +28,8 @@ export interface BuildingType {
 }
 
 type gameSessionStateType = {
+  hasGameStarted: boolean;
+
   owner: playerType;
   players: playerType[];
 
@@ -39,6 +41,8 @@ type gameSessionStateType = {
 };
 
 const initialResources: gameSessionStateType = {
+  hasGameStarted: false,
+
   owner: { id: 0, nickname: '', morale: 100, village: { x: 0, y: 0 } },
   players: [] as playerType[],
 
@@ -111,6 +115,15 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
       if (type === 'message') {
         pushNotification('info', data.message);
         return;
+      }
+
+      // When game session starts `start_game_session` is received
+      // or `fetch_game_session_state` on reconnect to fetch current game state
+      if (type === 'start_game_session' || type === 'fetch_game_session_state') {
+        setGameState((prevState) => ({
+          ...prevState,
+          hasGameStarted: true,
+        }));
       }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
