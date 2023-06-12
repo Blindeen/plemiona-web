@@ -23,7 +23,7 @@ const RecruitmentContainer = ({ name, unit, input, setInput }: RecruitmentContai
         <ResourcesComponent name="wood" own={input === 0 ? unit.trainingCost.wood : unit.trainingCost.wood * input} />
       </Col>
       <Col span={4}>
-        <ResourcesComponent name={'clay'} own={input === 0 ? unit.trainingCost.clay : unit.trainingCost.clay * input} />
+        <ResourcesComponent name="clay" own={input === 0 ? unit.trainingCost.clay : unit.trainingCost.clay * input} />
       </Col>
       <Col span={4}>
         <ResourcesComponent name={'iron'} own={input === 0 ? unit.trainingCost.iron : unit.trainingCost.iron * input} />
