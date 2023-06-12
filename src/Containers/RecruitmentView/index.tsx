@@ -72,9 +72,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
     },
   ];
 
-  const units = unitData.map(({ name, unit, input, setInput }, key) => (
-    <RecruitmentContainer key={key} name={name} unit={unit} input={input} setInput={setInput} />
-  ));
+  const units = unitData.map((props, key) => <RecruitmentContainer key={key} {...props} />);
 
   const recruitUnits = async () => {
     onLoading(true);
