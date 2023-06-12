@@ -11,9 +11,9 @@ export interface ResourcesProps {
   income?: number;
 }
 
-const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own, income }: ResourcesProps) => {
+const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own, income = 0 }: ResourcesProps) => {
   return (
-    <Tooltip title={`${income} / s`}>
+    <Tooltip title={`${Math.round(income * 100) / 100} / s`}>
       <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
         <Col style={{ margin: 'auto' }}>
           <ResourcesImg
