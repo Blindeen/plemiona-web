@@ -18,6 +18,7 @@ const ResourcesTable = () => {
               name={resource}
               capacity={gameState.resourcesCapacity}
               own={gameState.resources[resource as Resource]}
+              income={gameState.resourcesIncome[resource as Resource]}
             />
           </Col>
         ))}
