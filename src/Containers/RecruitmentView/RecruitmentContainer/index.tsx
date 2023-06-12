@@ -39,9 +39,7 @@ const RecruitmentContainer = ({ name, unit, input, setInput }: RecruitmentContai
           maxLength={2}
           min={0}
           max={10}
-          onChange={(value) => {
-            setInput(value === null ? 0 : value);
-          }}
+          onChange={(value) => setInput(value === null ? 0 : value)}
         />
       </Col>
     </Row>
