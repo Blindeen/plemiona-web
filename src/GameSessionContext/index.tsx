@@ -170,7 +170,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const resourceUpdater = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const socket = new WebSocket(`${WS_URL}?token=${localStorage.getItem('token')}`);
+    const socket = new WebSocket(`${WS_URL}/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
