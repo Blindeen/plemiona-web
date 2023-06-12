@@ -1,9 +1,8 @@
 import { Fragment, useContext } from 'react';
-
 import { Col, Divider, Row } from 'antd';
 
-import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
-import UpgradeContainer from 'Containers/UpgradeView/UpgradeContainer';
+import { ResourcesNameTag, TownHallWindow } from './styles';
+import UpgradeContainer from './UpgradeContainer';
 import GameSessionState, { BuildingType } from 'GameSessionContext';
 
 const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
