@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import GameSessionState from 'GameSessionContext';
-import { playerType } from 'GameSessionContext';
+import GameSessionState, { playerType } from 'GameSessionContext';
 import { router, routes } from 'router';
 import {
   direction,
