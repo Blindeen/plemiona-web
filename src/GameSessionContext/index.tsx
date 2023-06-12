@@ -68,7 +68,13 @@ const initialResources: gameSessionStateType = {
       upgradeCost: { wood: 0, iron: 0, clay: 0 },
       upgradeDuration: 0,
     },
-    sawmill: { name: 'sawmill', level: 0, maxLevel: 0, upgradeCost: { wood: 0, iron: 0, clay: 0 }, upgradeDuration: 0 },
+    sawmill: {
+      name: 'sawmill',
+      level: 0,
+      maxLevel: 0,
+      upgradeCost: { wood: 0, iron: 0, clay: 0 },
+      upgradeDuration: 0,
+    },
     ironMine: {
       name: 'iron_mine',
       level: 0,
