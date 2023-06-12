@@ -5,7 +5,7 @@ import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponen
 
 import GameSessionState, { BuildingInterface, BuildingType, Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
-import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
+import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from './styles';
 import { camelToSnakeCase, msToUpgradeLabel, nameToDisplayName, upgradeDurationSecondsLabel } from 'utils';
 
 export interface UpgradeContainerProps {
