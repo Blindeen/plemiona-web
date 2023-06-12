@@ -4,7 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 
 import { leaderboardRecord } from 'GameSessionContext';
 import GameSessionState from 'GameSessionContext';
-import { StyledTable } from './styles';
+import { StyledTable } from 'Components/Table/styles';
 
 const Leaderboard = () => {
   const { gameState } = useContext(GameSessionState);
