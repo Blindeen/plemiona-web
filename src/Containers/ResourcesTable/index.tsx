@@ -11,7 +11,7 @@ const ResourcesTable = () => {
 
   return (
     <ResourcesView>
-      <Row gutter={[120, 0]} justify={'center'} align={'middle'} style={{ marginRight: '10' }}>
+      <Row gutter={[70, 0]} justify='center' align='middle' style={{ marginRight: '10' }}>
         {Object.keys(gameState.resources).map((resource, idx) => (
           <Col key={idx}>
             <ResourcesComponent
