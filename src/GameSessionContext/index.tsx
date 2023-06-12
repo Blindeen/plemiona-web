@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import merge from 'lodash.merge';
 
 export type Resource = 'wood' | 'clay' | 'iron';
