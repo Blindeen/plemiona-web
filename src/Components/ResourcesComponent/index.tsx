@@ -22,7 +22,7 @@ const ResourcesComponent = ({ name, width = 64, height = 64, capacity, own }: Re
           }}
         />
       </Col>
-      <Col style={{ margin: 'auto' }}>
+      <Col>
         <ResourcesTag>
           {Math.floor(own)} / {Math.floor(capacity)}
         </ResourcesTag>

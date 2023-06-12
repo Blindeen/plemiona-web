@@ -16,29 +16,27 @@ const VillageView = () => {
   const [modal, setModal] = useState(false);
 
   return (
-    <>
-      <Background>
-        <UpgradeView open={modal} setOpen={setModal} />
-        <ResourcesRow gutter={[20, 20]} justify='center' align='middle'>
-          <Col>
-            <ResourcesTable />
-          </Col>
-          <Col>
-            <StyledDiv>
-              <Countdown value={gameState.endedAt.valueOf()} format='mm:ss' />
-            </StyledDiv>
-          </Col>
-          <Col>
-            <ResourcesTable />
-          </Col>
-        </ResourcesRow>
-        <Row justify='center'>
-          <Col>
-            <Village />
-          </Col>
-        </Row>
-      </Background>
-    </>
+    <Background>
+      <UpgradeView open={modal} setOpen={setModal} />
+      <ResourcesRow gutter={[20, 20]} justify='center' align='middle'>
+        <Col>
+          <ResourcesTable />
+        </Col>
+        <Col>
+          <StyledDiv>
+            <Countdown value={gameState.endedAt.valueOf()} format='mm:ss' />
+          </StyledDiv>
+        </Col>
+        <Col>
+          <ResourcesTable />
+        </Col>
+      </ResourcesRow>
+      <Row justify='center'>
+        <Col>
+          <Village />
+        </Col>
+      </Row>
+    </Background>
   );
 };
 
