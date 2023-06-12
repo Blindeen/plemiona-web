@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { Col, Row } from 'antd';
+import { Col, Row, Tooltip } from 'antd';
 
 import { ResourcesView } from './styles';
 import ResourcesComponent from 'Components/ResourcesComponent';
@@ -14,12 +14,15 @@ const ResourcesTable = () => {
       <Row gutter={[70, 0]} justify='center' align='middle' style={{ marginRight: '10' }}>
         {Object.keys(gameState.resources).map((resource, idx) => (
           <Col key={idx}>
-            <ResourcesComponent
-              name={resource}
-              capacity={gameState.resourcesCapacity}
-              own={gameState.resources[resource as Resource]}
-              income={gameState.resourcesIncome[resource as Resource]}
-            />
+            <Tooltip title={`${Math.round(gameState.resourcesIncome[resource as Resource] * 100) / 100} / s`}>
+              <>
+                <ResourcesComponent
+                  name={resource}
+                  capacity={gameState.resourcesCapacity}
+                  own={gameState.resources[resource as Resource]}
+                />
+              </>
+            </Tooltip>
           </Col>
         ))}
       </Row>
