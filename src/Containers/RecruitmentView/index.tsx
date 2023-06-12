@@ -1,15 +1,15 @@
 import { useContext, useState } from 'react';
-
 import { Col, Divider, Row } from 'antd';
 
-import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
-
-import GameSessionState from 'GameSessionContext';
 import { TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
-import ResourcesComponent from 'Components/ResourcesComponent';
-import pushNotification from 'pushNotification';
-import { upgradeDurationSecondsLabel } from 'utils';
+import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
 import RecruitmentContainer, { RecruitmentContainerProps } from 'Containers/RecruitmentView/RecruitmentContainer';
+
+import ResourcesComponent from 'Components/ResourcesComponent';
+
+import { upgradeDurationSecondsLabel } from 'utils';
+import GameSessionState from 'GameSessionContext';
+import pushNotification from 'pushNotification';
 
 const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const { gameState } = useContext(GameSessionState);
