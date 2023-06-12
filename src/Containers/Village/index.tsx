@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
 
-import GameSessionState from 'GameSessionContext';
-
-import { Container } from 'Containers/Village/styles';
-import Building, { BuildingProps } from 'Components/Building';
 import RecruitmentView from 'Containers/RecruitmentView';
 import UpgradeView from 'Containers/UpgradeView';
+
+import Building, { BuildingProps } from 'Components/Building';
 import { StyledBuilding } from 'Components/Building/styles';
+
+import GameSessionState from 'GameSessionContext';
+import { Container } from './styles';
 import { router } from 'router';
 
 const Village = () => {
