@@ -12,7 +12,7 @@ export interface ResourcesProps {
 
 const Resource = ({ name, width = 64, height = 64, capacity, own }: ResourcesProps) => {
   return (
-    <Row align="middle" justify={'center'} gutter={[10, 0]}>
+    <Row align="middle" justify="center" gutter={[10, 0]}>
       <Col>
         <ResourceImg type={name} width={width} height={height} />
       </Col>
