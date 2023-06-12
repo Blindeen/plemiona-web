@@ -1,6 +1,8 @@
 import { Col, InputNumber, Row } from 'antd';
+
 import { NameTag, TimeTag } from 'Containers/UpgradeView/UpgradeContainer/styles';
 import ResourcesComponent from 'Components/ResourcesComponent';
+
 import { nameToDisplayName, upgradeDurationSecondsLabel } from 'utils';
 import { UnitInterface } from 'GameSessionContext';
 import palette from 'palette';
