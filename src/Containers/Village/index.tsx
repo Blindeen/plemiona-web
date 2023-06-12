@@ -1,10 +1,10 @@
 import { useContext, useEffect } from 'react';
 
-import GameSessionState from 'GameSessionContext';
-import { router, routes } from 'router';
-
 import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
+
+import GameSessionState from 'GameSessionContext';
+import { router, routes } from 'router';
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
