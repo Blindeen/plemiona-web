@@ -1,6 +1,6 @@
 export const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
-export const nameToDisplayName = (str: string) =>
+export const stringToTitle = (str: string) =>
   (str.charAt(0).toUpperCase() + str.slice(1)).replace(/([a-z])([A-Z])/g, '$1 $2');
 
 export const padTo2Digits = (num: number) => num.toString().padStart(2, '0');

@@ -3,7 +3,7 @@ import { Col, InputNumber, Row } from 'antd';
 import { NameTag, TimeTag } from 'Containers/UpgradeView/UpgradeContainer/styles';
 import ResourcesComponent from 'Components/ResourcesComponent';
 
-import { nameToDisplayName, upgradeDurationSecondsLabel } from 'utils';
+import { stringToTitle, upgradeDurationSecondsLabel } from 'utils';
 import { UnitInterface } from 'GameSessionContext';
 import palette from 'palette';
 
@@ -18,7 +18,7 @@ const RecruitmentContainer = ({ name, unit, input, setInput }: RecruitmentContai
   return (
     <Row align="middle" justify="center" gutter={[10, 0]}>
       <Col span={4}>
-        <NameTag>{nameToDisplayName(name)}</NameTag>
+        <NameTag>{stringToTitle(name)}</NameTag>
         <NameTag>Count : {unit.count}</NameTag>
       </Col>
       <Col span={4}>
