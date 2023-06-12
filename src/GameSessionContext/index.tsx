@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import pushNotification from 'pushNotification';
+
 export type Resource = 'wood' | 'clay' | 'iron';
 export type Resources = Record<Resource, number>;
 
@@ -33,7 +35,7 @@ type gameSessionStateType = {
   resourcesIncome: Resources;
   resourcesCapacity: number;
 
-  buildings: Record<Building, BuildingType>
+  buildings: Record<Building, BuildingType>;
 };
 
 const initialResources: gameSessionStateType = {
@@ -91,8 +93,7 @@ type GameSessionContextType = {
 
 const GameSessionState = React.createContext<GameSessionContextType>({
   gameState: initialResources,
-  setGameState: () => {
-  },
+  setGameState: () => {},
 });
 export default GameSessionState;
 
@@ -105,7 +106,12 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
-      const { data } = JSON.parse(event.data);
+      const { type, data } = JSON.parse(event.data);
+
+      if (type === 'message') {
+        pushNotification('info', data.message);
+        return;
+      }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState((prevState) => ({ ...prevState, ...updated }));
@@ -118,14 +124,13 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     resourceUpdater.current = setTimeout(() => {
       setGameState((prevState) => ({
         ...prevState,
-        resources:
-          Object.fromEntries(
-            Object.entries(prevState.resources).map(([key, quantity]) =>
-              quantity < prevState.resourcesCapacity
-                ? [key, quantity + prevState.resourcesIncome[key as Resource]]
-                : [key, quantity],
-            ),
-          ) as Resources,
+        resources: Object.fromEntries(
+          Object.entries(prevState.resources).map(([key, quantity]) =>
+            quantity < prevState.resourcesCapacity
+              ? [key, quantity + prevState.resourcesIncome[key as Resource]]
+              : [key, quantity]
+          )
+        ) as Resources,
       }));
     }, 1000);
     return () => clearTimeout(resourceUpdater.current);
