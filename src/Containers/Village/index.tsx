@@ -1,19 +1,25 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 import RecruitmentView from 'Containers/RecruitmentView';
 import UpgradeView from 'Containers/UpgradeView';
-
 import Building, { BuildingProps } from 'Components/Building';
 import { StyledBuilding } from 'Components/Building/styles';
+import { Container } from './styles';
 
 import GameSessionState from 'GameSessionContext';
-import { Container } from './styles';
-import { router } from 'router';
+import { router, routes } from 'router';
+
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
   const [building, setBuilding] = useState(false);
   const [recruit, setRecruit] = useState(false);
+
+  useEffect(() => {
+    if (gameState.hasGameEnded) {
+      router.navigate(routes.leaderboardPage);
+    }
+  }, [gameState.hasGameEnded]);
 
   const buildingsData: BuildingProps[] = [
     {

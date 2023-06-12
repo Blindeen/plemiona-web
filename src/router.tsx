@@ -4,10 +4,17 @@ import LandingPage from 'Pages/LandingPage';
 import LobbyPage from 'Pages/LobbyPage';
 import VillageView from 'Pages/VillageView';
 import WorldPage from 'Pages/WorldPage';
+import LeaderboardPage from 'Pages/LeaderboardPage';
 
 import { GameSessionProvider } from 'GameSessionContext';
 
-export const routes = { landingPage: '/', lobbyPage: 'lobby', villagePage: 'village', worldPage: 'world' };
+export const routes = {
+  landingPage: '/',
+  lobbyPage: 'lobby',
+  villagePage: 'village',
+  worldPage: 'world',
+  leaderboardPage: 'leaderboard',
+};
 
 export const router = createHashRouter([
   {
@@ -32,6 +39,10 @@ export const router = createHashRouter([
       {
         path: routes.villagePage,
         element: <VillageView />,
+      },
+      {
+        path: routes.leaderboardPage,
+        element: <LeaderboardPage />,
       },
     ],
   },

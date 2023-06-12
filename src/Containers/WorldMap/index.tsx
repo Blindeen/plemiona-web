@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { playerType } from 'GameSessionContext';
+import GameSessionState, { playerType } from 'GameSessionContext';
+import { router, routes } from 'router';
 import {
   direction,
   DIRECTIONS,
+  Frame,
   FRAME_SQUARES_X,
   FRAME_SQUARES_Y,
+  Map,
   MAP_SQUARES_X,
   MAP_SQUARES_Y,
-  MapFrame,
   MapImage,
   MapSquare,
   NavArrow,
@@ -22,6 +24,14 @@ export type mapTile = {
 };
 
 const WorldMap = () => {
+  const { gameState } = useContext(GameSessionState);
+
+  useEffect(() => {
+    if (gameState.hasGameEnded) {
+      router.navigate(routes.leaderboardPage);
+    }
+  }, [gameState.hasGameEnded]);
+
   const { x: selfX, y: selfY } = { x: 3, y: 5 };
 
   const selfMiddle = () => {
@@ -104,21 +114,23 @@ const WorldMap = () => {
   ));
 
   return (
-    <MapFrame>
-      <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
-      {squares}
-      {Object.values(DIRECTIONS).map(
-        (direction, idx) =>
-          !isBoundary(direction) && (
-            <NavArrow
-              key={idx}
-              direction={direction}
-              onClick={() => moveMap(direction)}
-              src="/Assets/Buttons/map_arrow_button.png"
-            />
-          )
-      )}
-    </MapFrame>
+    <Frame>
+      <Map>
+        <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
+        {squares}
+        {Object.values(DIRECTIONS).map(
+          (direction, idx) =>
+            !isBoundary(direction) && (
+              <NavArrow
+                key={idx}
+                direction={direction}
+                onClick={() => moveMap(direction)}
+                src="/Assets/Buttons/map_arrow_button.png"
+              />
+            )
+        )}
+      </Map>
+    </Frame>
   );
 };
 
