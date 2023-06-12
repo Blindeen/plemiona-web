@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd';
-import { UnitImg, UnitNameTag, UnitTag } from 'Components/UnitComponent/styles';
+
+import { UnitImg, UnitNameTag, UnitTag } from './styles';
 import { nameToDisplayName } from 'utils';
 
 export interface UnitProps {
