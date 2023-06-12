@@ -32,6 +32,8 @@ export interface BuildingType {
 }
 
 type gameSessionStateType = {
+  hasGameEnded: boolean;
+
   owner: playerType;
   players: playerType[];
   leaderboard: leaderboardRecord[];
@@ -44,6 +46,8 @@ type gameSessionStateType = {
 };
 
 const initialResources: gameSessionStateType = {
+  hasGameEnded: false,
+
   owner: { id: 0, nickname: '', morale: 100, village: { x: 0, y: 0 } },
   players: [] as playerType[],
   leaderboard: [] as leaderboardRecord[],
@@ -113,7 +117,14 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
-      const { data } = JSON.parse(event.data);
+      const { type, data } = JSON.parse(event.data);
+
+      if (type === 'fetch_leaderboard') {
+        setGameState((prevState) => ({
+          ...prevState,
+          hasGameEnded: true,
+        }));
+      }
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState((prevState) => ({ ...prevState, ...updated }));

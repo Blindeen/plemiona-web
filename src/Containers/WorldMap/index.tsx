@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import GameSessionState from 'GameSessionContext';
 import { playerType } from 'GameSessionContext';
+import { router, routes } from 'router';
 import {
   direction,
   DIRECTIONS,
@@ -22,6 +24,14 @@ export type mapTile = {
 };
 
 const WorldMap = () => {
+  const { gameState } = useContext(GameSessionState);
+
+  useEffect(() => {
+    if (gameState.hasGameEnded) {
+      router.navigate(routes.leaderboardPage);
+    }
+  }, [gameState.hasGameEnded]);
+
   const { x: selfX, y: selfY } = { x: 3, y: 5 };
 
   const selfMiddle = () => {

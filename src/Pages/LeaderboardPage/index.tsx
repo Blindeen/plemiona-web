@@ -5,6 +5,8 @@ import { Background } from 'Components/CommonComponents';
 import { LayoutContainer, StyledTitle } from 'Pages/LeaderboardPage/styles';
 
 const LeaderboardPage = () => {
+  localStorage.clear();
+
   return (
     <Background>
       <LayoutContainer>
