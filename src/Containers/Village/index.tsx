@@ -1,12 +1,20 @@
-import { useContext } from 'react';
-
-import GameSessionState from 'GameSessionContext';
+import { useContext, useEffect } from 'react';
 
 import { Container } from 'Containers/Village/styles';
 import Building, { BuildingProps } from 'Components/Building';
 
+import GameSessionState from 'GameSessionContext';
+import { router, routes } from 'router';
+
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
+
+  useEffect(() => {
+    if (gameState.hasGameEnded) {
+      router.navigate(routes.leaderboardPage);
+    }
+  }, [gameState.hasGameEnded]);
+
   const buildingsData: BuildingProps[] = [
     {
       name: 'Tartak',
