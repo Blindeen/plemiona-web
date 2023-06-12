@@ -1,15 +1,16 @@
+import { useContext } from 'react';
+
 import { ColumnsType } from 'antd/es/table';
 
+import { leaderboardRecord } from 'GameSessionContext';
+import GameSessionState from 'GameSessionContext';
 import { StyledTable } from 'Containers/Leaderboard/styles';
 
-interface PlayerRecord {
-  id: number;
-  nickname: string;
-  points: number;
-}
-
 const Leaderboard = () => {
-  const columns: ColumnsType<PlayerRecord> = [
+  const { gameState } = useContext(GameSessionState);
+  const { leaderboard } = gameState;
+
+  const columns: ColumnsType<leaderboardRecord> = [
     {
       title: 'Id',
       dataIndex: 'id',
@@ -27,25 +28,8 @@ const Leaderboard = () => {
     },
   ];
 
-  const data: PlayerRecord[] = [
-    {
-      id: 5,
-      nickname: 'Kuba',
-      points: 150,
-    },
-    {
-      id: 5,
-      nickname: 'Kuba',
-      points: 150,
-    },
-    {
-      id: 5,
-      nickname: 'Kuba',
-      points: 150,
-    },
-  ];
-
-  return <StyledTable columns={columns} dataSource={data} rowKey={(record) => record.id} pagination={false} />;
+  return <StyledTable columns={columns} dataSource={leaderboard} rowKey={(record) => record.id}
+                      locale={{ emptyText: 'Leaderboard is empty' }} pagination={false} />;
 };
 
 export default Leaderboard;
