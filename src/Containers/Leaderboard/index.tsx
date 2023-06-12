@@ -15,16 +15,19 @@ const Leaderboard = () => {
       title: 'Id',
       dataIndex: 'id',
       key: 'id',
+      align: 'center',
     },
     {
       title: 'Nickname',
       dataIndex: 'nickname',
       key: 'nickname',
+      align: 'center',
     },
     {
       title: 'Points',
       dataIndex: 'points',
       key: 'points',
+      align: 'center',
     },
   ];
 
