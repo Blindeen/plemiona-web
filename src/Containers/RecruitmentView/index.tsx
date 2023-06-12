@@ -96,7 +96,6 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
         pushNotification('success', `Starting recruiting`);
       } else {
         const { errors } = await response.json();
-        console.log(errors);
         Object.entries(errors).forEach(([key, value]) => {
           pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
         });
