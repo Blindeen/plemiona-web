@@ -12,13 +12,13 @@ export interface UnitProps {
 const UnitComponent = ({ name, width = 64, height = 64, count }: UnitProps) => {
   return (
     <Row align="middle" justify="center" gutter={[10, 0]}>
-      <Col style={{ margin: 'auto' }}>
-        <UnitImg type={name} width={width} height={height}></UnitImg>
+      <Col>
+        <UnitImg type={name} width={width} height={height} />
       </Col>
       <Col>
         <UnitNameTag>{nameToDisplayName(name)} :</UnitNameTag>
       </Col>
-      <Col style={{ margin: 'auto' }}>
+      <Col>
         <UnitTag>{count}</UnitTag>
       </Col>
     </Row>
