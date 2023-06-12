@@ -36,6 +36,7 @@ export interface BuildingType {
 type gameSessionStateType = {
   hasGameStarted: boolean;
   hasGameEnded: boolean;
+  endedAt: Date;
 
   owner: playerType;
   players: playerType[];
@@ -51,6 +52,7 @@ type gameSessionStateType = {
 const initialResources: gameSessionStateType = {
   hasGameStarted: false,
   hasGameEnded: false,
+  endedAt: new Date(),
 
   owner: { id: 0, nickname: '', morale: 100, village: { x: 0, y: 0 } },
   players: [] as playerType[],
