@@ -71,20 +71,8 @@ const Village = () => {
       onClick: () => setBuilding(true),
     },
   ];
-  const buildings = buildingsData.map(({ name, lvl, posX, posY, sizeY, sizeX, posLvlX, posLvlY, onClick }, index) => (
-    <Building
-      key={index}
-      name={name}
-      lvl={lvl}
-      posX={posX}
-      posY={posY}
-      sizeX={sizeX}
-      sizeY={sizeY}
-      posLvlX={posLvlX as number}
-      posLvlY={posLvlY as number}
-      onClick={onClick}
-    />
-  ));
+
+  const buildings = buildingsData.map((props, index) => <Building key={index} {...props} />);
 
   return (
     <>
