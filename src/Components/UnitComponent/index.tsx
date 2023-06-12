@@ -11,7 +11,7 @@ export interface UnitProps {
 
 const UnitComponent = ({ name, width = 64, height = 64, count }: UnitProps) => {
   return (
-    <Row align={'middle'} justify={'center'} gutter={[10, 0]}>
+    <Row align="middle" justify="center" gutter={[10, 0]}>
       <Col style={{ margin: 'auto' }}>
         <UnitImg type={name} width={width} height={height}></UnitImg>
       </Col>
