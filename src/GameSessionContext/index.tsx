@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import pushNotification from 'pushNotification';
+
 export type Resource = 'wood' | 'clay' | 'iron';
 export type Resources = Record<Resource, number>;
 
@@ -109,6 +111,11 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
       const { type, data } = JSON.parse(event.data);
+
+      if (type === 'message') {
+        pushNotification('info', data.message);
+        return;
+      }
 
       // When game session starts `start_game_session` is received
       // or `fetch_game_session_state` on reconnect to fetch current game state
