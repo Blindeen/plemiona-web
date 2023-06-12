@@ -117,9 +117,9 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
       keyboard={true}
       centered={true}
     >
-      <Row align={'middle'} gutter={[0, 0]} style={{ margin: 'auto' }}>
+      <Row>
         <Col span={22}>
-          <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
+          <Row gutter={[20, 0]}>
             <Col span={4}>
               <ResourcesNameTag>Unit</ResourcesNameTag>
             </Col>
@@ -134,51 +134,48 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
             </Col>
             <Col span={1} />
           </Row>
-          <p />
           {units}
           <Divider />
-          <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
+          <Row gutter={[20, 0]}>
             <Col span={18} offset={2}>
               <ResourcesNameTag>Resources Cost</ResourcesNameTag>
             </Col>
-            <Col span={4}>
+            <Col span={2}>
               <ResourcesNameTag>Time</ResourcesNameTag>
             </Col>
           </Row>
-          <Row align={'middle'} justify={'center'} gutter={[20, 0]}>
+          <Row align="middle" gutter={[20, 0]}>
             <Col span={2}>
               <ResourcesNameTag>Total :</ResourcesNameTag>
             </Col>
             <Col span={6}>
-              <ResourcesComponent name={'wood'} own={allRecruitCostWood} capacity={gameState.resources.wood} />
+              <ResourcesComponent name="wood" own={allRecruitCostWood} capacity={gameState.resources.wood} />
             </Col>
             <Col span={6}>
-              <ResourcesComponent name={'clay'} own={allRecruitCostClay} capacity={gameState.resources.clay} />
+              <ResourcesComponent name="clay" own={allRecruitCostClay} capacity={gameState.resources.clay} />
             </Col>
             <Col span={6}>
-              <ResourcesComponent name={'iron'} own={allRecruitCostIron} capacity={gameState.resources.iron} />
+              <ResourcesComponent name="iron" own={allRecruitCostIron} capacity={gameState.resources.iron} />
             </Col>
-            <Col span={4}>
-              <TimeTag> {upgradeDurationSecondsLabel(allRecruitTime)}</TimeTag>
+            <Col span={2}>
+              <TimeTag>{upgradeDurationSecondsLabel(allRecruitTime)}</TimeTag>
             </Col>
-          </Row>
-        </Col>
-        <Col offset={21} span={2}>
-          <Row>
-            <UpgradeButton
-              disabled={
-                !(
-                  allRecruitCostClay <= gameState.resources.clay &&
-                  allRecruitCostWood <= gameState.resources.wood &&
-                  allRecruitCostIron <= gameState.resources.iron &&
-                  allRecruitTime > 0
-                )
-              }
-              loading={loading}
-              onClick={recruitUnits}
-            >
-              Recruit
-            </UpgradeButton>
+            <Col span={2}>
+              <UpgradeButton
+                disabled={
+                  !(
+                    allRecruitCostClay <= gameState.resources.clay &&
+                    allRecruitCostWood <= gameState.resources.wood &&
+                    allRecruitCostIron <= gameState.resources.iron &&
+                    allRecruitTime > 0
+                  )
+                }
+                loading={loading}
+                onClick={recruitUnits}
+              >
+                Recruit
+              </UpgradeButton>
+            </Col>
           </Row>
         </Col>
       </Row>
