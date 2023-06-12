@@ -1,13 +1,19 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
-import { Container } from 'Containers/Village/styles';
+import RecruitmentView from 'Containers/RecruitmentView';
+import UpgradeView from 'Containers/UpgradeView';
 import Building, { BuildingProps } from 'Components/Building';
+import { StyledBuilding } from 'Components/Building/styles';
+import { Container } from './styles';
 
 import GameSessionState from 'GameSessionContext';
 import { router, routes } from 'router';
 
+
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
+  const [building, setBuilding] = useState(false);
+  const [recruit, setRecruit] = useState(false);
 
   useEffect(() => {
     if (gameState.hasGameEnded) {
@@ -41,6 +47,7 @@ const Village = () => {
       posY: 400,
       sizeX: 200,
       sizeY: 200,
+      onClick: () => setRecruit(true),
     },
     {
       name: 'Cegielnia',
@@ -67,26 +74,23 @@ const Village = () => {
       sizeY: 250,
       posLvlX: 30,
       posLvlY: 40,
+      onClick: () => setBuilding(true),
     },
   ];
 
-  const buildings = buildingsData.map(({ name, lvl, posX, posY, sizeY, sizeX, posLvlX, posLvlY }, index) => (
-    <Building
-      key={index}
-      name={name}
-      lvl={lvl}
-      posX={posX}
-      posY={posY}
-      sizeX={sizeX}
-      sizeY={sizeY}
-      posLvlX={posLvlX as number}
-      posLvlY={posLvlY as number}
-    />
-  ));
+  const buildings = buildingsData.map((props, index) => <Building key={index} {...props} />);
 
   return (
     <>
-      <Container>{buildings}</Container>
+      {recruit && <RecruitmentView open={recruit} setOpen={setRecruit} />}
+      {building && <UpgradeView open={building} setOpen={setBuilding} />}
+      <Container>
+        {buildings}
+        <StyledBuilding
+          onClick={() => router.navigate('world')}
+          style={{ width: 200, height: 200, top: 450, left: 300 }}
+        />
+      </Container>
     </>
   );
 };
