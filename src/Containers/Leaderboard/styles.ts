@@ -10,4 +10,5 @@ export const LayoutContainer = styled('div')`
 export const StyledTitle = styled(Title)`
   font-family: Old English Text MT, sans-serif;
   text-align: center;
+  user-select: none;
 `;

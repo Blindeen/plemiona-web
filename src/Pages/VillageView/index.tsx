@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Col, Row, Statistic } from 'antd';
+import { Col, Row } from 'antd';
 import UpgradeView from 'Containers/UpgradeView';
 import Village from 'Containers/Village';
 
@@ -7,9 +7,7 @@ import { Background } from 'Components/CommonComponents';
 
 import GameSessionContext from 'GameSessionContext';
 import ResourcesTable from 'Containers/ResourcesTable';
-import { ResourcesRow, StyledDiv } from 'Pages/VillageView/styles';
-
-const { Countdown } = Statistic;
+import { ResourcesRow, StyledCountdown, StyledDiv } from 'Pages/VillageView/styles';
 
 const VillageView = () => {
   const { gameState } = useContext(GameSessionContext);
@@ -24,7 +22,7 @@ const VillageView = () => {
         </Col>
         <Col>
           <StyledDiv>
-            <Countdown value={gameState.endedAt.valueOf()} format='mm:ss' />
+            <StyledCountdown value={gameState.endedAt.valueOf()} format='mm:ss' />
           </StyledDiv>
         </Col>
         <Col>

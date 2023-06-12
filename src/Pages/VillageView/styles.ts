@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 import palette from 'palette';
-import { Row } from 'antd';
+import { Row, Statistic } from 'antd';
+
+const { Countdown } = Statistic;
 
 export const StyledDiv = styled('div')`
   background-color: ${palette.dadsRayOfSunshine};
@@ -13,4 +15,8 @@ export const StyledDiv = styled('div')`
 
 export const ResourcesRow = styled(Row)`
   padding-top: 25px;
+`;
+
+export const StyledCountdown = styled(Countdown)`
+  user-select: none;
 `;
