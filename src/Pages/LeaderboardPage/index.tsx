@@ -2,7 +2,7 @@ import { Col, Row } from 'antd';
 
 import Leaderboard from 'Containers/Leaderboard';
 import { Background } from 'Components/CommonComponents';
-import { LayoutContainer, StyledTitle } from 'Pages/LeaderboardPage/styles';
+import { LayoutContainer, StyledTitle } from './styles';
 
 const LeaderboardPage = () => {
   localStorage.clear();
