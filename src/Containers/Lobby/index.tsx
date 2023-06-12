@@ -9,6 +9,7 @@ import { PlayerEntry, PlayerList, StartButton } from './styles';
 import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 import { router } from 'router';
+import API_URL from 'api_url';
 
 const Lobby = () => {
   const gameCode = localStorage.getItem('gameCode') as string;
@@ -36,7 +37,7 @@ const Lobby = () => {
   const startGame = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/v1/game/start/', {
+      const response = await fetch(`${API_URL}/game/start/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,6 +10,7 @@ import ResourcesComponent from 'Components/ResourcesComponent';
 import { upgradeDurationSecondsLabel } from 'utils';
 import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
+import API_URL from 'api_url';
 
 const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const { gameState } = useContext(GameSessionState);
@@ -77,7 +78,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const recruitUnits = async () => {
     onLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/v1/game/train_units/`, {
+      const response = await fetch(`${API_URL}/game/train_units/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
