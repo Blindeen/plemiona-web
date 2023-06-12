@@ -7,6 +7,7 @@ export const StyledTable = styled(Table)`
   border: 2px solid ${palette.brown};
   border-radius: 8px 8px 0 0;
   box-shadow: black 0 0 5px 5px;
+  user-select: none;
 
   .ant-table-thead > tr > th {
     font-family: Old English Text MT, sans-serif;

@@ -48,6 +48,7 @@ export interface UnitInterface {
 type gameSessionStateType = {
   hasGameStarted: boolean;
   hasGameEnded: boolean;
+  endedAt: Date;
 
   owner: playerType;
   players: playerType[];
@@ -64,6 +65,7 @@ type gameSessionStateType = {
 const initialResources: gameSessionStateType = {
   hasGameStarted: false,
   hasGameEnded: false,
+  endedAt: new Date(),
 
   owner: { id: 0, nickname: '', morale: 100, village: { x: 0, y: 0 } },
   players: [] as playerType[],
@@ -196,6 +198,13 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
       const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
       setGameState((prevState) => merge({}, prevState, updated));
+
+      if ('endedAt' in data) {
+        setGameState((prevState) => ({
+          ...prevState,
+          endedAt: new Date(data.endedAt),
+        }));
+      }
     };
 
     return () => socket.close();

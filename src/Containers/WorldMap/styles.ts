@@ -33,6 +33,7 @@ export const Map = styled('div')`
   overflow: hidden;
   width: ${FRAME_WIDTH}px;
   height: ${FRAME_HEIGHT}px;
+  user-select: none;
 `;
 
 interface MapImageProps {
@@ -83,6 +84,7 @@ export const NavArrow = styled('img')<NavArrowProps>`
   background-size: cover;
   width: ${ARROW_WIDTH}px;
   height: ${ARROW_HEIGHT}px;
+  -webkit-user-drag: none;
 `;
 
 export const MapSquare = styled('div')`

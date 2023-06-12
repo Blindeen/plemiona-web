@@ -6,7 +6,7 @@ import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponen
 import GameSessionState, { BuildingInterface, BuildingType, Resources } from 'GameSessionContext';
 import pushNotification from 'pushNotification';
 import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from './styles';
-import { camelToSnakeCase, msToUpgradeLabel, nameToDisplayName, upgradeDurationSecondsLabel } from 'utils';
+import { camelToSnakeCase, msToUpgradeLabel, stringToTitle, upgradeDurationSecondsLabel } from 'utils';
 
 export interface UpgradeContainerProps {
   name: BuildingType;
@@ -18,7 +18,7 @@ const UpgradeContainer = ({ name, buildingContext, availableResources }: Upgrade
   const { gameState } = useContext(GameSessionState);
   const [loading, onLoading] = useState(false);
 
-  const displayName = nameToDisplayName(name);
+  const displayName = stringToTitle(name);
 
   const upgradeDate = localStorage.getItem(`${name}_upgrade`);
   const upgradeTime = upgradeDate ? new Date(upgradeDate as string).getTime() - new Date().getTime() : 0;
