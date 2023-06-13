@@ -84,12 +84,12 @@ const WorldMap = () => {
       entity: player,
     };
   });
-  BEMap[5][3] = {
-    type: 'player',
-    army: null,
-    isTarget: false,
-    entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
-  };
+  // BEMap[5][3] = {
+  //   type: 'player',
+  //   army: null,
+  //   isTarget: false,
+  //   entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
+  // };
 
   const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
 
