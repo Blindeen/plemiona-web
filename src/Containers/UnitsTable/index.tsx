@@ -3,7 +3,7 @@ import { Col, Row, Tooltip } from 'antd';
 
 import UnitComponent from 'Components/UnitComponent';
 
-import GameSessionState, { UnitType } from 'GameSessionContext';
+import GameSessionState from 'GameSessionContext';
 import { UnitsView } from './styles';
 import { stringToTitle } from 'utils';
 
@@ -13,11 +13,11 @@ const UnitsTable = () => {
   return (
     <UnitsView>
       <Row>
-        {Object.keys(gameState.units).map((unit, idx) => (
+        {Object.entries(gameState.units).map(([name, value], idx) => (
           <Col key={idx} span={6}>
-            <Tooltip title={`${stringToTitle(unit)}`}>
+            <Tooltip title={`${stringToTitle(name)}`}>
               <>
-                <UnitComponent name={unit} count={gameState.units[unit as UnitType].count} />
+                <UnitComponent name={name} count={value.count} />
               </>
             </Tooltip>
           </Col>

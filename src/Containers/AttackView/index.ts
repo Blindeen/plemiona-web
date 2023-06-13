@@ -1,12 +1,19 @@
 import styled from 'styled-components';
-import { Modal } from 'antd';
+import { Modal, Slider } from 'antd';
 import palette from 'palette';
 
-const AttackView = styled(Modal)`
-  min-width: 300px;
+export const UnitDistributionWrapper = styled('div')`
+  min-width: 480px;
   display: flex;
+  flex-direction: row;
+
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+
+  flex-wrap: wrap;
+`;
+
+const AttackView = styled(Modal)`
   box-shadow: none;
   border: none;
   user-select: none;
@@ -28,6 +35,15 @@ const AttackView = styled(Modal)`
       margin-left: 20px;
     }
   }
+`;
+
+export const UnitSlider = styled(Slider)`
+  flex: 0 0 77%;
+  margin-top: 2%;
+`;
+
+export const UnitWrapper = styled('div')`
+  flex: 0 0 12%;
 `;
 
 export default AttackView;

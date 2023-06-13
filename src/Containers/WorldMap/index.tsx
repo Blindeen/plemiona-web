@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 
 import 'App.css';
-import AttackView from 'Containers/AttackView';
+import AttackView, { UnitDistributionWrapper, UnitSlider, UnitWrapper } from 'Containers/AttackView';
+import { UnitImg } from 'Components/UnitComponent/styles';
 import { StartButton as AttackButton } from 'Containers/Lobby/styles';
 
 import GameSessionState, { playerType } from 'GameSessionContext';
@@ -154,11 +155,22 @@ const WorldMap = () => {
         open={attackViewOpen}
         closable={false}
         onCancel={() => setAttackViewOpen(false)}
-        width={300}
         footer={false}
         keyboard
         centered
       >
+        <UnitDistributionWrapper>
+          {
+            Object.entries(gameState.units).map(([name, value]) => (
+              <>
+                <UnitWrapper>
+                  <UnitImg type={name} width={48} height={48} />
+                </UnitWrapper>
+                <UnitSlider defaultValue={0} min={0} max={value.count + 5} keyboard></UnitSlider>
+              </>
+            ))
+          }
+        </UnitDistributionWrapper>
         <AttackButton onClick={() => handleAttackClick()}>Attack</AttackButton>
       </AttackView>
       <Map>
