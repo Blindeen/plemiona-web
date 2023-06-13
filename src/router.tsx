@@ -8,6 +8,9 @@ import LeaderboardPage from 'Pages/LeaderboardPage';
 
 import { GameSessionProvider } from 'GameSessionContext';
 
+import { PrivateRoute } from 'privateRoute';
+import { hasGameEnded, hasGameStarted, isAuthenticated } from 'utils';
+
 export const routes = {
   landingPage: '/',
   lobbyPage: 'lobby',
@@ -30,19 +33,35 @@ export const router = createHashRouter([
     children: [
       {
         path: routes.lobbyPage,
-        element: <LobbyPage />,
+        element: <PrivateRoute
+          children={<LobbyPage />}
+          redirectPath={routes.landingPage}
+          isAuthenticated={isAuthenticated}
+        />,
       },
       {
         path: routes.worldPage,
-        element: <WorldPage />,
+        element: <PrivateRoute
+          children={<WorldPage />}
+          redirectPath={routes.landingPage}
+          isAuthenticated={() => isAuthenticated() && hasGameStarted()}
+        />,
       },
       {
         path: routes.villagePage,
-        element: <VillagePage />,
+        element: <PrivateRoute
+          children={<VillagePage />}
+          redirectPath={routes.landingPage}
+          isAuthenticated={() => isAuthenticated() && hasGameStarted()}
+        />,
       },
       {
         path: routes.leaderboardPage,
-        element: <LeaderboardPage />,
+        element: <PrivateRoute
+          children={<LeaderboardPage />}
+          redirectPath={routes.landingPage}
+          isAuthenticated={() => isAuthenticated() && hasGameEnded()}
+        />,
       },
     ],
   },
