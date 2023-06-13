@@ -7,6 +7,7 @@ import GameSessionState, { BuildingInterface, BuildingType, Resources } from 'Ga
 import pushNotification from 'pushNotification';
 import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from './styles';
 import { camelToSnakeCase, msToUpgradeLabel, stringToTitle, upgradeDurationSecondsLabel } from 'utils';
+import API_URL from 'api_url';
 
 export interface UpgradeContainerProps {
   name: BuildingType;
@@ -26,7 +27,7 @@ const UpgradeContainer = ({ name, buildingContext, availableResources }: Upgrade
   const upgradeBuilding = async () => {
     onLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/v1/game/building/${camelToSnakeCase(name)}/upgrade/`, {
+      const response = await fetch(`${API_URL}/game/building/${camelToSnakeCase(name)}/upgrade/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

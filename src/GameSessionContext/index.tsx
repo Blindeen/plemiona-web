@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import merge from 'lodash.merge';
 
 import pushNotification from 'pushNotification';
+import WS_URL from 'ws_url';
 
 export type Resource = 'wood' | 'clay' | 'iron';
 export type Resources = Record<Resource, number>;
@@ -169,7 +170,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const resourceUpdater = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/?token=${localStorage.getItem('token')}`);
+    const socket = new WebSocket(`${WS_URL}/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = async (event) => {
       clearTimeout(resourceUpdater.current);
