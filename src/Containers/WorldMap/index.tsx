@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
+import AttackView from 'Containers/AttackView';
+
 import GameSessionState, { playerType } from 'GameSessionContext';
 import { router, routes } from 'router';
 import {
@@ -19,23 +21,28 @@ import {
   TILE_WIDTH,
 } from './styles';
 
+type entityType = null | playerType
+
 export type mapTile = {
   type: 'player' | 'empty' | 'barbarians';
-  player?: playerType;
+  entity: entityType;
   army?: null; // for now
   isTarget: boolean;
 };
 
 const WorldMap = () => {
   const { gameState } = useContext(GameSessionState);
+  const [attackViewOpen, setAttackViewOpen] = useState(false);
+  const [targetEntity, setTargetEntity] = useState<entityType>();
+
+  const currentTarget = localStorage.getItem('current_target');
+  const selfID = Number(localStorage.getItem('playerId') as string);
 
   useEffect(() => {
     if (gameState.hasGameEnded) {
       router.navigate(routes.leaderboardPage);
     }
   }, [gameState.hasGameEnded]);
-
-  const { x: selfX, y: selfY } = { x: 3, y: 5 };
 
   const selfMiddle = () => {
     let middleX = selfX > Math.floor(FRAME_SQUARES_X / 2) ? selfX - Math.floor(FRAME_SQUARES_X / 2) : 0;
@@ -47,35 +54,47 @@ const WorldMap = () => {
     return { x: middleX, y: middleY };
   };
 
-  const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
-
   let BEMap = [
     ...Array.from({ length: MAP_SQUARES_Y }, () => [
       ...Array.from({ length: MAP_SQUARES_X }, () => ({ type: 'empty', army: null, isTarget: false })),
     ]),
   ] as mapTile[][];
 
+
+  let { x: selfX, y: selfY } = { x: 3, y: 5 };
   gameState.players.forEach((player) => {
+    if (player.id === selfID) {
+      selfX = player.village.x;
+      selfY = player.village.y;
+    }
     BEMap[player.village.y][player.village.x] = {
       type: 'player',
       army: null,
       isTarget: false,
-      player,
+      entity: player,
     };
   });
+  BEMap[5][3] = {
+    type: 'player',
+    army: null,
+    isTarget: false,
+    entity: {} as playerType,
+  };
+
+  const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
 
-  const calculateAbsolute = (relativeIdx: number) => [
-    (relativeIdx % FRAME_SQUARES_X) + cordX,
-    Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY,
-  ];
+  // const calculateAbsolute = (relativeIdx: number) => [
+  //   (relativeIdx % FRAME_SQUARES_X) + cordX,
+  //   Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY,
+  // ];
 
-  const handleCLick = (relativeIdx: number) => {
-    const [absoluteX, absoluteY] = calculateAbsolute(relativeIdx);
-    console.log(`${absoluteX} ${absoluteY}`);
-    //request with cords
+  const handleCLick = (entity: entityType) => {
+    if (!entity) return;
+    setTargetEntity(entity);
+    setAttackViewOpen(true);
   };
 
   const isBoundary = (direction: direction) => {
@@ -112,12 +131,12 @@ const WorldMap = () => {
 
   const resetView = () => setCords(selfMiddle());
 
-  const squares = mapFragment().map(({ type, player, army, isTarget }, idx) => (
-    <MapSquare onClick={() => type !== 'empty' && handleCLick(idx)} key={idx}>
+  const squares = mapFragment().map(({ type, entity, army, isTarget }, idx) => (
+    <MapSquare onClick={() => type !== 'empty' && handleCLick(entity)} key={idx}>
       {type === 'player' && (
         <>
-          <PlayerNickname>{player?.nickname}</PlayerNickname>
-          <img src='/Assets/castle.png' alt={player?.nickname as string} width={TILE_WIDTH} height={TILE_HEIGHT} />
+          <PlayerNickname>{entity?.nickname}</PlayerNickname>
+          <img src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH} height={TILE_HEIGHT} />
         </>
       )}
     </MapSquare>
@@ -125,6 +144,17 @@ const WorldMap = () => {
 
   return (
     <Frame>
+      <AttackView
+        open={attackViewOpen}
+        closable={true}
+        onCancel={() => setAttackViewOpen(false)}
+        width={400}
+        keyboard={true}
+        footer={false}
+        centered={true}
+      >
+
+      </AttackView>
       <Map>
         <MapImage src='/Arts/MapImage.png' cordx={cordX} cordy={cordY} />
         {squares}
