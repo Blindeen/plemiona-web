@@ -1,7 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 
-import GameSessionState, { playerType } from 'GameSessionContext';
+import 'App.css';
+import AttackView, { UnitDistributionWrapper, UnitSlider, UnitWrapper } from 'Containers/AttackView';
+import { UnitImg } from 'Components/UnitComponent/styles';
+import { StartButton as AttackButton } from 'Containers/Lobby/styles';
+
+import GameSessionState, { playerType, UnitType } from 'GameSessionContext';
 import { router, routes } from 'router';
+import pushNotification from 'pushNotification';
+import API_URL from 'api_url';
 import {
   direction,
   DIRECTIONS,
@@ -17,25 +24,38 @@ import {
   PlayerNickname,
   TILE_HEIGHT,
   TILE_WIDTH,
+  VillageImg,
 } from './styles';
 
+type entityType = null | playerType;
+type tileType = 'player' | 'empty' | 'barbarians';
+
 export type mapTile = {
-  type: 'player' | 'empty' | 'barbarians';
-  player?: playerType;
+  type: tileType;
+  entity: entityType;
   army?: null; // for now
   isTarget: boolean;
 };
 
 const WorldMap = () => {
   const { gameState } = useContext(GameSessionState);
+  const [attackViewOpen, setAttackViewOpen] = useState(false);
+  const [attackingUnits, setAttackingUnits] = useState<Record<UnitType, number>>({
+    spearman: 0,
+    archer: 0,
+    axeman: 0,
+    swordsman: 0,
+  });
+  const [targetEntity, setTargetEntity] = useState<entityType>();
+  const [loading, setLoading] = useState(false);
+
+  const selfID = Number(localStorage.getItem('playerId') as string);
 
   useEffect(() => {
     if (gameState.hasGameEnded) {
       router.navigate(routes.leaderboardPage);
     }
   }, [gameState.hasGameEnded]);
-
-  const { x: selfX, y: selfY } = { x: 3, y: 5 };
 
   const selfMiddle = () => {
     let middleX = selfX > Math.floor(FRAME_SQUARES_X / 2) ? selfX - Math.floor(FRAME_SQUARES_X / 2) : 0;
@@ -47,35 +67,78 @@ const WorldMap = () => {
     return { x: middleX, y: middleY };
   };
 
-  const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
-
   let BEMap = [
     ...Array.from({ length: MAP_SQUARES_Y }, () => [
       ...Array.from({ length: MAP_SQUARES_X }, () => ({ type: 'empty', army: null, isTarget: false })),
     ]),
   ] as mapTile[][];
 
+  let { x: selfX, y: selfY } = { x: 3, y: 5 };
   gameState.players.forEach((player) => {
+    if (player.id === selfID) {
+      selfX = player.village.x;
+      selfY = player.village.y;
+    }
     BEMap[player.village.y][player.village.x] = {
       type: 'player',
       army: null,
       isTarget: false,
-      player,
+      entity: player,
     };
   });
+  // BEMap[5][3] = {
+  //   type: 'player',
+  //   army: null,
+  //   isTarget: false,
+  //   entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
+  // };
+
+  const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
 
-  const calculateAbsolute = (relativeIdx: number) => [
-    (relativeIdx % FRAME_SQUARES_X) + cordX,
-    Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY,
-  ];
-
-  const handleCLick = (relativeIdx: number) => {
-    const [absoluteX, absoluteY] = calculateAbsolute(relativeIdx);
-    console.log(`${absoluteX} ${absoluteY}`);
-    //request with cords
+  const handleTileClick = (tileType: tileType, entity: entityType) => {
+    if (!entity) return;
+    if (tileType === 'player' && entity.id === selfID) {
+      router.navigate(routes.villagePage);
+      return;
+    }
+    setTargetEntity(entity);
+    setAttackViewOpen(true);
+  };
+  const handleAttackClick = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/game/attack/${targetEntity?.id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('token') as string,
+        },
+        body: JSON.stringify({
+          units: [
+            { name: 'archer', count: attackingUnits.archer },
+            { name: 'axeman', count: attackingUnits.axeman },
+            { name: 'spearman', count: attackingUnits.spearman },
+            { name: 'swordsman', count: attackingUnits.swordsman },
+          ],
+        }),
+      });
+      if (response.ok) {
+        pushNotification('success', `You are attacking ${targetEntity?.nickname}`);
+      } else {
+        const { errors } = await response.json();
+        Object.entries(errors).forEach(([key, value]) => {
+          pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
+        });
+      }
+    } catch (error) {
+      pushNotification('error', 'Server down', 'Please check your connection');
+    } finally {
+      setLoading(false);
+      setAttackViewOpen(false);
+    }
   };
 
   const isBoundary = (direction: direction) => {
@@ -112,12 +175,22 @@ const WorldMap = () => {
 
   const resetView = () => setCords(selfMiddle());
 
-  const squares = mapFragment().map(({ type, player, army, isTarget }, idx) => (
-    <MapSquare onClick={() => type !== 'empty' && handleCLick(idx)} key={idx}>
+  const squares = mapFragment().map(({ type, entity, army, isTarget }, idx) => (
+    <MapSquare onClick={() => type !== 'empty' && handleTileClick(type, entity)} key={idx}>
       {type === 'player' && (
         <>
-          <PlayerNickname>{player?.nickname}</PlayerNickname>
-          <img src='/assets/castle.png' alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
+          <PlayerNickname>
+            {entity?.nickname}
+            <br />
+            {entity?.id === Number(selfID) && '(you)'}
+          </PlayerNickname>
+          <VillageImg
+            className="clickable"
+            src="/assets/castle.png"
+            alt={entity?.nickname as string}
+            width={TILE_WIDTH}
+            height={TILE_HEIGHT}
+          />
         </>
       )}
     </MapSquare>
@@ -125,17 +198,46 @@ const WorldMap = () => {
 
   return (
     <Frame>
+      <AttackView
+        open={attackViewOpen}
+        onCancel={() => setAttackViewOpen(false)}
+        footer={false}
+        keyboard
+        centered
+        closable
+      >
+        <UnitDistributionWrapper>
+          {Object.entries(gameState.units).map(([name, unitProps], idx) => (
+            <Fragment key={idx}>
+              <UnitWrapper>
+                <UnitImg type={name} width={48} height={48} />
+              </UnitWrapper>
+              <UnitSlider
+                defaultValue={0}
+                min={0}
+                max={unitProps.count}
+                onAfterChange={(value: number) => setAttackingUnits((prevState) => ({ ...prevState, [name]: value }))}
+                keyboard
+              ></UnitSlider>
+            </Fragment>
+          ))}
+        </UnitDistributionWrapper>
+        <AttackButton loading={loading} onClick={() => handleAttackClick()}>
+          Attack
+        </AttackButton>
+      </AttackView>
       <Map>
-        <MapImage src='/assets/map-image.jpg' cordx={cordX} cordy={cordY} />
+        <MapImage src="/assets/map-image.jpg" cordX={cordX} cordY={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
             !isBoundary(direction) && (
               <NavArrow
                 key={idx}
+                className="clickable"
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src='/assets/buttons/map-arrow-button.png'
+                src="/assets/buttons/map-arrow-button.png"
               />
             )
         )}

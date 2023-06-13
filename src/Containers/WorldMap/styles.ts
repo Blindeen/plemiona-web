@@ -40,15 +40,15 @@ export const Map = styled('div')`
 `;
 
 interface MapImageProps {
-  cordx: number;
-  cordy: number;
+  cordX: number;
+  cordY: number;
 }
 
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordx }) => (-cordx * FRAME_WIDTH) / FRAME_SQUARES_X}px;
-  top: ${({ cordy }) => (-cordy * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
+  left: ${({ cordX }) => (-cordX * FRAME_WIDTH) / FRAME_SQUARES_X}px;
+  top: ${({ cordY }) => (-cordY * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
 `;
 
 const ARROW_WIDTH = 64;
@@ -87,7 +87,11 @@ export const NavArrow = styled('img')<NavArrowProps>`
   background-size: cover;
   width: ${ARROW_WIDTH}px;
   height: ${ARROW_HEIGHT}px;
-  -webkit-user-drag: none;
+`;
+
+export const VillageImg = styled('img')`
+  position: relative;
+  z-index: 6;
 `;
 
 export const MapSquare = styled('div')`
