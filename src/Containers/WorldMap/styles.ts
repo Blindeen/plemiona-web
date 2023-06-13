@@ -87,27 +87,11 @@ export const NavArrow = styled('img')<NavArrowProps>`
   background-size: cover;
   width: ${ARROW_WIDTH}px;
   height: ${ARROW_HEIGHT}px;
-
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
 `;
 
 export const VillageImg = styled('img')`
   position: relative;
   z-index: 6;
-  
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
 `;
 
 export const MapSquare = styled('div')`

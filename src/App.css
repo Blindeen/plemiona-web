@@ -7,3 +7,13 @@ body {
 a, a svg, button {
     cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
 }
+
+.clickable {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+}

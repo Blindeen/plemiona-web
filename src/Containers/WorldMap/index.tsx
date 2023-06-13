@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
+import 'App.css';
 import AttackView from 'Containers/AttackView';
 import { StartButton as AttackButton } from 'Containers/Lobby/styles';
 
@@ -140,7 +141,7 @@ const WorldMap = () => {
       {type === 'player' && (
         <>
           <PlayerNickname>{entity?.nickname}<br />{entity?.id === Number(selfID) && '(you)'}</PlayerNickname>
-          <VillageImg src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH}
+          <VillageImg className='clickable' src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH}
                       height={TILE_HEIGHT} />
         </>
       )}
@@ -168,6 +169,7 @@ const WorldMap = () => {
             !isBoundary(direction) && (
               <NavArrow
                 key={idx}
+                className='clickable'
                 direction={direction}
                 onClick={() => moveMap(direction)}
                 src='/Assets/Buttons/map_arrow_button.png'
