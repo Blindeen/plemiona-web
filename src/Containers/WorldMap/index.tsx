@@ -53,6 +53,7 @@ const WorldMap = () => {
 
   useEffect(() => {
     if (gameState.hasGameEnded) {
+      localStorage.setItem('hasGameEnded', gameState.hasGameEnded.toString());
       router.navigate(routes.leaderboardPage);
     }
   }, [gameState.hasGameEnded]);
