@@ -200,11 +200,11 @@ const WorldMap = () => {
     <Frame>
       <AttackView
         open={attackViewOpen}
-        closable={false}
         onCancel={() => setAttackViewOpen(false)}
         footer={false}
         keyboard
         centered
+        closable
       >
         <UnitDistributionWrapper>
           {Object.entries(gameState.units).map(([name, unitProps], idx) => (
