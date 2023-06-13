@@ -25,3 +25,9 @@ export const upgradeDurationSecondsLabel = (seconds: number) => {
 
   return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
 };
+
+export const isAuthenticated = () => !!localStorage.getItem('token');
+
+export const hasGameStarted = () => !!localStorage.getItem('hasGameStarted');
+
+export const hasGameEnded = () => !!localStorage.getItem('hasGameEnded');
