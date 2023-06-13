@@ -5,7 +5,7 @@ import AttackView, { UnitDistributionWrapper, UnitSlider, UnitWrapper } from 'Co
 import { UnitImg } from 'Components/UnitComponent/styles';
 import { StartButton as AttackButton } from 'Containers/Lobby/styles';
 
-import GameSessionState, { playerType } from 'GameSessionContext';
+import GameSessionState, { playerType, UnitType } from 'GameSessionContext';
 import { router, routes } from 'router';
 import {
   direction,
@@ -38,6 +38,12 @@ export type mapTile = {
 const WorldMap = () => {
   const { gameState } = useContext(GameSessionState);
   const [attackViewOpen, setAttackViewOpen] = useState(false);
+  const [attackingUnits, setAttackingUnits] = useState<Record<UnitType, number>>({
+    spearman: 0,
+    archer: 0,
+    axeman: 0,
+    swordsman: 0,
+  });
   const [targetEntity, setTargetEntity] = useState<entityType>();
 
   const selfID = Number(localStorage.getItem('playerId') as string);
@@ -161,12 +167,17 @@ const WorldMap = () => {
       >
         <UnitDistributionWrapper>
           {
-            Object.entries(gameState.units).map(([name, value]) => (
+            Object.entries(gameState.units).map(([name, unitProps]) => (
               <>
                 <UnitWrapper>
                   <UnitImg type={name} width={48} height={48} />
                 </UnitWrapper>
-                <UnitSlider defaultValue={0} min={0} max={value.count + 5} keyboard></UnitSlider>
+                <UnitSlider
+                  defaultValue={0}
+                  min={0}
+                  max={unitProps.count + 5}
+                  onAfterChange={(value: number) => setAttackingUnits((prevState) => ({ ...prevState, [name]: value }))}
+                  keyboard></UnitSlider>
               </>
             ))
           }
