@@ -106,7 +106,13 @@ const WorldMap = () => {
     setAttackViewOpen(true);
   };
   const handleAttackClick = () => {
-
+    //fetch uzywający attackingUnits i targetEntity
+    setAttackingUnits({
+      spearman: 0,
+      archer: 0,
+      axeman: 0,
+      swordsman: 0,
+    });
   };
 
   const isBoundary = (direction: direction) => {
