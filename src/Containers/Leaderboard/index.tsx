@@ -5,8 +5,7 @@ import { ColumnsType } from 'antd/es/table';
 
 import GameSessionState, { leaderboardRecord } from 'GameSessionContext';
 import { Background } from 'Components/CommonComponents';
-import { StyledTable } from 'Components/Table/styles';
-import { LayoutContainer, StyledTitle } from './styles';
+import { LayoutContainer, StyledLeaderboard, StyledTitle } from './styles';
 
 const Leaderboard = () => {
   const { gameState } = useContext(GameSessionState);
@@ -43,7 +42,7 @@ const Leaderboard = () => {
         </Row>
         <Row>
           <Col span={6} offset={9}>
-            <StyledTable
+            <StyledLeaderboard
               columns={columns}
               dataSource={leaderboard}
               rowKey={(record) => record.id}
