@@ -9,6 +9,7 @@ export interface BuildingProps {
   sizeY: number;
   posLvlX?: number;
   posLvlY?: number;
+  onClick?: () => void;
 }
 
 const Building = ({
@@ -20,6 +21,7 @@ const Building = ({
   sizeY = 200,
   posLvlX = 0,
   posLvlY = 0,
+  onClick = () => null,
 }: BuildingProps) => {
   const tierPerLvl: number = 5;
   const lvlIndex: number = lvl - 1;
@@ -29,6 +31,7 @@ const Building = ({
 
   return (
     <StyledBuilding
+      onClick={onClick}
       style={{
         top: posY,
         left: posX,

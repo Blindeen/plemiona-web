@@ -52,6 +52,7 @@ export const TimeTag = styled('div')`
   font-weight: 600;
   font-family: Arial, sans-serif;
   width: fit-content;
+  margin: auto;
 `;
 
 export const MaxLvlTag = styled('div')`

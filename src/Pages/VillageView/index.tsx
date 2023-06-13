@@ -1,37 +1,40 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 
-import { Button, Col, Divider, Row } from 'antd';
+import { Col, Row } from 'antd';
 
-import { router } from 'router';
+import GameSessionContext from 'GameSessionContext';
 
 import Village from 'Containers/Village';
+import UnitsTable from 'Containers/UnitsTable';
 import ResourcesTable from 'Containers/ResourcesTable';
-import { Background, CenteredBox } from 'Components/CommonComponents';
-import UpgradeView from 'Containers/UpgradeView';
+
+import { Background } from 'Components/CommonComponents';
+import { ResourcesRow, StyledCountdown, StyledDiv } from 'Pages/VillageView/styles';
 
 const VillageView = () => {
-  const [modal, setModal] = useState(false);
+  const { gameState } = useContext(GameSessionContext);
 
   return (
-    <>
-      <Background>
-        <CenteredBox>
-          <Button onClick={() => setModal(true)}>Modal</Button>
-          <Button onClick={() => router.navigate('test')}>test</Button>
-          <UpgradeView open={modal} setOpen={setModal} />
-          <Row gutter={[20, 20]} align="middle" justify="center" style={{ marginLeft: 0, marginRight: 0 }}>
-            <Col>
-              <Village />
-            </Col>
-            <Col>
-              <ResourcesTable />
-              <Divider />
-              <ResourcesTable />
-            </Col>
-          </Row>
-        </CenteredBox>
-      </Background>
-    </>
+    <Background>
+      <ResourcesRow gutter={[20, 20]} justify='center' align='middle'>
+        <Col>
+          <ResourcesTable />
+        </Col>
+        <Col>
+          <StyledDiv>
+            <StyledCountdown value={gameState.endedAt.valueOf()} format='mm:ss' />
+          </StyledDiv>
+        </Col>
+        <Col>
+          <UnitsTable />
+        </Col>
+      </ResourcesRow>
+      <Row justify='center'>
+        <Col>
+          <Village />
+        </Col>
+      </Row>
+    </Background>
   );
 };
 

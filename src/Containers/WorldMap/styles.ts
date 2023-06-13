@@ -11,10 +11,20 @@ export const MAP_SQUARES_Y = 16;
 const MAP_IMAGE_WIDTH = 2624;
 const MAP_IMAGE_HEIGHT = 1856;
 
-const FRAME_WIDTH = (MAP_IMAGE_WIDTH / MAP_SQUARES_X) * FRAME_SQUARES_X;
-const FRAME_HEIGHT = (MAP_IMAGE_HEIGHT / MAP_SQUARES_Y) * FRAME_SQUARES_Y;
+export const TILE_WIDTH = MAP_IMAGE_WIDTH / MAP_SQUARES_X;
+export const TILE_HEIGHT = MAP_IMAGE_HEIGHT / MAP_SQUARES_Y;
 
-export const MapFrame = styled('div')`
+const FRAME_WIDTH = TILE_WIDTH * FRAME_SQUARES_X;
+const FRAME_HEIGHT = TILE_HEIGHT * FRAME_SQUARES_Y;
+
+export const Frame = styled('div')`
+  position: absolute;
+  z-index: 5;
+  border: 105px solid transparent;
+  border-image: url('/Arts/MapFrame.png') 105 stretch;
+`;
+
+export const Map = styled('div')`
   display: flex;
   flex-direction: row;
   justify-content: stretch;
@@ -26,6 +36,7 @@ export const MapFrame = styled('div')`
   overflow: hidden;
   width: ${FRAME_WIDTH}px;
   height: ${FRAME_HEIGHT}px;
+  user-select: none;
 `;
 
 interface MapImageProps {
@@ -68,7 +79,7 @@ const handleDirection = (direction: direction) => {
 
 export const NavArrow = styled('img')<NavArrowProps>`
   position: absolute;
-  z-index: 3;
+  z-index: 6;
   left: ${({ direction }) => handleDirection(direction).left}px;
   top: ${({ direction }) => handleDirection(direction).top}px;
   transform: rotate(${({ direction }) => handleDirection(direction).rotation}deg);
@@ -76,6 +87,7 @@ export const NavArrow = styled('img')<NavArrowProps>`
   background-size: cover;
   width: ${ARROW_WIDTH}px;
   height: ${ARROW_HEIGHT}px;
+  -webkit-user-drag: none;
 `;
 
 export const MapSquare = styled('div')`
@@ -106,4 +118,14 @@ export const MapSquare = styled('div')`
     border-style: solid;
     box-sizing: border-box;
   }
+`;
+
+export const PlayerNickname = styled('span')`
+  position: absolute;
+  font-size: 1.5em;
+  bottom: ${TILE_WIDTH}px;
+  width: 100%;
+  word-wrap: break-word;
+  color: sandybrown;
+  text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 `;

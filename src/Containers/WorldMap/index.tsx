@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { playerType } from 'GameSessionContext';
+import GameSessionState, { playerType } from 'GameSessionContext';
+import { router, routes } from 'router';
 import {
   direction,
   DIRECTIONS,
+  Frame,
   FRAME_SQUARES_X,
   FRAME_SQUARES_Y,
+  Map,
   MAP_SQUARES_X,
   MAP_SQUARES_Y,
-  MapFrame,
   MapImage,
   MapSquare,
   NavArrow,
+  PlayerNickname,
+  TILE_HEIGHT,
+  TILE_WIDTH,
 } from './styles';
 
 export type mapTile = {
@@ -22,6 +27,14 @@ export type mapTile = {
 };
 
 const WorldMap = () => {
+  const { gameState } = useContext(GameSessionState);
+
+  useEffect(() => {
+    if (gameState.hasGameEnded) {
+      router.navigate(routes.leaderboardPage);
+    }
+  }, [gameState.hasGameEnded]);
+
   const { x: selfX, y: selfY } = { x: 3, y: 5 };
 
   const selfMiddle = () => {
@@ -42,12 +55,14 @@ const WorldMap = () => {
     ]),
   ] as mapTile[][];
 
-  BEMap[selfY][selfX] = {
-    type: 'player',
-    army: null,
-    isTarget: false,
-    player: { nickname: 'Adam', id: 5, morale: 100, village: { x: 0, y: 0 } },
-  };
+  gameState.players.forEach((player) => {
+    BEMap[player.village.y][player.village.x] = {
+      type: 'player',
+      army: null,
+      isTarget: false,
+      player,
+    };
+  });
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
@@ -99,26 +114,33 @@ const WorldMap = () => {
 
   const squares = mapFragment().map(({ type, player, army, isTarget }, idx) => (
     <MapSquare onClick={() => type !== 'empty' && handleCLick(idx)} key={idx}>
-      {type === 'player' && player?.nickname}
+      {type === 'player' && (
+        <>
+          <PlayerNickname>{player?.nickname}</PlayerNickname>
+          <img src="/Assets/castle.png" alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
+        </>
+      )}
     </MapSquare>
   ));
 
   return (
-    <MapFrame>
-      <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
-      {squares}
-      {Object.values(DIRECTIONS).map(
-        (direction, idx) =>
-          !isBoundary(direction) && (
-            <NavArrow
-              key={idx}
-              direction={direction}
-              onClick={() => moveMap(direction)}
-              src="/Assets/Buttons/map_arrow_button.png"
-            />
-          )
-      )}
-    </MapFrame>
+    <Frame>
+      <Map>
+        <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
+        {squares}
+        {Object.values(DIRECTIONS).map(
+          (direction, idx) =>
+            !isBoundary(direction) && (
+              <NavArrow
+                key={idx}
+                direction={direction}
+                onClick={() => moveMap(direction)}
+                src="/Assets/Buttons/map_arrow_button.png"
+              />
+            )
+        )}
+      </Map>
+    </Frame>
   );
 };
 
