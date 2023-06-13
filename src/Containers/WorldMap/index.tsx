@@ -55,13 +55,6 @@ const WorldMap = () => {
     ]),
   ] as mapTile[][];
 
-  // BEMap[selfY][selfX] = {
-  //   type: 'player',
-  //   army: null,
-  //   isTarget: false,
-  //   player: { nickname: 'Adam', id: 5, morale: 100, village: { x: 0, y: 0 } },
-  // };
-
   gameState.players.forEach((player) => {
     BEMap[player.village.y][player.village.x] = {
       type: 'player',
