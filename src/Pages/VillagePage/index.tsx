@@ -1,24 +1,33 @@
 import { useContext, useState } from 'react';
 import { Col, Row, Tooltip } from 'antd';
 
-import Village from 'Containers/Village';
-import UnitsTable from 'Containers/UnitsTable';
+import BattleReportsModal from 'Containers/BattleReportsModal';
 import ResourcesTable from 'Containers/ResourcesTable';
+import UnitsTable from 'Containers/UnitsTable';
+import HelpModal from 'Containers/HelpModal';
+import Village from 'Containers/Village';
 
 import { Background } from 'Components/CommonComponents';
 import Button from 'Components/Button';
 
 import { ResourcesRow, StyledCountdown, StyledDiv } from './styles';
 import GameSessionContext from 'GameSessionContext';
-import HelpModal from 'Containers/HelpModal';
 
 const VillagePage = () => {
   const { gameState } = useContext(GameSessionContext);
+
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isBattleReportsModalOpen, setIsBattleReportsModalOpen] = useState(false);
 
   return (
     <Background>
       {isHelpModalOpen && <HelpModal isHelpModalOpen={isHelpModalOpen} setIsHelpModalOpen={setIsHelpModalOpen} />}
+      {isBattleReportsModalOpen && (
+        <BattleReportsModal
+          isBattleReportsModalOpen={isBattleReportsModalOpen}
+          setIsBattleReportsModalOpen={setIsBattleReportsModalOpen}
+        />
+      )}
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <ResourcesRow gutter={[20, 20]} justify="center" align="middle">
@@ -40,12 +49,21 @@ const VillagePage = () => {
             <Col>
               <Village />
             </Col>
-            <Col>
+            <Col span={1}>
               <Row>
-                <Col>
-                  <Tooltip title="Help">
-                    <Button onClick={() => setIsHelpModalOpen(true)}>?</Button>
-                  </Tooltip>
+                <Col span={16}>
+                  <Row gutter={[0, 8]}>
+                    <Col span={24}>
+                      <Tooltip title="Help">
+                        <Button onClick={() => setIsHelpModalOpen(true)}>?</Button>
+                      </Tooltip>
+                    </Col>
+                    <Col span={24}>
+                      <Tooltip title="Battle reports">
+                        <Button onClick={() => setIsBattleReportsModalOpen(true)}>R</Button>
+                      </Tooltip>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Col>
