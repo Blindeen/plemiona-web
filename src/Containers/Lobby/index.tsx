@@ -21,6 +21,7 @@ const Lobby = () => {
 
   useEffect(() => {
     if (gameState.hasGameStarted) {
+      localStorage.setItem('hasGameStarted', gameState.hasGameStarted.toString());
       router.navigate('village');
     }
   }, [gameState.hasGameStarted]);
