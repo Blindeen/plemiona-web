@@ -16,7 +16,7 @@ const VillageView = () => {
 
   return (
     <Background>
-      <ResourcesRow gutter={[20, 20]} justify='center' align='middle'>
+      <ResourcesRow gutter={[20, 0]} justify='center' align='middle'>
         <Col>
           <ResourcesTable />
         </Col>
