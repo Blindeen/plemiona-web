@@ -1,11 +1,18 @@
 import { Fragment, useContext } from 'react';
 import { Col, Divider, Row } from 'antd';
 
-import { ResourcesNameTag, TownHallWindow } from './styles';
-import UpgradeContainer from './UpgradeContainer';
-import GameSessionState, { BuildingType } from 'GameSessionContext';
+import Modal from 'Components/Modal';
 
-const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
+import GameSessionState, { BuildingType } from 'GameSessionContext';
+import UpgradeContainer from './UpgradeContainer';
+import { ResourcesNameTag } from './styles';
+
+interface UpgradeViewProps {
+  open: boolean;
+  setOpen: (e: boolean) => void;
+}
+
+const UpgradeView = ({ open, setOpen }: UpgradeViewProps) => {
   const { gameState } = useContext(GameSessionState);
 
   const upgradeContainers = Array.from(Object.keys(gameState.buildings), (name) => ({
@@ -22,7 +29,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   ));
 
   return (
-    <TownHallWindow
+    <Modal
       open={open}
       closable={true}
       onCancel={() => setOpen(false)}
@@ -49,7 +56,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
           {upgrades}
         </Col>
       </Row>
-    </TownHallWindow>
+    </Modal>
   );
 };
 
