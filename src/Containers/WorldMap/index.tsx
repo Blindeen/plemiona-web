@@ -36,7 +36,6 @@ const WorldMap = () => {
   const [attackViewOpen, setAttackViewOpen] = useState(false);
   const [targetEntity, setTargetEntity] = useState<entityType>();
 
-  const currentTarget = localStorage.getItem('current_target');
   const selfID = Number(localStorage.getItem('playerId') as string);
 
   useEffect(() => {
@@ -86,11 +85,6 @@ const WorldMap = () => {
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
-
-  // const calculateAbsolute = (relativeIdx: number) => [
-  //   (relativeIdx % FRAME_SQUARES_X) + cordX,
-  //   Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY,
-  // ];
 
   const handleCLick = (tileType: tileType, entity: entityType) => {
     if (!entity) return;
