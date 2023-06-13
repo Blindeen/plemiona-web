@@ -10,10 +10,10 @@ const { Title } = Typography;
 export const StyledLeaderboard = styled(StyledTable)`
   @keyframes shiny-animation {
     0% {
-      background-position: -16vh;
+      background-position: -9vw;
     }
     100% {
-      background-position: 16vh;
+      background-position: 9vw;
     }
   }
 }
