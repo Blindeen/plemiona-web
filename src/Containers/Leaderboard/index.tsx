@@ -14,10 +14,10 @@ const Leaderboard = () => {
 
   const columns: ColumnsType<leaderboardRecord> = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
+      title: 'Place',
+      key: 'place',
       align: 'center',
+      render: (value, record, index) => index + 1,
     },
     {
       title: 'Nickname',
