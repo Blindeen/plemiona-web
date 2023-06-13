@@ -20,6 +20,7 @@ import {
   PlayerNickname,
   TILE_HEIGHT,
   TILE_WIDTH,
+  VillageImg,
 } from './styles';
 
 type entityType = null | playerType
@@ -139,7 +140,8 @@ const WorldMap = () => {
       {type === 'player' && (
         <>
           <PlayerNickname>{entity?.nickname}<br />{entity?.id === Number(selfID) && '(you)'}</PlayerNickname>
-          <img src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH} height={TILE_HEIGHT} />
+          <VillageImg src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH}
+                      height={TILE_HEIGHT} />
         </>
       )}
     </MapSquare>
@@ -159,7 +161,7 @@ const WorldMap = () => {
         <AttackButton onClick={() => handleAttackClick()}>Attack</AttackButton>
       </AttackView>
       <Map>
-        <MapImage src='/Arts/MapImage.png' cordx={cordX} cordy={cordY} />
+        <MapImage src='/Arts/MapImage.png' cordX={cordX} cordY={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
