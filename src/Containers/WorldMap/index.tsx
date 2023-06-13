@@ -25,6 +25,7 @@ import {
   TILE_HEIGHT,
   TILE_WIDTH,
   VillageImg,
+  VillageReturnButton,
 } from './styles';
 
 type entityType = null | playerType;
@@ -186,8 +187,8 @@ const WorldMap = () => {
             {entity?.id === Number(selfID) && '(you)'}
           </PlayerNickname>
           <VillageImg
-            className="clickable"
-            src="/assets/castle.png"
+            className='clickable'
+            src='/assets/castle.png'
             alt={entity?.nickname as string}
             width={TILE_WIDTH}
             height={TILE_HEIGHT}
@@ -228,19 +229,20 @@ const WorldMap = () => {
         </AttackButton>
       </AttackView>
       <Map>
-        <MapImage src="/assets/map-image.jpg" cordX={cordX} cordY={cordY} />
+        <MapImage src='/assets/map-image.jpg' cordX={cordX} cordY={cordY} />
+        <VillageReturnButton className='clickable' onClick={resetView} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
             !isBoundary(direction) && (
               <NavArrow
                 key={idx}
-                className="clickable"
+                className='clickable'
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src="/assets/buttons/map-arrow-button.png"
+                src='/assets/buttons/map-arrow-button.png'
               />
-            )
+            ),
         )}
       </Map>
     </Frame>

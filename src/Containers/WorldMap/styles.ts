@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { HomeOutlined } from '@ant-design/icons';
+
 import palette from 'palette';
 
 export const FRAME_SQUARES_X = 7;
@@ -87,6 +89,14 @@ export const NavArrow = styled('img')<NavArrowProps>`
   background-size: cover;
   width: ${ARROW_WIDTH}px;
   height: ${ARROW_HEIGHT}px;
+`;
+
+export const VillageReturnButton = styled(HomeOutlined)`
+  position: absolute;
+  z-index: 6;
+  left: ${FRAME_WIDTH - TILE_WIDTH / 3 - 20}px;
+  top: ${TILE_HEIGHT / 3 - 20}px;
+  font-size: 35px;
 `;
 
 export const VillageImg = styled('img')`
