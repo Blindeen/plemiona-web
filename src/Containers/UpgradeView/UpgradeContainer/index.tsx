@@ -1,12 +1,12 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
+
 import { Col, Row } from 'antd';
 
 import ResourcesComponent, { ResourcesProps } from 'Components/ResourcesComponent';
-
 import GameSessionState, { BuildingInterface, BuildingType, Resources } from 'GameSessionContext';
-import pushNotification from 'pushNotification';
-import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from './styles';
 import { camelToSnakeCase, msToUpgradeLabel, stringToTitle, upgradeDurationSecondsLabel } from 'utils';
+import { MaxLvlTag, NameTag, TimeTag, UpgradeButton } from './styles';
+import pushNotification from 'pushNotification';
 import API_URL from 'api_url';
 
 export interface UpgradeContainerProps {
@@ -18,12 +18,15 @@ export interface UpgradeContainerProps {
 const UpgradeContainer = ({ name, buildingContext, availableResources }: UpgradeContainerProps) => {
   const { gameState } = useContext(GameSessionState);
   const [loading, onLoading] = useState(false);
+  const [render, setRerender] = useState();
 
   const displayName = stringToTitle(name);
+
 
   const upgradeDate = localStorage.getItem(`${name}_upgrade`);
   const upgradeTime = upgradeDate ? new Date(upgradeDate as string).getTime() - new Date().getTime() : 0;
 
+  useEffect(setRerender as () => void, [buildingContext.level]);
   const upgradeBuilding = async () => {
     onLoading(true);
     try {
@@ -89,34 +92,36 @@ const UpgradeContainer = ({ name, buildingContext, availableResources }: Upgrade
         <NameTag>{displayName}</NameTag>
         <NameTag>Level: {buildingContext.level}</NameTag>
       </Col>
-      {buildingContext.level !== buildingContext.maxLevel ? (
-        <Fragment>
-          {resourcesContainer}
-          <Col span={3}>
-            <TimeTag>{upgradeDurationSecondsLabel(buildingContext.upgradeDuration)}</TimeTag>
-          </Col>
-          <Col span={2}>
-            <UpgradeButton
-              disabled={
-                buildingContext.upgradeCost.iron > availableResources.iron ||
-                buildingContext.upgradeCost.wood > availableResources.wood ||
-                buildingContext.upgradeCost.clay > availableResources.clay ||
-                upgradeTime > 0
-              }
-              loading={loading}
-              onClick={upgradeBuilding}
-            >
-              {msToUpgradeLabel(upgradeTime)}
-            </UpgradeButton>
-          </Col>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <Col span={20}>
-            <MaxLvlTag>Max level reached</MaxLvlTag>
-          </Col>
-        </Fragment>
-      )}
+      <Fragment key={render}>
+        {buildingContext.level !== buildingContext.maxLevel ? (
+          <Fragment>
+            {resourcesContainer}
+            <Col span={3}>
+              <TimeTag>{upgradeDurationSecondsLabel(buildingContext.upgradeDuration)}</TimeTag>
+            </Col>
+            <Col span={2}>
+              <UpgradeButton
+                disabled={
+                  buildingContext.upgradeCost.iron > availableResources.iron ||
+                  buildingContext.upgradeCost.wood > availableResources.wood ||
+                  buildingContext.upgradeCost.clay > availableResources.clay ||
+                  upgradeTime > 0
+                }
+                loading={loading}
+                onClick={upgradeBuilding}
+              >
+                {msToUpgradeLabel(upgradeTime)}
+              </UpgradeButton>
+            </Col>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Col span={20}>
+              <MaxLvlTag>Max level reached</MaxLvlTag>
+            </Col>
+          </Fragment>
+        )}
+      </Fragment>
     </Row>
   );
 };
