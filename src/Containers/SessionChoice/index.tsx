@@ -7,6 +7,7 @@ import { Box, CenteredContainer, OptionalText, Tags } from 'Components/CommonCom
 
 import pushNotification from 'pushNotification';
 import { router, routes } from 'router';
+import API_URL from 'api_url';
 
 interface Payload {
   nickname: string;
@@ -26,7 +27,7 @@ const SessionChoice = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/v1/game/', {
+      const response = await fetch(`${API_URL}/game/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

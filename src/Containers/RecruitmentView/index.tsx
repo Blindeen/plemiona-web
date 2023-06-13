@@ -2,16 +2,23 @@ import { useContext, useState } from 'react';
 import { Col, Divider, Row } from 'antd';
 
 import { TimeTag, UpgradeButton } from 'Containers/UpgradeView/UpgradeContainer/styles';
-import { ResourcesNameTag, TownHallWindow } from 'Containers/UpgradeView/styles';
-import RecruitmentContainer, { RecruitmentContainerProps } from 'Containers/RecruitmentView/RecruitmentContainer';
+import { ResourcesNameTag } from 'Containers/UpgradeView/styles';
 
 import ResourcesComponent from 'Components/ResourcesComponent';
+import Modal from 'Components/Modal';
 
+import RecruitmentContainer, { RecruitmentContainerProps } from './RecruitmentContainer';
 import { upgradeDurationSecondsLabel } from 'utils';
 import GameSessionState from 'GameSessionContext';
 import pushNotification from 'pushNotification';
+import API_URL from 'api_url';
 
-const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
+interface UpgradeViewProps {
+  open: boolean;
+  setOpen: (e: boolean) => void;
+}
+
+const UpgradeView = ({ open, setOpen }: UpgradeViewProps) => {
   const { gameState } = useContext(GameSessionState);
 
   const [loading, onLoading] = useState(false);
@@ -77,7 +84,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   const recruitUnits = async () => {
     onLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/v1/game/train_units/`, {
+      const response = await fetch(`${API_URL}/game/train_units/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -108,7 +115,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
   };
 
   return (
-    <TownHallWindow
+    <Modal
       open={open}
       closable={true}
       onCancel={() => setOpen(false)}
@@ -179,7 +186,7 @@ const UpgradeView = ({ open = true, setOpen = (e: boolean) => {} }) => {
           </Row>
         </Col>
       </Row>
-    </TownHallWindow>
+    </Modal>
   );
 };
 

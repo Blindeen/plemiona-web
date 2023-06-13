@@ -11,8 +11,11 @@ export const MAP_SQUARES_Y = 16;
 const MAP_IMAGE_WIDTH = 2624;
 const MAP_IMAGE_HEIGHT = 1856;
 
-const FRAME_WIDTH = (MAP_IMAGE_WIDTH / MAP_SQUARES_X) * FRAME_SQUARES_X;
-const FRAME_HEIGHT = (MAP_IMAGE_HEIGHT / MAP_SQUARES_Y) * FRAME_SQUARES_Y;
+export const TILE_WIDTH = MAP_IMAGE_WIDTH / MAP_SQUARES_X;
+export const TILE_HEIGHT = MAP_IMAGE_HEIGHT / MAP_SQUARES_Y;
+
+const FRAME_WIDTH = TILE_WIDTH * FRAME_SQUARES_X;
+const FRAME_HEIGHT = TILE_HEIGHT * FRAME_SQUARES_Y;
 
 export const Frame = styled('div')`
   position: absolute;
@@ -115,4 +118,14 @@ export const MapSquare = styled('div')`
     border-style: solid;
     box-sizing: border-box;
   }
+`;
+
+export const PlayerNickname = styled('span')`
+  position: absolute;
+  font-size: 1.5em;
+  bottom: ${TILE_WIDTH}px;
+  width: 100%;
+  word-wrap: break-word;
+  color: sandybrown;
+  text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 `;

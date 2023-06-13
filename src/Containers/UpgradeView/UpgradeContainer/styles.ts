@@ -16,7 +16,7 @@ export const UpgradeButton = styled(Button)`
       background-color: ${palette.green};
       border-color: ${palette.black};
     }
-
+    
     &:disabled {
       background-color: ${palette.red};
       border-color: ${palette.black};
@@ -26,6 +26,16 @@ export const UpgradeButton = styled(Button)`
         background-color: ${palette.red};
         border-color: ${palette.black};
       }
+
+      &:focus {
+        background-color: ${palette.red};
+        border-color: ${palette.black};
+      }
+    }
+
+    &:focus {
+      background-color: ${palette.red};
+      border-color: ${palette.black};
     }
   }
 `;
