@@ -1,4 +1,5 @@
 import { BuildingLvL, StyledBuilding } from './styles';
+import { stringToFilename } from 'utils';
 
 export interface BuildingProps {
   name: string;
@@ -37,7 +38,7 @@ const Building = ({
         left: posX,
         width: sizeX,
         height: sizeY,
-        backgroundImage: `url(/Assets/Buildings/${name}-Tier-${getTier()}-min.png)`,
+        backgroundImage: `url(/Assets/Buildings/${stringToFilename(name)}-tier-${getTier()}.png)`,
       }}
     >
       <BuildingLvL style={{ top: posLvlY, left: posLvlX }}>{lvl}</BuildingLvL>
