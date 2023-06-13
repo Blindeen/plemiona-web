@@ -1,4 +1,6 @@
-import { BuildingLvL, StyledBuilding } from './styles';
+import { Tooltip } from 'antd';
+
+import { BuildingContainer, BuildingLvL, StyledBuilding } from './styles';
 
 export interface BuildingProps {
   name: string;
@@ -21,27 +23,24 @@ const Building = ({
   sizeY = 200,
   posLvlX = 0,
   posLvlY = 0,
-  onClick = () => null,
+  onClick = () => {},
 }: BuildingProps) => {
   const tierPerLvl: number = 5;
   const lvlIndex: number = lvl - 1;
   const baseTier: number = 1;
 
-  const getTier = () => Math.floor(lvlIndex / tierPerLvl + baseTier);
+  const tier = Math.floor(lvlIndex / tierPerLvl + baseTier);
 
   return (
-    <StyledBuilding
-      onClick={onClick}
-      style={{
-        top: posY,
-        left: posX,
-        width: sizeX,
-        height: sizeY,
-        backgroundImage: `url(/Assets/Buildings/${name}-Tier-${getTier()}-min.png)`,
-      }}
-    >
-      <BuildingLvL style={{ top: posLvlY, left: posLvlX }}>{lvl}</BuildingLvL>
-    </StyledBuilding>
+    <BuildingContainer x={posX} y={posY} width={sizeX} height={sizeY}>
+      <Tooltip title={name}>
+        <StyledBuilding onClick={onClick} type={name} tier={tier}>
+          <BuildingLvL x={posLvlX} y={posLvlY}>
+            {lvl}
+          </BuildingLvL>
+        </StyledBuilding>
+      </Tooltip>
+    </BuildingContainer>
   );
 };
 
