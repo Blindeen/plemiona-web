@@ -14,6 +14,9 @@ import {
   MapImage,
   MapSquare,
   NavArrow,
+  PlayerNickname,
+  TILE_HEIGHT,
+  TILE_WIDTH,
 } from './styles';
 
 export type mapTile = {
@@ -52,12 +55,14 @@ const WorldMap = () => {
     ]),
   ] as mapTile[][];
 
-  BEMap[selfY][selfX] = {
-    type: 'player',
-    army: null,
-    isTarget: false,
-    player: { nickname: 'Adam', id: 5, morale: 100, village: { x: 0, y: 0 } },
-  };
+  gameState.players.forEach((player) => {
+    BEMap[player.village.y][player.village.x] = {
+      type: 'player',
+      army: null,
+      isTarget: false,
+      player,
+    };
+  });
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
@@ -109,7 +114,12 @@ const WorldMap = () => {
 
   const squares = mapFragment().map(({ type, player, army, isTarget }, idx) => (
     <MapSquare onClick={() => type !== 'empty' && handleCLick(idx)} key={idx}>
-      {type === 'player' && player?.nickname}
+      {type === 'player' && (
+        <>
+          <PlayerNickname>{player?.nickname}</PlayerNickname>
+          <img src="/Assets/castle.png" alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
+        </>
+      )}
     </MapSquare>
   ));
 
