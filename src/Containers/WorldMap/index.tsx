@@ -116,7 +116,7 @@ const WorldMap = () => {
   return (
     <Frame>
       <Map>
-        <MapImage src='/Arts/map-image.jpg' cordx={cordX} cordy={cordY} />
+        <MapImage src='/Assets/map-image.jpg' cordx={cordX} cordy={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>

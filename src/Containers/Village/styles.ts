@@ -3,7 +3,7 @@ import palette from 'palette';
 
 export const Container = styled('div')`
   position: relative;
-  background-image: url('/Arts/Backgrounds/game-page-village.jpg');
+  background-image: url('/Assets/Backgrounds/game-page-village.jpg');
   background-size: cover;
   width: 760px;
   height: 760px;

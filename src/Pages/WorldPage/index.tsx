@@ -2,7 +2,7 @@ import WorldMap from 'Containers/WorldMap';
 import ImageHero from 'Components/ImageHero';
 
 const WorldPage = () => (
-  <ImageHero imageurl='/Arts/Backgrounds/game-page-background.jpg'>
+  <ImageHero imageurl='/Assets/Backgrounds/game-page-background.jpg'>
     <WorldMap />
   </ImageHero>
 );

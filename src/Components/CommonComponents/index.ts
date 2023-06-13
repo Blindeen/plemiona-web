@@ -42,7 +42,7 @@ export const CenteredDiv = styled(CenteredContainer)`
 `;
 
 export const Background = styled('div')`
-  background-image: url('/Arts/Backgrounds/game-page-background.jpg');
+  background-image: url('/Assets/Backgrounds/game-page-background.jpg');
   background-size: cover;
   min-width: 100vw;
   min-height: 100vh;
