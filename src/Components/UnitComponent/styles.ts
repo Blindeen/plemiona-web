@@ -9,7 +9,7 @@ interface UnitImgProps {
 export const UnitImg = styled('div')<UnitImgProps>`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
-  background-image: url(${(props) => `/Assets/UnitsIcons/${props.type}.png`});
+  background-image: url(${(props) => `/assets/units-icons/${props.type}.png`});
   background-size: cover;
 `;
 

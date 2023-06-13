@@ -9,7 +9,7 @@ interface ResourceImgProps {
 export const ResourceImg = styled('div')<ResourceImgProps>`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
-  background-image: url(${(props) => `/Assets/ResourcesIcons/${props.type}.png`});
+  background-image: url(${(props) => `/assets/resources-icons/${props.type}.png`});
   background-size: cover;
 `;
 

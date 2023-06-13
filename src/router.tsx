@@ -2,7 +2,7 @@ import { createHashRouter, Outlet } from 'react-router-dom';
 
 import LandingPage from 'Pages/LandingPage';
 import LobbyPage from 'Pages/LobbyPage';
-import VillageView from 'Pages/VillageView';
+import VillagePage from 'Pages/VillagePage';
 import WorldPage from 'Pages/WorldPage';
 import LeaderboardPage from 'Pages/LeaderboardPage';
 
@@ -38,7 +38,7 @@ export const router = createHashRouter([
       },
       {
         path: routes.villagePage,
-        element: <VillageView />,
+        element: <VillagePage />,
       },
       {
         path: routes.leaderboardPage,

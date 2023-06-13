@@ -21,7 +21,7 @@ export const Frame = styled('div')`
   position: absolute;
   z-index: 5;
   border: 105px solid transparent;
-  border-image: url('/Arts/MapFrame.png') 105 stretch;
+  border-image: url('/assets/map-frame.png') 105 stretch;
 `;
 
 export const Map = styled('div')`

@@ -178,33 +178,32 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
       if (type === 'message') {
         pushNotification('info', data.message);
-        return;
-      }
+      } else {
+        // When game session starts `start_game_session` is received
+        // or `fetch_game_session_state` on reconnect to fetch current game state
+        if (type === 'start_game_session' || type === 'fetch_game_session_state') {
+          setGameState((prevState) => ({
+            ...prevState,
+            hasGameStarted: true,
+          }));
+        }
 
-      // When game session starts `start_game_session` is received
-      // or `fetch_game_session_state` on reconnect to fetch current game state
-      if (type === 'start_game_session' || type === 'fetch_game_session_state') {
-        setGameState((prevState) => ({
-          ...prevState,
-          hasGameStarted: true,
-        }));
-      }
+        if (type === 'fetch_leaderboard') {
+          setGameState((prevState) => ({
+            ...prevState,
+            hasGameEnded: true,
+          }));
+        }
 
-      if (type === 'fetch_leaderboard') {
-        setGameState((prevState) => ({
-          ...prevState,
-          hasGameEnded: true,
-        }));
-      }
+        const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
+        setGameState((prevState) => merge({}, prevState, updated));
 
-      const updated = Object.fromEntries(Object.entries(data).filter(([key, _]) => gameState.hasOwnProperty(key)));
-      setGameState((prevState) => merge({}, prevState, updated));
-
-      if ('endedAt' in data) {
-        setGameState((prevState) => ({
-          ...prevState,
-          endedAt: new Date(data.endedAt),
-        }));
+        if ('endedAt' in data) {
+          setGameState((prevState) => ({
+            ...prevState,
+            endedAt: new Date(data.endedAt),
+          }));
+        }
       }
     };
 

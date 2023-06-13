@@ -117,7 +117,7 @@ const WorldMap = () => {
       {type === 'player' && (
         <>
           <PlayerNickname>{player?.nickname}</PlayerNickname>
-          <img src="/Assets/castle.png" alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
+          <img src='/assets/castle.png' alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
         </>
       )}
     </MapSquare>
@@ -126,7 +126,7 @@ const WorldMap = () => {
   return (
     <Frame>
       <Map>
-        <MapImage src="/Arts/MapImage.png" cordx={cordX} cordy={cordY} />
+        <MapImage src='/assets/map-image.jpg' cordx={cordX} cordy={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
@@ -135,7 +135,7 @@ const WorldMap = () => {
                 key={idx}
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src="/Assets/Buttons/map_arrow_button.png"
+                src='/assets/buttons/map-arrow-button.png'
               />
             )
         )}

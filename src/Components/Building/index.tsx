@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd';
 
 import { BuildingContainer, BuildingLvL, StyledBuilding } from './styles';
+import { stringToFilename } from 'utils';
 
 export interface BuildingProps {
   name: string;
@@ -34,7 +35,7 @@ const Building = ({
   return (
     <BuildingContainer x={posX} y={posY} width={sizeX} height={sizeY}>
       <Tooltip title={name}>
-        <StyledBuilding onClick={onClick} type={name} tier={tier}>
+        <StyledBuilding onClick={onClick} type={stringToFilename(name)} tier={tier}>
           <BuildingLvL x={posLvlX} y={posLvlY}>
             {lvl}
           </BuildingLvL>
