@@ -7,26 +7,18 @@ import ResourcesTable from 'Containers/ResourcesTable';
 
 import { Background } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import Modal from 'Components/Modal';
 
 import { ResourcesRow, StyledCountdown, StyledDiv } from './styles';
 import GameSessionContext from 'GameSessionContext';
+import HelpModal from 'Containers/HelpModal';
 
 const VillageView = () => {
   const { gameState } = useContext(GameSessionContext);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
-  const helpModal = (
-    <Modal title="Help" open={isHelpModalOpen} onCancel={() => setIsHelpModalOpen(false)} footer={null}>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-    </Modal>
-  );
-
   return (
     <Background>
-      {helpModal}
+      <HelpModal isHelpModalOpen={isHelpModalOpen} setIsHelpModalOpen={setIsHelpModalOpen} />
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <ResourcesRow gutter={[20, 20]} justify="center" align="middle">
