@@ -186,7 +186,7 @@ const WorldMap = () => {
           </PlayerNickname>
           <VillageImg
             className="clickable"
-            src="/Assets/castle.png"
+            src='/assets/castle.png'
             alt={entity?.nickname as string}
             width={TILE_WIDTH}
             height={TILE_HEIGHT}
@@ -227,7 +227,7 @@ const WorldMap = () => {
         </AttackButton>
       </AttackView>
       <Map>
-        <MapImage src="/Arts/MapImage.png" cordX={cordX} cordY={cordY} />
+        <MapImage src='/assets/map-image.jpg' cordX={cordX} cordY={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
@@ -237,7 +237,7 @@ const WorldMap = () => {
                 className="clickable"
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src="/Assets/Buttons/map_arrow_button.png"
+                src='/assets/buttons/map-arrow-button.png'
               />
             )
         )}

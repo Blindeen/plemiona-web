@@ -10,6 +10,10 @@ const palette = {
   battleshipGray: '#7C8483',
   green: '#008000',
   red: '#FF0000',
+  gold: '#FFD700',
+  arcticSilver: '#CAD3D7',
+  bronzeMedal: '#977547',
+  whiteFlight: '#F2F2F2',
 };
 
 export default palette;

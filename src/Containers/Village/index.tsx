@@ -1,14 +1,14 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Tooltip } from 'antd';
 
 import RecruitmentView from 'Containers/RecruitmentView';
 import UpgradeView from 'Containers/UpgradeView';
 import Building, { BuildingProps } from 'Components/Building';
-import { StyledBuilding } from 'Components/Building/styles';
-import { Container } from './styles';
+import { Gate } from 'Components/Building/styles';
 
 import GameSessionState from 'GameSessionContext';
 import { router, routes } from 'router';
-
+import { Container } from './styles';
 
 const Village = () => {
   const { gameState } = useContext(GameSessionState);
@@ -23,7 +23,7 @@ const Village = () => {
 
   const buildingsData: BuildingProps[] = [
     {
-      name: 'Tartak',
+      name: 'Sawmill',
       lvl: gameState.buildings.sawmill.level,
       posX: 550,
       posY: 480,
@@ -33,7 +33,7 @@ const Village = () => {
       posLvlY: 20,
     },
     {
-      name: 'Spichlerz',
+      name: 'Warehouse',
       lvl: gameState.buildings.warehouse.level,
       posX: 280,
       posY: 200,
@@ -41,7 +41,7 @@ const Village = () => {
       sizeY: 200,
     },
     {
-      name: 'Koszary',
+      name: 'Barracks',
       lvl: gameState.buildings.barracks.level,
       posX: 10,
       posY: 400,
@@ -50,7 +50,7 @@ const Village = () => {
       onClick: () => setRecruit(true),
     },
     {
-      name: 'Cegielnia',
+      name: 'Clay pit',
       lvl: gameState.buildings.clayPit.level,
       posX: 50,
       posY: 150,
@@ -58,7 +58,7 @@ const Village = () => {
       sizeY: 200,
     },
     {
-      name: 'Kuznia',
+      name: 'Iron mine',
       lvl: gameState.buildings.ironMine.level,
       posX: 280,
       posY: 20,
@@ -66,7 +66,7 @@ const Village = () => {
       sizeY: 180,
     },
     {
-      name: 'Ratusz',
+      name: 'Town hall',
       lvl: gameState.buildings.townHall.level,
       posX: 500,
       posY: 50,
@@ -86,10 +86,9 @@ const Village = () => {
       {building && <UpgradeView open={building} setOpen={setBuilding} />}
       <Container>
         {buildings}
-        <StyledBuilding
-          onClick={() => router.navigate('world')}
-          style={{ width: 200, height: 200, top: 450, left: 300 }}
-        />
+        <Tooltip title="Go to the World Map">
+          <Gate onClick={() => router.navigate('world')} x={300} y={450} width={200} height={200} />
+        </Tooltip>
       </Container>
     </>
   );

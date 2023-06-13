@@ -1,11 +1,11 @@
 body {
     margin: 0;
-    cursor: url('/public/Assets/Cursors/Cursor.png') 2 2, auto;
+    cursor: url('/public/assets/cursors/cursor.png') 2 2, auto;
     overflow-x: hidden;
 }
 
 a, a svg, button {
-    cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+    cursor: url('/public/assets/cursors/cursor-on-click.png') 2 2, auto !important;
 }
 
 .clickable {

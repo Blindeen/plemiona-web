@@ -5,7 +5,6 @@ import { Col, Row, Tooltip } from 'antd';
 import { ResourcesView } from './styles';
 import ResourcesComponent from 'Components/ResourcesComponent';
 import GameSessionState, { Resource } from 'GameSessionContext';
-import { stringToTitle } from 'utils';
 
 const ResourcesTable = () => {
   const { gameState } = useContext(GameSessionState);
@@ -16,7 +15,7 @@ const ResourcesTable = () => {
         {Object.keys(gameState.resources).map((resource, idx) => (
           <Col key={idx} span={8}>
             <Tooltip
-              title={`${stringToTitle(resource)} ${Math.round(gameState.resourcesIncome[resource as Resource] * 100) / 100} per second`}>
+              title={`${Math.round(gameState.resourcesIncome[resource as Resource] * 100) / 100} ${resource} per second`}>
               <>
                 <ResourcesComponent
                   name={resource}

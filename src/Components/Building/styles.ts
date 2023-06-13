@@ -2,21 +2,55 @@ import styled from 'styled-components';
 
 import palette from 'palette';
 
-export const StyledBuilding = styled('div')`
+interface BuildingContainerProps {
+  y: number;
+  x: number;
+  width: number;
+  height: number;
+}
+
+interface BuildingProps {
+  type: string;
+  tier: number;
+}
+
+interface BuildingLvLProps {
+  x: number;
+  y: number;
+}
+
+export const BuildingContainer = styled('div')<BuildingContainerProps>`
   position: absolute;
-  width: 200px;
-  height: 200px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+  top: ${(props) => props.y}px;
+  left: ${(props) => props.x}px;
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
 `;
 
-export const BuildingLvL = styled('div')`
+export const StyledBuilding = styled('div')<BuildingProps>`
+  width: 100%;
+  height: 100%;
+  background-image: url(${(props) => `/assets/buildings/${props.type}-tier-${props.tier}.png`});
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: url('/assets/cursors/cursor-on-click.png') 2 2, auto !important;
+`;
+
+export const Gate = styled('div')<BuildingContainerProps>`
+  position: absolute;
+  top: ${(props) => props.y}px;
+  left: ${(props) => props.x}px;
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
+  cursor: url('/assets/cursors/cursor-on-click.png') 2 2, auto !important;
+`;
+
+export const BuildingLvL = styled('div')<BuildingLvLProps>`
   position: absolute;
   width: fit-content;
   height: fit-content;
-  top: 0;
-  left: 0;
+  top: ${(props) => props.y}px;
+  left: ${(props) => props.x}px;
   opacity: 70%;
   font-weight: 700;
   font-family: Arial, sans-serif;
@@ -29,5 +63,5 @@ export const BuildingLvL = styled('div')`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+  cursor: url('/assets/cursors/cursor-on-click.png') 2 2, auto !important;
 `;

@@ -5,8 +5,9 @@ import { ColumnsType } from 'antd/es/table';
 
 import GameSessionState, { leaderboardRecord } from 'GameSessionContext';
 import { Background } from 'Components/CommonComponents';
-import { StyledTable } from 'Components/Table/styles';
-import { LayoutContainer, StyledTitle } from './styles';
+import Button from 'Components/Button';
+import { LayoutContainer, StyledLeaderboard, StyledTitle } from './styles';
+import { router, routes } from 'router';
 
 const Leaderboard = () => {
   const { gameState } = useContext(GameSessionState);
@@ -14,10 +15,10 @@ const Leaderboard = () => {
 
   const columns: ColumnsType<leaderboardRecord> = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
+      title: 'Place',
+      key: 'place',
       align: 'center',
+      render: (value, record, index) => index + 1,
     },
     {
       title: 'Nickname',
@@ -36,20 +37,25 @@ const Leaderboard = () => {
   return (
     <Background>
       <LayoutContainer>
-        <Row>
-          <Col span={12} offset={6}>
+        <Row justify='center' gutter={[0, 20]}>
+          <Col span={24}>
             <StyledTitle>Leaderboard</StyledTitle>
           </Col>
-        </Row>
-        <Row>
-          <Col span={6} offset={9}>
-            <StyledTable
-              columns={columns}
-              dataSource={leaderboard}
-              rowKey={(record) => record.id}
-              locale={{ emptyText: 'Leaderboard is empty' }}
-              pagination={false}
-            />
+          <Col span={24}>
+            <Row justify='center'>
+              <Col xs={{ span: 14 }} md={{ span: 10 }} xl={{ span: 6 }}>
+                <StyledLeaderboard
+                  columns={columns}
+                  dataSource={leaderboard}
+                  rowKey={(record) => record.id}
+                  locale={{ emptyText: 'Leaderboard is empty' }}
+                  pagination={false}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col>
+            <Button onClick={() => router.navigate(routes.landingPage)}>Create/join game</Button>
           </Col>
         </Row>
       </LayoutContainer>
