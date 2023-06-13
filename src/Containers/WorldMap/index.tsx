@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 
 import 'App.css';
 import AttackView, { UnitDistributionWrapper, UnitSlider, UnitWrapper } from 'Containers/AttackView';
@@ -7,6 +7,8 @@ import { StartButton as AttackButton } from 'Containers/Lobby/styles';
 
 import GameSessionState, { playerType, UnitType } from 'GameSessionContext';
 import { router, routes } from 'router';
+import pushNotification from 'pushNotification';
+import API_URL from 'api_url';
 import {
   direction,
   DIRECTIONS,
@@ -25,8 +27,8 @@ import {
   VillageImg,
 } from './styles';
 
-type entityType = null | playerType
-type tileType = 'player' | 'empty' | 'barbarians'
+type entityType = null | playerType;
+type tileType = 'player' | 'empty' | 'barbarians';
 
 export type mapTile = {
   type: tileType;
@@ -45,6 +47,7 @@ const WorldMap = () => {
     swordsman: 0,
   });
   const [targetEntity, setTargetEntity] = useState<entityType>();
+  const [loading, setLoading] = useState(false);
 
   const selfID = Number(localStorage.getItem('playerId') as string);
 
@@ -70,7 +73,6 @@ const WorldMap = () => {
     ]),
   ] as mapTile[][];
 
-
   let { x: selfX, y: selfY } = { x: 3, y: 5 };
   gameState.players.forEach((player) => {
     if (player.id === selfID) {
@@ -84,12 +86,12 @@ const WorldMap = () => {
       entity: player,
     };
   });
-  BEMap[5][3] = {
-    type: 'player',
-    army: null,
-    isTarget: false,
-    entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
-  };
+  // BEMap[5][3] = {
+  //   type: 'player',
+  //   army: null,
+  //   isTarget: false,
+  //   entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
+  // };
 
   const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
 
@@ -105,14 +107,38 @@ const WorldMap = () => {
     setTargetEntity(entity);
     setAttackViewOpen(true);
   };
-  const handleAttackClick = () => {
-    //fetch uzywający attackingUnits i targetEntity
-    setAttackingUnits({
-      spearman: 0,
-      archer: 0,
-      axeman: 0,
-      swordsman: 0,
-    });
+  const handleAttackClick = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/game/attack/${targetEntity?.id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('token') as string,
+        },
+        body: JSON.stringify({
+          units: [
+            { name: 'archer', count: attackingUnits.archer },
+            { name: 'axeman', count: attackingUnits.axeman },
+            { name: 'spearman', count: attackingUnits.spearman },
+            { name: 'swordsman', count: attackingUnits.swordsman },
+          ],
+        }),
+      });
+      if (response.ok) {
+        pushNotification('success', 'Starting game', 'Enjoy the game');
+      } else {
+        const { errors } = await response.json();
+        Object.entries(errors).forEach(([key, value]) => {
+          pushNotification('warning', `${key}: ${(value as string[]).join(' and ')}`);
+        });
+      }
+    } catch (error) {
+      pushNotification('error', 'Server down', 'Please check your connection');
+    } finally {
+      setLoading(false);
+      setAttackViewOpen(false);
+    }
   };
 
   const isBoundary = (direction: direction) => {
@@ -153,9 +179,18 @@ const WorldMap = () => {
     <MapSquare onClick={() => type !== 'empty' && handleTileClick(type, entity)} key={idx}>
       {type === 'player' && (
         <>
-          <PlayerNickname>{entity?.nickname}<br />{entity?.id === Number(selfID) && '(you)'}</PlayerNickname>
-          <VillageImg className='clickable' src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH}
-                      height={TILE_HEIGHT} />
+          <PlayerNickname>
+            {entity?.nickname}
+            <br />
+            {entity?.id === Number(selfID) && '(you)'}
+          </PlayerNickname>
+          <VillageImg
+            className="clickable"
+            src="/Assets/castle.png"
+            alt={entity?.nickname as string}
+            width={TILE_WIDTH}
+            height={TILE_HEIGHT}
+          />
         </>
       )}
     </MapSquare>
@@ -172,38 +207,39 @@ const WorldMap = () => {
         centered
       >
         <UnitDistributionWrapper>
-          {
-            Object.entries(gameState.units).map(([name, unitProps]) => (
-              <>
-                <UnitWrapper>
-                  <UnitImg type={name} width={48} height={48} />
-                </UnitWrapper>
-                <UnitSlider
-                  defaultValue={0}
-                  min={0}
-                  max={unitProps.count + 5}
-                  onAfterChange={(value: number) => setAttackingUnits((prevState) => ({ ...prevState, [name]: value }))}
-                  keyboard></UnitSlider>
-              </>
-            ))
-          }
+          {Object.entries(gameState.units).map(([name, unitProps], idx) => (
+            <Fragment key={idx}>
+              <UnitWrapper>
+                <UnitImg type={name} width={48} height={48} />
+              </UnitWrapper>
+              <UnitSlider
+                defaultValue={0}
+                min={0}
+                max={unitProps.count}
+                onAfterChange={(value: number) => setAttackingUnits((prevState) => ({ ...prevState, [name]: value }))}
+                keyboard
+              ></UnitSlider>
+            </Fragment>
+          ))}
         </UnitDistributionWrapper>
-        <AttackButton onClick={() => handleAttackClick()}>Attack</AttackButton>
+        <AttackButton loading={loading} onClick={() => handleAttackClick()}>
+          Attack
+        </AttackButton>
       </AttackView>
       <Map>
-        <MapImage src='/Arts/MapImage.png' cordX={cordX} cordY={cordY} />
+        <MapImage src="/Arts/MapImage.png" cordX={cordX} cordY={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
             !isBoundary(direction) && (
               <NavArrow
                 key={idx}
-                className='clickable'
+                className="clickable"
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src='/Assets/Buttons/map_arrow_button.png'
+                src="/Assets/Buttons/map_arrow_button.png"
               />
-            ),
+            )
         )}
       </Map>
     </Frame>

@@ -27,12 +27,10 @@ const AttackView = styled(Modal)`
 
     .ant-modal-header {
       background-color: ${palette.dadsRayOfSunshine};
-      margin-left: 20px;
     }
 
     .ant-modal-body {
       background-color: ${palette.dadsRayOfSunshine};
-      margin-left: 20px;
     }
   }
 `;
