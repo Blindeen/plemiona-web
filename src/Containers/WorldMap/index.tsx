@@ -22,9 +22,10 @@ import {
 } from './styles';
 
 type entityType = null | playerType
+type tileType = 'player' | 'empty' | 'barbarians'
 
 export type mapTile = {
-  type: 'player' | 'empty' | 'barbarians';
+  type: tileType;
   entity: entityType;
   army?: null; // for now
   isTarget: boolean;
@@ -78,7 +79,7 @@ const WorldMap = () => {
     type: 'player',
     army: null,
     isTarget: false,
-    entity: {} as playerType,
+    entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
   };
 
   const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
@@ -91,8 +92,12 @@ const WorldMap = () => {
   //   Math.floor(relativeIdx / FRAME_SQUARES_X) + cordY,
   // ];
 
-  const handleCLick = (entity: entityType) => {
+  const handleCLick = (tileType: tileType, entity: entityType) => {
     if (!entity) return;
+    if (tileType === 'player' && entity.id === selfID) {
+      router.navigate(routes.villagePage);
+      return;
+    }
     setTargetEntity(entity);
     setAttackViewOpen(true);
   };
@@ -132,10 +137,10 @@ const WorldMap = () => {
   const resetView = () => setCords(selfMiddle());
 
   const squares = mapFragment().map(({ type, entity, army, isTarget }, idx) => (
-    <MapSquare onClick={() => type !== 'empty' && handleCLick(entity)} key={idx}>
+    <MapSquare onClick={() => type !== 'empty' && handleCLick(type, entity)} key={idx}>
       {type === 'player' && (
         <>
-          <PlayerNickname>{entity?.nickname}</PlayerNickname>
+          <PlayerNickname>{entity?.nickname}<br />{entity?.id === Number(selfID) && '(you)'}</PlayerNickname>
           <img src='/Assets/castle.png' alt={entity?.nickname as string} width={TILE_WIDTH} height={TILE_HEIGHT} />
         </>
       )}
@@ -148,7 +153,7 @@ const WorldMap = () => {
         open={attackViewOpen}
         closable={true}
         onCancel={() => setAttackViewOpen(false)}
-        width={400}
+        width={300}
         keyboard={true}
         footer={false}
         centered={true}

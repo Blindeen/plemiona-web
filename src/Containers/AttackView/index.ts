@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import palette from 'palette';
 
 const AttackView = styled(Modal)`
-  min-width: 650px;
+  min-width: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
