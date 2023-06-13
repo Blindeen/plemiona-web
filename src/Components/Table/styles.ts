@@ -16,8 +16,15 @@ export const StyledTable = styled(Table)`
     border-color: ${palette.brown};
   }
 
-  .ant-table-tbody > tr > td {
+  .ant-table-tbody > tr {
     background-color: ${palette.dadsRayOfSunshine};
+
+    &:hover {
+      background-color: ${palette.dadsRayOfSunshine} !important;
+    }
+  }
+
+  .ant-table-tbody > tr > td {
     border-color: ${palette.brown};
 
     &:hover {
