@@ -9,9 +9,9 @@ import UnitsTable from 'Containers/UnitsTable';
 import ResourcesTable from 'Containers/ResourcesTable';
 
 import { Background } from 'Components/CommonComponents';
-import { ResourcesRow, StyledCountdown, StyledDiv } from 'Pages/VillageView/styles';
+import { ResourcesRow, StyledCountdown, StyledDiv } from 'Pages/VillagePage/styles';
 
-const VillageView = () => {
+const VillagePage = () => {
   const { gameState } = useContext(GameSessionContext);
 
   return (
@@ -38,4 +38,4 @@ const VillageView = () => {
   );
 };
 
-export default VillageView;
+export default VillagePage;

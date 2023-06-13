@@ -116,7 +116,7 @@ const WorldMap = () => {
   return (
     <Frame>
       <Map>
-        <MapImage src='/Assets/map-image.jpg' cordx={cordX} cordy={cordY} />
+        <MapImage src='/assets/map-image.jpg' cordx={cordX} cordy={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
@@ -125,7 +125,7 @@ const WorldMap = () => {
                 key={idx}
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src='/Assets/Buttons/map-arrow-button.png'
+                src='/assets/buttons/map-arrow-button.png'
               />
             )
         )}

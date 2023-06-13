@@ -38,7 +38,7 @@ const Building = ({
         left: posX,
         width: sizeX,
         height: sizeY,
-        backgroundImage: `url(/Assets/Buildings/${stringToFilename(name)}-tier-${getTier()}.png)`,
+        backgroundImage: `url(/assets/buildings/${stringToFilename(name)}-tier-${getTier()}.png)`,
       }}
     >
       <BuildingLvL style={{ top: posLvlY, left: posLvlX }}>{lvl}</BuildingLvL>
