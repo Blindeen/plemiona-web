@@ -125,7 +125,7 @@ const WorldMap = () => {
                 key={idx}
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src="/Assets/Buttons/map_arrow_button.png"
+                src='/Assets/Buttons/map-arrow-button.png'
               />
             )
         )}

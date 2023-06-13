@@ -8,7 +8,7 @@ export const StyledBuilding = styled('div')`
   height: 200px;
   background-repeat: no-repeat;
   background-size: cover;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+  cursor: url('/Assets/Cursors/cursor-on-click.png') 2 2, auto !important;
 `;
 
 export const BuildingLvL = styled('div')`
@@ -29,5 +29,5 @@ export const BuildingLvL = styled('div')`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+  cursor: url('/Assets/Cursors/cursor-on-click.png') 2 2, auto !important;
 `;
