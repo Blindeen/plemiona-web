@@ -15,5 +15,5 @@ a, a svg, button {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    cursor: url('/public/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+    cursor: url('/public/assets/cursors/cursor-on-click.png') 2 2, auto !important;
 }

@@ -126,7 +126,7 @@ const WorldMap = () => {
         }),
       });
       if (response.ok) {
-        pushNotification('success', 'Starting game', 'Enjoy the game');
+        pushNotification('success', `You are attacking ${targetEntity?.nickname}`);
       } else {
         const { errors } = await response.json();
         Object.entries(errors).forEach(([key, value]) => {
@@ -186,7 +186,7 @@ const WorldMap = () => {
           </PlayerNickname>
           <VillageImg
             className="clickable"
-            src='/assets/castle.png'
+            src="/assets/castle.png"
             alt={entity?.nickname as string}
             width={TILE_WIDTH}
             height={TILE_HEIGHT}
@@ -227,7 +227,7 @@ const WorldMap = () => {
         </AttackButton>
       </AttackView>
       <Map>
-        <MapImage src='/assets/map-image.jpg' cordX={cordX} cordY={cordY} />
+        <MapImage src="/assets/map-image.jpg" cordX={cordX} cordY={cordY} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
@@ -237,7 +237,7 @@ const WorldMap = () => {
                 className="clickable"
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src='/assets/buttons/map-arrow-button.png'
+                src="/assets/buttons/map-arrow-button.png"
               />
             )
         )}
