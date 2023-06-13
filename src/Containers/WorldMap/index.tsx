@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
 import AttackView from 'Containers/AttackView';
+import { StartButton as AttackButton } from 'Containers/Lobby/styles';
 
 import GameSessionState, { playerType } from 'GameSessionContext';
 import { router, routes } from 'router';
@@ -86,7 +87,7 @@ const WorldMap = () => {
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
 
-  const handleCLick = (tileType: tileType, entity: entityType) => {
+  const handleTileClick = (tileType: tileType, entity: entityType) => {
     if (!entity) return;
     if (tileType === 'player' && entity.id === selfID) {
       router.navigate(routes.villagePage);
@@ -94,6 +95,9 @@ const WorldMap = () => {
     }
     setTargetEntity(entity);
     setAttackViewOpen(true);
+  };
+  const handleAttackClick = () => {
+
   };
 
   const isBoundary = (direction: direction) => {
@@ -131,7 +135,7 @@ const WorldMap = () => {
   const resetView = () => setCords(selfMiddle());
 
   const squares = mapFragment().map(({ type, entity, army, isTarget }, idx) => (
-    <MapSquare onClick={() => type !== 'empty' && handleCLick(type, entity)} key={idx}>
+    <MapSquare onClick={() => type !== 'empty' && handleTileClick(type, entity)} key={idx}>
       {type === 'player' && (
         <>
           <PlayerNickname>{entity?.nickname}<br />{entity?.id === Number(selfID) && '(you)'}</PlayerNickname>
@@ -145,14 +149,14 @@ const WorldMap = () => {
     <Frame>
       <AttackView
         open={attackViewOpen}
-        closable={true}
+        closable={false}
         onCancel={() => setAttackViewOpen(false)}
         width={300}
-        keyboard={true}
         footer={false}
-        centered={true}
+        keyboard
+        centered
       >
-
+        <AttackButton onClick={() => handleAttackClick()}>Attack</AttackButton>
       </AttackView>
       <Map>
         <MapImage src='/Arts/MapImage.png' cordx={cordX} cordy={cordY} />
