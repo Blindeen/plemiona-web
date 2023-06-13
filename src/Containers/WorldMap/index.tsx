@@ -117,7 +117,7 @@ const WorldMap = () => {
       {type === 'player' && (
         <>
           <PlayerNickname>{player?.nickname}</PlayerNickname>
-          <img src="/Assets/castle.png" alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
+          <img src='/assets/castle.png' alt={player?.nickname} width={TILE_WIDTH} height={TILE_HEIGHT} />
         </>
       )}
     </MapSquare>

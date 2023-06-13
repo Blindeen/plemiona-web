@@ -30,7 +30,7 @@ export const BuildingContainer = styled('div')<BuildingContainerProps>`
 export const StyledBuilding = styled('div')<BuildingProps>`
   width: 100%;
   height: 100%;
-  background-image: url(${(props) => `/Assets/Buildings/${props.type}-Tier-${props.tier}-min.png`});
+  background-image: url(${(props) => `/assets/buildings/${props.type}-tier-${props.tier}.png`});
   background-repeat: no-repeat;
   background-size: cover;
   cursor: url('/assets/cursors/cursor-on-click.png') 2 2, auto !important;
@@ -42,7 +42,7 @@ export const Gate = styled('div')<BuildingContainerProps>`
   left: ${(props) => props.x}px;
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
-  cursor: url('/Assets/Cursors/CursorOnClick.png') 2 2, auto !important;
+  cursor: url('/assets/cursors/cursor-on-click.png') 2 2, auto !important;
 `;
 
 export const BuildingLvL = styled('div')<BuildingLvLProps>`

@@ -18,7 +18,7 @@ const VillagePage = () => {
 
   return (
     <Background>
-      <HelpModal isHelpModalOpen={isHelpModalOpen} setIsHelpModalOpen={setIsHelpModalOpen} />
+      {isHelpModalOpen && <HelpModal isHelpModalOpen={isHelpModalOpen} setIsHelpModalOpen={setIsHelpModalOpen} />}
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <ResourcesRow gutter={[20, 20]} justify="center" align="middle">
