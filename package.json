@@ -1,5 +1,6 @@
 {
   "name": "plemiona-web",
+  "homepage": "https://mendeldamian.github.io/plemiona-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
