@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <audio ref={audioRef} onCanPlayThrough={handleAudio} autoPlay loop>
-        <source src='/assets/music/Waterflame%20-%20Glorious%20Morning%20Extended.mp3' type='audio/mpeg' />
+        <source src='/assets/music/waterflame-glorious-morning-extended.mp3' type='audio/mpeg' />
       </audio>
       <RouterProvider router={router} />
     </>
