@@ -1,13 +1,13 @@
 import { Col, Row } from 'antd';
 import { useState } from 'react';
 
-import Button from 'Components/Button';
-import Input from 'Components/Input';
-import { Box, CenteredContainer, OptionalText, Tags } from 'Components/CommonComponents';
+import { Box, CenteredContainer, OptionalText, StyledImage, Tags } from 'Components/CommonComponents';
+import { StyledButton, StyledInput } from 'Pages/LandingPage/styles';
 
 import pushNotification from 'pushNotification';
 import { router, routes } from 'router';
 import API_URL from 'api_url';
+
 
 interface Payload {
   nickname: string;
@@ -59,21 +59,26 @@ const SessionChoice = () => {
       <CenteredContainer>
         <Row gutter={[0, 48]}>
           <Col span={12} offset={6}>
+            <Row justify='center'>
+              <Col>
+                <StyledImage src='/assets/logo.png' alt='logo' />
+              </Col>
+            </Row>
             <Row gutter={[0, 30]}>
               <Col span={24}>
                 <Tags>Nickname</Tags>
-                <Input maxLength={12} onChange={(e) => setNickname(e.target.value)}></Input>
+                <StyledInput maxLength={12} onChange={(e) => setNickname(e.target.value)}></StyledInput>
               </Col>
               <Col span={24}>
                 <Tags>
                   Game Code <OptionalText>(Optional)</OptionalText>
                 </Tags>
-                <Input maxLength={6} onChange={(e) => setGameCode(e.target.value)}></Input>
+                <StyledInput maxLength={6} onChange={(e) => setGameCode(e.target.value)}></StyledInput>
               </Col>
               <Col span={24}>
-                <Button loading={loading} onClick={onSubmit}>
+                <StyledButton loading={loading} onClick={onSubmit}>
                   {gameCode === '' ? newSessionButton : joinSessionButton}
-                </Button>
+                </StyledButton>
               </Col>
             </Row>
           </Col>
