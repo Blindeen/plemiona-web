@@ -6,7 +6,7 @@ import { ColumnsType } from 'antd/es/table';
 import GameSessionState, { leaderboardRecord } from 'GameSessionContext';
 import { Background } from 'Components/CommonComponents';
 import Button from 'Components/Button';
-import { LayoutContainer, StyledLeaderboard, StyledTitle } from './styles';
+import { CenteredContainer, StyledLeaderboard, StyledTitle } from './styles';
 import { router, routes } from 'router';
 
 const Leaderboard = () => {
@@ -44,14 +44,14 @@ const Leaderboard = () => {
 
   return (
     <Background>
-      <LayoutContainer>
-        <Row justify='center' gutter={[0, 20]}>
+      <CenteredContainer>
+        <Row justify='center' gutter={[0, 30]}>
           <Col span={24}>
             <StyledTitle>Leaderboard</StyledTitle>
           </Col>
           <Col span={24}>
             <Row justify='center'>
-              <Col xs={{ span: 14 }} md={{ span: 10 }} xl={{ span: 6 }}>
+              <Col xs={{ span: 16 }} md={{ span: 10 }} xl={{ span: 6 }}>
                 <StyledLeaderboard
                   columns={columns}
                   dataSource={leaderboard}
@@ -66,7 +66,7 @@ const Leaderboard = () => {
             <Button onClick={() => router.navigate(routes.landingPage)}>Create/join game</Button>
           </Col>
         </Row>
-      </LayoutContainer>
+      </CenteredContainer>
     </Background>
   );
 };

@@ -8,6 +8,19 @@ import palette from 'palette';
 const { Title } = Typography;
 
 export const StyledLeaderboard = styled(StyledTable)`
+  max-height: 550px;
+  overflow-y: auto;
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
   @keyframes shiny-animation {
     0% {
       background-position: -9vw;
@@ -33,10 +46,16 @@ export const StyledLeaderboard = styled(StyledTable)`
       background-color: ${palette.bronzeMedal} !important;
     }
   }
+
 ` as typeof Table;
 
-export const LayoutContainer = styled('div')`
-  padding-top: 10vh;
+export const CenteredContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
 `;
 
 export const StyledTitle = styled(Title)`
@@ -44,4 +63,5 @@ export const StyledTitle = styled(Title)`
   text-align: center;
   user-select: none;
   margin-bottom: 0 !important;
+  margin-top: 0 !important;
 `;
