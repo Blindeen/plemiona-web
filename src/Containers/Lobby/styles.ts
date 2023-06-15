@@ -18,6 +18,8 @@ export const PlayerList = styled('div')`
   justify-content: stretch;
   align-items: center;
   flex-direction: column;
+
+  overflow-y: auto;
 `;
 
 export const PlayerEntry = styled('div')`
