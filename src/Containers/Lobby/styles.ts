@@ -12,6 +12,7 @@ export const PlayerList = styled('div')`
   width: 100%;
   height: 100%;
   min-height: 200px;
+  max-height: 200px;
   min-width: 100px;
 
   display: flex;
