@@ -39,11 +39,11 @@ export const StyledLeaderboard = styled(StyledTable)`
     }
 
     &:nth-child(2) {
-      background-color: ${palette.arcticSilver} !important;
+      background-color: ${palette.arcticSilver};
     }
 
     &:nth-child(3) {
-      background-color: ${palette.bronzeMedal} !important;
+      background-color: ${palette.bronzeMedal};
     }
   }
 
