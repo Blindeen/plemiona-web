@@ -12,13 +12,14 @@ import { router, routes } from 'router';
 const Leaderboard = () => {
   const { gameState } = useContext(GameSessionState);
   const { leaderboard } = gameState;
+  const winnerPoints = leaderboard[0].points;
 
   const columns: ColumnsType<leaderboardRecord> = [
     {
       title: 'Place',
       key: 'place',
       align: 'center',
-      render: (value, record, index) => index + 1,
+      render: (value, record, index) => record.points === winnerPoints ? 1 : index + 1,
     },
     {
       title: 'Nickname',
