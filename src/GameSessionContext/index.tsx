@@ -173,12 +173,15 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const socket = new WebSocket(`${WS_URL}/?token=${localStorage.getItem('token')}`);
 
     socket.onmessage = async (event) => {
-      clearTimeout(resourceUpdater.current);
       const { type, data } = JSON.parse(event.data);
 
       if (type === 'message') {
-        pushNotification('info', data.message);
+        pushNotification('info', data.message, '', 3);
       } else {
+        if ('resources' in data) {
+          clearTimeout(resourceUpdater.current);
+        }
+
         // When game session starts `start_game_session` is received
         // or `fetch_game_session_state` on reconnect to fetch current game state
         if (type === 'start_game_session' || type === 'fetch_game_session_state') {

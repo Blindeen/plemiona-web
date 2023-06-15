@@ -22,18 +22,16 @@ const RecruitmentContainer = ({ name, unit, input, setInput }: RecruitmentContai
         <NameTag>Count : {unit.count}</NameTag>
       </Col>
       <Col span={4}>
-        <ResourcesComponent name="wood" own={input === 0 ? unit.trainingCost.wood : unit.trainingCost.wood * input} />
+        <ResourcesComponent name="wood" own={unit.trainingCost.wood} />
       </Col>
       <Col span={4}>
-        <ResourcesComponent name="clay" own={input === 0 ? unit.trainingCost.clay : unit.trainingCost.clay * input} />
+        <ResourcesComponent name="clay" own={unit.trainingCost.clay} />
       </Col>
       <Col span={4}>
-        <ResourcesComponent name="iron" own={input === 0 ? unit.trainingCost.iron : unit.trainingCost.iron * input} />
+        <ResourcesComponent name="iron" own={unit.trainingCost.iron} />
       </Col>
       <Col span={5}>
-        <TimeTag>
-          {upgradeDurationSecondsLabel(input === 0 ? unit.trainingDuration : unit.trainingDuration * input)}
-        </TimeTag>
+        <TimeTag>{upgradeDurationSecondsLabel(unit.trainingDuration)}</TimeTag>
       </Col>
       <Col span={3}>
         <InputNumber
