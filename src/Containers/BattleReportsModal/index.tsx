@@ -55,9 +55,9 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
           Authorization: `Bearer ${localStorage.getItem('token') as string}`,
         },
       });
-      const { results } = await response.json();
+      const { data } = await response.json();
       if (response.ok) {
-        setBattleReports(results);
+        setBattleReports(data);
       } else {
         pushNotification('error', 'Error', 'Cannot fetch battle reports');
       }
@@ -184,19 +184,19 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
                           </Col>
                           <Col span={6}>
                             <Count>
-                              {plunderedResources.wood}
+                              {Math.floor(plunderedResources.wood)}
                               <img src="/assets/resources-icons/wood.png" alt="wood" width={48} height={48} />
                             </Count>
                           </Col>
                           <Col span={6}>
                             <Count>
-                              {plunderedResources.clay}
+                              {Math.floor(plunderedResources.clay)}
                               <img src="/assets/resources-icons/clay.png" alt="clay" width={48} height={48} />
                             </Count>
                           </Col>
                           <Col span={6}>
                             <Count>
-                              {plunderedResources.iron}
+                              {Math.floor(plunderedResources.iron)}
                               <img src="/assets/resources-icons/iron.png" alt="iron" width={48} height={48} />
                             </Count>
                           </Col>
