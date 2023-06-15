@@ -12,8 +12,7 @@ export const CenteredContainer = styled('div')`
 `;
 
 export const Box = styled('div')`
-  background-color: ${palette.dadsRayOfSunshine};
-  opacity: 70%;
+  background-color: rgba(255, 252, 159, 70%);
   border: 5px solid ${palette.brown};
   box-shadow: black 0 0 10px 10px;
   border-radius: 10px;
@@ -57,4 +56,9 @@ export const CenteredBox = styled('div')`
   justify-content: center;
   min-width: 100vw;
   min-height: 100vh;
+`;
+
+export const StyledImage = styled('img')`
+  user-select: none;
+  pointer-events: none
 `;
