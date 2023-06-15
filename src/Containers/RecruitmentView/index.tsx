@@ -156,13 +156,13 @@ const UpgradeView = ({ open, setOpen }: UpgradeViewProps) => {
               <ResourcesNameTag>Total :</ResourcesNameTag>
             </Col>
             <Col span={6}>
-              <ResourcesComponent name="wood" own={allRecruitCostWood} capacity={gameState.resources.wood} />
+              <ResourcesComponent name="wood" own={allRecruitCostWood} />
             </Col>
             <Col span={6}>
-              <ResourcesComponent name="clay" own={allRecruitCostClay} capacity={gameState.resources.clay} />
+              <ResourcesComponent name="clay" own={allRecruitCostClay} />
             </Col>
             <Col span={6}>
-              <ResourcesComponent name="iron" own={allRecruitCostIron} capacity={gameState.resources.iron} />
+              <ResourcesComponent name="iron" own={allRecruitCostIron} />
             </Col>
             <Col span={2}>
               <TimeTag>{upgradeDurationSecondsLabel(allRecruitTime)}</TimeTag>
