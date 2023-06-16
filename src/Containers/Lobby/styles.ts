@@ -12,12 +12,35 @@ export const PlayerList = styled('div')`
   width: 100%;
   height: 100%;
   min-height: 200px;
+  max-height: 200px;
   min-width: 100px;
 
   display: flex;
   justify-content: stretch;
   align-items: center;
   flex-direction: column;
+
+  overflow-y: auto;
+
+  /* width */
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+
+  &::-webkit-scrollbar-thumb {
+    background: ${palette.portTudorHotel};
+    border-radius: 10px;
+  }
 `;
 
 export const PlayerEntry = styled('div')`

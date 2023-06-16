@@ -220,7 +220,7 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
         resources: Object.fromEntries(
           Object.entries(prevState.resources).map(([key, quantity]) =>
             quantity < prevState.resourcesCapacity
-              ? [key, quantity + prevState.resourcesIncome[key as Resource]]
+              ? [key, Math.min(quantity + prevState.resourcesIncome[key as Resource], prevState.resourcesCapacity)]
               : [key, quantity]
           )
         ) as Resources,
