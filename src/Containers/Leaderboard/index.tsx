@@ -4,10 +4,13 @@ import { Col, Row } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import GameSessionState, { leaderboardRecord } from 'GameSessionContext';
+import { router, routes } from 'router';
+
 import { Background } from 'Components/CommonComponents';
 import Button from 'Components/Button';
+
 import { CenteredContainer, StyledLeaderboard, StyledTitle } from './styles';
-import { router, routes } from 'router';
+import './styles.css';
 
 const Leaderboard = () => {
   const { gameState } = useContext(GameSessionState);
@@ -19,6 +22,21 @@ const Leaderboard = () => {
     }
 
     return calculatePlace(index - 1, points);
+  };
+
+  const getRowClassname = (record: leaderboardRecord, index: number) => {
+    const place = calculatePlace(index, record.points);
+
+    switch (place) {
+      case 1:
+        return 'first-place';
+      case 2:
+        return 'second-place';
+      case 3:
+        return 'third-place';
+      default:
+        return '';
+    }
   };
 
   const columns: ColumnsType<leaderboardRecord> = [
@@ -56,6 +74,7 @@ const Leaderboard = () => {
                   columns={columns}
                   dataSource={leaderboard}
                   rowKey={(record) => record.id}
+                  rowClassName={getRowClassname}
                   locale={{ emptyText: 'Leaderboard is empty' }}
                   pagination={false}
                 />
