@@ -3,41 +3,31 @@ import styled from 'styled-components';
 
 import { StyledTable } from 'Components/Table/styles';
 
-import palette from 'palette';
-
 const { Title } = Typography;
 
 export const StyledLeaderboard = styled(StyledTable)`
-  @keyframes shiny-animation {
-    0% {
-      background-position: -9vw;
-    }
-    100% {
-      background-position: 9vw;
-    }
-  }
-}
-
-.ant-table-tbody > tr {
+  max-height: 550px;
+  overflow-y: auto;
   pointer-events: none;
 
-  &:nth-child(1) {
-    animation: shiny-animation 1s infinite ease-in-out alternate-reverse;
-    background-image: linear-gradient(to right, ${palette.gold}, ${palette.whiteFlight}, ${palette.gold});
+  /* Hide scrollbar for Chrome, Safari and Opera */
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 
-  &:nth-child(2) {
-    background-color: ${palette.arcticSilver} !important;
-  }
-
-  &:nth-child(3) {
-    background-color: ${palette.bronzeMedal} !important;
-  }
-}
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 ` as typeof Table;
 
-export const LayoutContainer = styled('div')`
-  padding-top: 10vh;
+export const CenteredContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
 `;
 
 export const StyledTitle = styled(Title)`
@@ -45,4 +35,5 @@ export const StyledTitle = styled(Title)`
   text-align: center;
   user-select: none;
   margin-bottom: 0 !important;
+  margin-top: 0 !important;
 `;

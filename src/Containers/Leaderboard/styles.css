@@ -1,0 +1,21 @@
+@keyframes shiny-animation {
+    0% {
+        background-position: -9vw;
+    }
+    100% {
+        background-position: 9vw;
+    }
+}
+
+.first-place {
+    animation: shiny-animation 1s infinite ease-in-out alternate-reverse;
+    background-image: linear-gradient(to right, #FFD700, #F2F2F2, #FFD700);
+}
+
+.second-place {
+    background-color: #CAD3D7 !important;
+}
+
+.third-place {
+    background-color: #977547 !important;
+}
