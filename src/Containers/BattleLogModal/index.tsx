@@ -15,7 +15,7 @@ interface BattleLogModalProps {
 }
 
 const BattleLogModal = (props: BattleLogModalProps) => {
-  const { gameState } = useContext(GameSessionState);
+  const { gameState, setGameState } = useContext(GameSessionState);
   const { battleLog } = gameState;
 
   const getBattlePhaseIcon = (battleTime: Date, returnTime: Date) => {
@@ -49,7 +49,13 @@ const BattleLogModal = (props: BattleLogModalProps) => {
   return (
     <Modal
       open={props.isBattleLogModalOpen}
-      onCancel={() => props.setIsBattleLogModalOpen(false)}
+      onCancel={() => {
+        props.setIsBattleLogModalOpen(false);
+        setGameState({
+          ...gameState,
+          isNewBattleLog: false,
+        });
+      }}
       footer={null}
     >
       <Row>
