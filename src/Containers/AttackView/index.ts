@@ -37,6 +37,16 @@ const AttackView = styled(Modal)`
 
 export const UnitSlider = styled(Slider)`
   width: 80%;
+
+  &.ant-slider .ant-slider-track {
+    background-color: ${palette.brown};
+  }
+
+  &.ant-slider .ant-slider-handle {
+    &::after {
+      box-shadow: 0 0 0 2px ${palette.brown};
+    }
+  }
 `;
 
 export const UnitWrapper = styled('div')`
