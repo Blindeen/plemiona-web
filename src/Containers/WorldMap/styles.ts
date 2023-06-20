@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { HomeOutlined } from '@ant-design/icons';
 
 import palette from 'palette';
+import { StartButton } from 'Containers/Lobby/styles';
 
 export const FRAME_SQUARES_X = 7;
 export const FRAME_SQUARES_Y = 5;
@@ -42,15 +43,15 @@ export const Map = styled('div')`
 `;
 
 interface MapImageProps {
-  cordX: number;
-  cordY: number;
+  cordx: number;
+  cordy: number;
 }
 
 export const MapImage = styled('img')<MapImageProps>`
   position: absolute;
   z-index: 2;
-  left: ${({ cordX }) => (-cordX * FRAME_WIDTH) / FRAME_SQUARES_X}px;
-  top: ${({ cordY }) => (-cordY * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
+  left: ${({ cordx: cordx }) => (-cordx * FRAME_WIDTH) / FRAME_SQUARES_X}px;
+  top: ${({ cordy: cordy }) => (-cordy * FRAME_HEIGHT) / FRAME_SQUARES_Y}px;
 `;
 
 const ARROW_WIDTH = 64;
@@ -142,4 +143,27 @@ export const PlayerNickname = styled('span')`
   word-wrap: break-word;
   color: sandybrown;
   text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+`;
+
+export const Description = styled('p')`
+  &:empty::before {
+    content: ' ';
+    white-space: pre;
+  }
+
+  text-align: center;
+`;
+
+export const Header = styled('h1')`
+  text-align: center;
+  font-family: Old English Text MT, sans-serif;
+  font-weight: 700;
+  font-size: 2em;
+  color: ${palette.black};
+`;
+
+export const AttackButton = styled(StartButton)`
+  min-width: 200px;
+  width: 50%;
+  margin: 25px auto 0;
 `;

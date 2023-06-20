@@ -36,12 +36,15 @@ const AttackView = styled(Modal)`
 `;
 
 export const UnitSlider = styled(Slider)`
-  flex: 0 0 77%;
-  margin-top: 2%;
+  width: 80%;
 `;
 
 export const UnitWrapper = styled('div')`
-  flex: 0 0 12%;
+  flex: 0 0 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default AttackView;
