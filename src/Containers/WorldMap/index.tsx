@@ -151,6 +151,7 @@ const WorldMap = () => {
     } finally {
       setLoading(false);
       setAttackViewOpen(false);
+      setAttackingUnits({ spearman: 0, archer: 0, axeman: 0, swordsman: 0 });
     }
   };
 
