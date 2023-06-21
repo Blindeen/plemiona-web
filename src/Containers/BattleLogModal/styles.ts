@@ -5,5 +5,8 @@ export const TextSection = styled.span`
 `;
 
 export const Highlight = styled.span`
+  display: inline-block;
+  text-align: center;
   font-weight: bold;
+  width: 15ch;
 `;
