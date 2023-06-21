@@ -14,6 +14,8 @@ const palette = {
   arcticSilver: '#CAD3D7',
   bronzeMedal: '#977547',
   whiteFlight: '#F2F2F2',
+  lightGreen: '#90EE90',
+  tundraSummerSkies: '#44A6C6',
 };
 
 export default palette;

@@ -46,7 +46,18 @@ export interface UnitInterface {
   defensiveStrength: number;
 }
 
-type gameSessionStateType = {
+interface BattleLogRecord {
+  id: number;
+  attacker: playerType;
+  defender: playerType;
+  startTime: Date;
+  battleTime: Date;
+  returnTime: Date;
+  phase: string;
+  result?: string;
+}
+
+export type gameSessionStateType = {
   hasGameStarted: boolean;
   hasGameEnded: boolean;
   endedAt: Date;
@@ -61,6 +72,9 @@ type gameSessionStateType = {
 
   buildings: Record<BuildingType, BuildingInterface>;
   units: Record<UnitType, UnitInterface>;
+
+  battleLog: BattleLogRecord[];
+  isNewBattleLog: boolean;
 };
 
 const initialResources: gameSessionStateType = {
@@ -152,6 +166,9 @@ const initialResources: gameSessionStateType = {
       defensiveStrength: 0,
     },
   },
+
+  battleLog: [] as BattleLogRecord[],
+  isNewBattleLog: false,
 };
 
 type GameSessionContextType = {
@@ -195,6 +212,13 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
           setGameState((prevState) => ({
             ...prevState,
             hasGameEnded: true,
+          }));
+        }
+
+        if (type === 'battle_log') {
+          setGameState((prevState) => ({
+            ...prevState,
+            isNewBattleLog: true,
           }));
         }
 
