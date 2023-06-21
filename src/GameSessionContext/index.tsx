@@ -53,6 +53,8 @@ interface BattleLogRecord {
   startTime: Date;
   battleTime: Date;
   returnTime: Date;
+  phase: string;
+  result?: string;
 }
 
 export type gameSessionStateType = {
