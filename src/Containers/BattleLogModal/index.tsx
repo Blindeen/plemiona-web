@@ -1,13 +1,15 @@
 import { useContext } from 'react';
 
 import { Col, Row } from 'antd';
-import { ArrowLeftOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined, CheckOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 import GameSessionState from 'GameSessionContext';
 import Modal from 'Components/Modal';
 import { SectionHeader } from 'Components/SectionHeader/styles';
+import { StyledLoadingBar } from 'Components/LoadingBar/styles';
 import { Highlight, TextSection } from 'Containers/BattleLogModal/styles';
+import palette from 'palette';
 
 interface BattleLogModalProps {
   isBattleLogModalOpen: boolean;
@@ -18,29 +20,55 @@ const BattleLogModal = (props: BattleLogModalProps) => {
   const { gameState, setGameState } = useContext(GameSessionState);
   const { battleLog } = gameState;
 
-  const getBattlePhaseIcon = (battleTime: Date, returnTime: Date) => {
-    if (returnTime) {
-      if (dayjs().diff(returnTime) < 0) {
+  const getBattlePhaseIcon = (phase: string) => {
+    switch (phase) {
+      case 'O':
+        return <ArrowRightOutlined />;
+      case 'R':
         return <ArrowLeftOutlined />;
-      } else {
+      case 'F':
         return <CheckOutlined />;
-      }
-    } else {
-      return <CloseOutlined />;
+    }
+  };
+
+  const getBattlePhasePercent = (startTime: Date, returnTime: Date, battleTime: Date, phase: string) => {
+    switch (phase) {
+      case 'O':
+        return Math.round(((dayjs().diff(dayjs(startTime))) / (dayjs(battleTime).diff(dayjs(startTime)))) * (2 / 3) * 100);
+      case 'R':
+        return 100 - Math.round(((dayjs(returnTime).diff(dayjs())) / (dayjs(returnTime).diff(dayjs(startTime)))) * 100);
+      case 'F':
+        return 100;
+    }
+  };
+
+  const getBattlePhaseColor = (phase: string) => {
+    switch (phase) {
+      case 'O':
+        return palette.red;
+      case 'R':
+        return palette.tundraSummerSkies;
+      case 'F':
+        return palette.lightGreen;
     }
   };
 
   const logs = battleLog.map((log, index) => (
-    <Row key={index} gutter={[20, 0]} justify='center' align='middle'>
+    <Row key={index} gutter={[20, 0]}>
       <Col>
-        <TextSection>{getBattlePhaseIcon(log.battleTime, log.returnTime)}</TextSection>
+        <TextSection>{getBattlePhaseIcon(log.phase)}</TextSection>
       </Col>
-      <Col>
-        <TextSection>{dayjs(log.startTime).format('HH:mm:ss')}</TextSection>
+      <Col span={8}>
+        <StyledLoadingBar
+          percent={getBattlePhasePercent(log.startTime, log.returnTime, log.battleTime, log.phase)}
+          status='active'
+          strokeColor={getBattlePhaseColor(log.phase)}
+          showInfo={false}
+        />
       </Col>
       <Col>
         <TextSection>
-          <Highlight>{log.attacker.nickname} (Attacker)</Highlight> - <Highlight>{log.defender.nickname} (Defender)</Highlight>
+          <Highlight>{log.attacker.nickname}</Highlight> vs <Highlight>{log.defender.nickname}</Highlight>
         </TextSection>
       </Col>
     </Row>
