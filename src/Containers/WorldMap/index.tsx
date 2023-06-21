@@ -1,20 +1,23 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Tooltip } from 'antd';
 
 import 'App.css';
 import AttackView, { UnitDistributionWrapper, UnitSlider, UnitWrapper } from 'Containers/AttackView';
 import { UnitImg } from 'Components/UnitComponent/styles';
-import { StartButton as AttackButton } from 'Containers/Lobby/styles';
 
-import GameSessionState, { playerType, UnitType } from 'GameSessionContext';
+import GameSessionState, { playerType, UnitInterface, UnitType } from 'GameSessionContext';
 import { router, routes } from 'router';
 import pushNotification from 'pushNotification';
 import API_URL from 'api_url';
 import {
+  AttackButton,
+  Description,
   direction,
   DIRECTIONS,
   Frame,
   FRAME_SQUARES_X,
   FRAME_SQUARES_Y,
+  Header,
   Map,
   MAP_SQUARES_X,
   MAP_SQUARES_Y,
@@ -27,6 +30,14 @@ import {
   VillageImg,
   VillageReturnButton,
 } from './styles';
+import { stringToTitle } from 'utils';
+import { InputNumber } from 'Components/Input';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 type entityType = null | playerType;
 type tileType = 'player' | 'empty' | 'barbarians';
@@ -75,12 +86,15 @@ const WorldMap = () => {
     ]),
   ] as mapTile[][];
 
-  let { x: selfX, y: selfY } = { x: 3, y: 5 };
+  let selfX = 0;
+  let selfY = 0;
+
   gameState.players.forEach((player) => {
     if (player.id === selfID) {
       selfX = player.village.x;
       selfY = player.village.y;
     }
+
     BEMap[player.village.y][player.village.x] = {
       type: 'player',
       army: null,
@@ -88,27 +102,24 @@ const WorldMap = () => {
       entity: player,
     };
   });
-  // BEMap[5][3] = {
-  //   type: 'player',
-  //   army: null,
-  //   isTarget: false,
-  //   entity: { village: { x: 3, y: 5 }, id: 6, nickname: 'Tomek' } as playerType,
-  // };
 
   const [{ x: cordX, y: cordY }, setCords] = useState(selfMiddle());
 
   const mapFragment = (map = BEMap.slice(cordY, cordY + FRAME_SQUARES_Y), idx = 0): mapTile[] =>
     map[idx] ? [...map[idx].slice(cordX, cordX + FRAME_SQUARES_X), ...mapFragment(map, idx + 1)] : [];
 
-  const handleTileClick = (tileType: tileType, entity: entityType) => {
+  const handleTileClick = async (tileType: tileType, entity: entityType) => {
     if (!entity) return;
+
     if (tileType === 'player' && entity.id === selfID) {
-      router.navigate(routes.villagePage);
+      await router.navigate(routes.villagePage);
       return;
     }
+
     setTargetEntity(entity);
     setAttackViewOpen(true);
   };
+
   const handleAttackClick = async () => {
     setLoading(true);
     try {
@@ -140,6 +151,7 @@ const WorldMap = () => {
     } finally {
       setLoading(false);
       setAttackViewOpen(false);
+      setAttackingUnits({ spearman: 0, archer: 0, axeman: 0, swordsman: 0 });
     }
   };
 
@@ -187,8 +199,8 @@ const WorldMap = () => {
             {entity?.id === Number(selfID) && '(you)'}
           </PlayerNickname>
           <VillageImg
-            className='clickable'
-            src='/assets/castle.png'
+            className="clickable"
+            src="/assets/castle.png"
             alt={entity?.nickname as string}
             width={TILE_WIDTH}
             height={TILE_HEIGHT}
@@ -198,51 +210,103 @@ const WorldMap = () => {
     </MapSquare>
   ));
 
+  const estimateBattleTime = (target?: entityType): string => {
+    if (!target) return '';
+
+    const distance = Math.sqrt(
+      Math.pow(selfX - target.village.x, 2) + Math.pow((selfY - target.village.y) as number, 2)
+    );
+
+    // Get slowest unit from attacking army
+    let slowestUnit: UnitInterface | null = null;
+
+    Object.entries(attackingUnits).forEach(([name, count]) => {
+      if (count === 0) return;
+      const unit: UnitInterface = gameState.units[name as UnitType];
+      if (!slowestUnit || slowestUnit.speed <= unit.speed) slowestUnit = unit;
+    });
+
+    if (!slowestUnit) return '';
+    const seconds = distance * (slowestUnit as UnitInterface).speed;
+    const duration = dayjs.duration(seconds, 'seconds');
+
+    return `${duration.minutes()}m ${duration.seconds()}s`;
+  };
+
+  const attackModal = (
+    <AttackView
+      open={attackViewOpen}
+      onCancel={() => setAttackViewOpen(false)}
+      footer={false}
+      keyboard
+      centered
+      closable
+    >
+      <Header style={{ textAlign: 'center' }}>
+        Select units to attack
+        <br />
+        {targetEntity?.nickname}
+      </Header>
+      <Description>
+        {(attackingUnits.spearman > 0 ||
+          attackingUnits.axeman > 0 ||
+          attackingUnits.archer > 0 ||
+          attackingUnits.swordsman > 0) &&
+          `The units would arrive in ${estimateBattleTime(targetEntity)}`}
+      </Description>
+      <UnitDistributionWrapper>
+        {Object.entries(gameState.units).map(([name, { count }], idx) => {
+          const unitType = name as UnitType;
+          return (
+            <UnitWrapper key={idx}>
+              <Tooltip title={stringToTitle(name)} placement="top">
+                <UnitImg type={name} width={64} height={64} />
+              </Tooltip>
+              <p>Quantity: {count}</p>
+              <InputNumber
+                disabled={count === 0}
+                min={0}
+                max={count}
+                defaultValue={0}
+                value={attackingUnits[unitType]}
+                onChange={(value) => setAttackingUnits((prevState) => ({ ...prevState, [unitType]: value }))}
+              />
+              <UnitSlider
+                disabled={count === 0}
+                min={0}
+                max={count}
+                value={attackingUnits[unitType]}
+                onChange={(value: number) => setAttackingUnits((prevState) => ({ ...prevState, [unitType]: value }))}
+                keyboard
+              />
+            </UnitWrapper>
+          );
+        })}
+      </UnitDistributionWrapper>
+      <AttackButton loading={loading} onClick={() => handleAttackClick()}>
+        Attack
+      </AttackButton>
+    </AttackView>
+  );
+
   return (
     <Frame>
-      <AttackView
-        open={attackViewOpen}
-        onCancel={() => setAttackViewOpen(false)}
-        footer={false}
-        keyboard
-        centered
-        closable
-      >
-        <UnitDistributionWrapper>
-          {Object.entries(gameState.units).map(([name, unitProps], idx) => (
-            <Fragment key={idx}>
-              <UnitWrapper>
-                <UnitImg type={name} width={48} height={48} />
-              </UnitWrapper>
-              <UnitSlider
-                defaultValue={0}
-                min={0}
-                max={unitProps.count}
-                onAfterChange={(value: number) => setAttackingUnits((prevState) => ({ ...prevState, [name]: value }))}
-                keyboard
-              ></UnitSlider>
-            </Fragment>
-          ))}
-        </UnitDistributionWrapper>
-        <AttackButton loading={loading} onClick={() => handleAttackClick()}>
-          Attack
-        </AttackButton>
-      </AttackView>
+      {attackModal}
       <Map>
-        <MapImage src='/assets/map-image.jpg' cordX={cordX} cordY={cordY} />
-        <VillageReturnButton className='clickable' onClick={resetView} />
+        <MapImage src="/assets/map-image.jpg" cordx={cordX} cordy={cordY} />
+        <VillageReturnButton className="clickable" onClick={resetView} />
         {squares}
         {Object.values(DIRECTIONS).map(
           (direction, idx) =>
             !isBoundary(direction) && (
               <NavArrow
                 key={idx}
-                className='clickable'
+                className="clickable"
                 direction={direction}
                 onClick={() => moveMap(direction)}
-                src='/assets/buttons/map-arrow-button.png'
+                src="/assets/buttons/map-arrow-button.png"
               />
-            ),
+            )
         )}
       </Map>
     </Frame>

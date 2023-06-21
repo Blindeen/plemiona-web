@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Input } from 'antd';
+import { Input, InputNumber } from 'antd';
 
 import palette from 'palette';
 
@@ -10,6 +10,19 @@ export const StyledInput = styled(Input)`
   font-size: 18px;
 
   &.ant-input {
+    &:hover,
+    &:focus {
+      box-shadow: none;
+      border-color: ${palette.black};
+    }
+  }
+`;
+
+export const StyledInputNumber = styled(InputNumber)`
+  background-color: ${palette.dadsRayOfSunshine};
+  border-color: black;
+
+  &.ant-input-number {
     &:hover,
     &:focus {
       box-shadow: none;

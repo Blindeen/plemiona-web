@@ -36,12 +36,25 @@ const AttackView = styled(Modal)`
 `;
 
 export const UnitSlider = styled(Slider)`
-  flex: 0 0 77%;
-  margin-top: 2%;
+  width: 80%;
+
+  &.ant-slider .ant-slider-track {
+    background-color: ${palette.brown};
+  }
+
+  &.ant-slider .ant-slider-handle {
+    &::after {
+      box-shadow: 0 0 0 2px ${palette.brown};
+    }
+  }
 `;
 
 export const UnitWrapper = styled('div')`
-  flex: 0 0 12%;
+  flex: 0 0 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default AttackView;
