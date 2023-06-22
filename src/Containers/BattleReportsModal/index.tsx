@@ -79,7 +79,7 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
     leftUnits: UnitsCount,
     strength: number,
     morale: number,
-    description: string,
+    description: string
   ) => (
     <>
       <Col span={24}>
@@ -96,7 +96,7 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
         </Row>
       </Col>
       <Col span={24}>
-        <Row align='middle'>
+        <Row align="middle">
           <Col span={4}>
             <SectionText>Quantity:</SectionText>
           </Col>
@@ -110,7 +110,7 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
         </Row>
       </Col>
       <Col span={24}>
-        <Row align='middle'>
+        <Row align="middle">
           <Col span={4}>
             <SectionText>Alive:</SectionText>
           </Col>
@@ -153,7 +153,7 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
                     battleTime,
                     plunderedResources,
                   },
-                  idx,
+                  idx
                 ) => (
                   <Report span={24} key={idx}>
                     <Row>
@@ -166,7 +166,7 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
                         leftAttackerUnits,
                         attackerStrenght,
                         attackerLostMorale,
-                        'Attacker',
+                        'Attacker'
                       )}
                       <Divider />
                       {displayPlayer(
@@ -175,37 +175,37 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
                         leftDefenderUnits,
                         defenderStrenght,
                         defenderLostMorale,
-                        'Defender',
+                        'Defender'
                       )}
                       <Divider />
                       <Col span={24}>
-                        <Row align='middle'>
+                        <Row align="middle">
                           <Col span={6}>
                             <SectionText>Plundered resources:</SectionText>
                           </Col>
                           <Col span={6}>
                             <Count>
                               {Math.floor(plunderedResources.wood)}
-                              <img src='/assets/resources-icons/wood.png' alt='wood' width={48} height={48} />
+                              <img src="/assets/resources-icons/wood.png" alt="wood" width={48} height={48} />
                             </Count>
                           </Col>
                           <Col span={6}>
                             <Count>
                               {Math.floor(plunderedResources.clay)}
-                              <img src='/assets/resources-icons/clay.png' alt='clay' width={48} height={48} />
+                              <img src="/assets/resources-icons/clay.png" alt="clay" width={48} height={48} />
                             </Count>
                           </Col>
                           <Col span={6}>
                             <Count>
                               {Math.floor(plunderedResources.iron)}
-                              <img src='/assets/resources-icons/iron.png' alt='iron' width={48} height={48} />
+                              <img src="/assets/resources-icons/iron.png" alt="iron" width={48} height={48} />
                             </Count>
                           </Col>
                         </Row>
                       </Col>
                     </Row>
                   </Report>
-                ),
+                )
               )}
             </Row>
           </Col>
