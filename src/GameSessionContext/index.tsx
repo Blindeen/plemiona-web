@@ -74,7 +74,6 @@ export type gameSessionStateType = {
   units: Record<UnitType, UnitInterface>;
 
   battleLog: BattleLogRecord[];
-  isNewBattleLog: boolean;
 };
 
 const initialResources: gameSessionStateType = {
@@ -168,7 +167,6 @@ const initialResources: gameSessionStateType = {
   },
 
   battleLog: [] as BattleLogRecord[],
-  isNewBattleLog: false,
 };
 
 type GameSessionContextType = {
@@ -212,13 +210,6 @@ export const GameSessionProvider: React.FC<{ children: React.ReactNode }> = ({ c
           setGameState((prevState) => ({
             ...prevState,
             hasGameEnded: true,
-          }));
-        }
-
-        if (type === 'battle_log') {
-          setGameState((prevState) => ({
-            ...prevState,
-            isNewBattleLog: true,
           }));
         }
 
