@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios, {AxiosError} from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import {Button, Form, Input, Typography} from "antd";
+import {useParams, useNavigate, Link} from 'react-router-dom';
+import {Button, Divider, Form, Input, Typography} from "antd";
 import {StyledImage} from "../../Components/CommonComponents";
 import ImageHero from "../../Components/ImageHero";
 
@@ -9,17 +9,17 @@ const ResetPasswordPage = () => {
     const { token } = useParams();
     const navigate = useNavigate();
 
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    // If there are no token in paramrs, the user is redirected to the forgot password page
     useEffect(() => {
         if (!token) {
             navigate('/forgot-password');
         }
     }, [token, navigate]);
 
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         if (password !== confirmPassword) {
             alert('The password and confirmation password have to match!');
             return;
@@ -41,21 +41,28 @@ const ResetPasswordPage = () => {
         }
     };
 
+    const [form] = Form.useForm();
+    const [isFormValid, setIsFormValid] = useState<boolean>(false);
+    useEffect(() => {
+        setIsFormValid(true);
+    }, []);
+
     return (
         <ImageHero imageurl='/assets/backgrounds/landing-page-background.jpg'>
             <Form
-                name="basic"
+                form={form}
                 labelCol={{ span: 10 }}
                 wrapperCol={{ span: 20 }}
                 labelAlign={'left'}
-                style={{ width: '400px', backgroundColor: 'white', padding: '20px', borderRadius: '10px' }}
+                style={{ width: '450px', backgroundColor: 'white', padding: '20px', borderRadius: '10px' }}
                 initialValues={{ remember: true }}
                 autoComplete={"off"}
                 onFinish={handleSubmit}
             >
-                <div style={{ textAlign: 'center' }}>
-                    <StyledImage src='/assets/logo.png' alt='logo' />
-                    <Typography.Title level={3} style={{ marginTop: '5px' }}>Reset password</Typography.Title>
+                <div style={{textAlign: 'center'}}>
+                    <StyledImage src='/assets/logo.png' alt='logo'/>
+                    <Typography.Title level={3}
+                                      style={{marginTop: '5px', marginBottom: '20px'}}>Reset you password</Typography.Title>
                 </div>
                 <Form.Item
                     label="New password"
@@ -66,11 +73,11 @@ const ResetPasswordPage = () => {
                         { max: 60, message: 'The password must have maximum 60 characters.' }
                     ]}
                 >
-                    <Input.Password onChange={(e) => setPassword(e.target.value)}/>
+                    <Input.Password value={password} onChange={(e) => setPassword(e.target.value)} />
                 </Form.Item>
                 <Form.Item
-                    label="Confirm new password"
-                    name="new_password_confirm"
+                    label="Confirm password"
+                    name="confirm_password"
                     rules={[
                         { required: true, message: 'The password cannot be empty.' },
                         { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, message: 'The password must have minimum eight characters, at least one uppercase letter, one lowercase letter and one number.' },
@@ -87,11 +94,20 @@ const ResetPasswordPage = () => {
                 >
                     <Input.Password onChange={(e) => setConfirmPassword(e.target.value)} />
                 </Form.Item>
-                <Form.Item wrapperCol={{ span: 30 }} style={{marginBottom: '8px'}}>
-                    <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                        Send reset password email
+                <Form.Item wrapperCol={{ span: 30 }}>
+                    <Button type="primary" htmlType="submit" size={"large"} style={{ width: '100%', marginTop: '12px'}}
+                            disabled={
+                                !isFormValid ||
+                                !form.isFieldsTouched(true) ||
+                                !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                            }>
+                        Reset password
                     </Button>
                 </Form.Item>
+                <Divider style={{marginTop: '8px', marginBottom: '16px'}}></Divider>
+                <Typography.Title level={5}>
+                    Already know your password? <Link to="/login">Go to login page</Link>
+                </Typography.Title>
             </Form>
         </ImageHero>
     );

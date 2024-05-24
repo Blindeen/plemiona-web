@@ -1,4 +1,4 @@
-import {createBrowserRouter, createHashRouter, Outlet} from 'react-router-dom';
+import {createBrowserRouter, Outlet} from 'react-router-dom';
 
 import LandingPage from 'Pages/LandingPage';
 import LobbyPage from 'Pages/LobbyPage';
@@ -19,7 +19,7 @@ export const routes = {
   landingPage: '/',
   loginPage: 'login',
   forgotPasswordPage: 'forgot-password',
-  resetPasswordPage: 'reset-password',
+  resetPasswordPage: 'reset-password/:token',
   registerPage: 'register',
   lobbyPage: 'lobby',
   villagePage: 'village',

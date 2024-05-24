@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import {Button, Divider, Form, Input, Typography} from 'antd';
-import ImageHero from "../../Components/ImageHero";
-import {StyledImage} from "../../Components/CommonComponents";
-import {useNavigate, Link} from "react-router-dom";
+import { Button, Divider, Form, Input, Typography } from 'antd';
+import { useNavigate, Link } from 'react-router-dom';
 
+import ImageHero from "../../Components/ImageHero";
+import { StyledImage } from "../../Components/CommonComponents";
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
@@ -41,18 +41,16 @@ const RegisterPage: React.FC = () => {
         <ImageHero imageurl='/assets/backgrounds/landing-page-background.jpg'>
             <Form
                 form={form}
-                name="basic"
                 labelCol={{ span: 10 }}
                 wrapperCol={{ span: 20 }}
                 labelAlign={'left'}
                 style={{ width: '450px', backgroundColor: 'white', padding: '20px', borderRadius: '10px' }}
                 initialValues={{ remember: true }}
-                autoComplete="off"
                 onFinish={handleRegister}
             >
                 <div style={{textAlign: 'center'}}>
                     <StyledImage src='/assets/logo.png' alt='logo'/>
-                    <Typography.Title level={3} style={{marginTop: '5px'}}>Create an account</Typography.Title>
+                    <Typography.Title level={3} style={{marginTop: '5px', marginBottom: '20px'}}>Create an account</Typography.Title>
                 </div>
                 <Form.Item
                     label="Email address"
@@ -73,22 +71,21 @@ const RegisterPage: React.FC = () => {
                         { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, message: 'The password must have minimum eight characters, at least one uppercase letter, one lowercase letter and one number.' },
                         { max: 60, message: 'The password must have maximum 60 characters.' }
                     ]}
-                    style={{marginTop: '8px'}}
                 >
                     <Input.Password value={password} onChange={(e) => setPassword(e.target.value)} />
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 30 }}>
-                    <Button type="primary" htmlType="submit" style={{ width: '100%', marginTop: '12px'}}
+                    <Button type="primary" htmlType="submit" size={"large"} style={{ width: '100%', marginTop: '12px'}}
                             disabled={
                         !isFormValid ||
                         !form.isFieldsTouched(true) ||
                         !!form.getFieldsError().filter(({ errors }) => errors.length).length
                     }>
-                        Create an account
+                        Sign up
                     </Button>
                 </Form.Item>
-                <Divider></Divider>
-                <Typography.Title level={5} style={{marginTop: '5px'}}>
+                <Divider style={{marginTop: '8px', marginBottom: '16px'}}></Divider>
+                <Typography.Title level={5}>
                     Already have an account? <Link to="/login">Sign in</Link>
                 </Typography.Title>
             </Form>

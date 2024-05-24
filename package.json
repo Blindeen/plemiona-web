@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
+    "@hcaptcha/react-hcaptcha": "^1.10.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,6 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-simple-captcha": "^9.3.1",
     "react-social-login-buttons": "^4.1.0",
     "reactjs-social-login": "^2.6.3",
     "styled-components": "^6.1.11",

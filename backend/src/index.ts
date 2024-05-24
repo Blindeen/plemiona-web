@@ -1,37 +1,72 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import axios from 'axios';
 import qs from 'qs';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import cors from 'cors';
-import jwt, {JwtPayload} from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import User from './database/model/User';
 import './database/sync';
-import {UniqueConstraintError} from 'sequelize';
-import {body, validationResult} from 'express-validator';
-import crypto from 'crypto';
+import { UniqueConstraintError } from 'sequelize';
+import { body, validationResult } from 'express-validator';
 
-const sendMail = require('./mailer');
+dotenv.config();
+const nodemailer = require('nodemailer');
+const app = express();
+app.use(express.json());
+app.use(cors());
 
-dotenv.config(); // Load environment variables
-const app = express(); // Create an Express app
-app.use(express.json()); // JSON body parser
-app.use(cors()); // Cross-origin
+const {
+    GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET,
+    FB_APP_ID,
+    FB_APP_SECRET,
+    JWT_SECRET = 'your_jwt_secret',
+    HCAPTCHA_SECRET
+} = process.env;
 
-// Environment variables from .env
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-const FB_APP_ID = process.env.FB_APP_ID;
-const FB_APP_SECRET = process.env.FB_APP_SECRET;
 const REDIRECT_URI = 'http://localhost:3000';
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+
+interface CustomJwtPayload extends JwtPayload {
+    userId: number;
+}
 
 const generateToken = (user: User) => {
     return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 };
-interface CustomJwtPayload extends JwtPayload {
-    userId: number;
-}
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp-mail.outlook.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
+
+const sendMail = (to: string, subject: string, text: string) => {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to,
+        subject,
+        text,
+    };
+    return transporter.sendMail(mailOptions);
+};
+
+const verifyCaptcha = async (token: string) => {
+    const response = await axios.post(
+        `https://hcaptcha.com/siteverify`,
+        qs.stringify({
+            secret: HCAPTCHA_SECRET,
+            response: token
+        })
+    );
+
+    return response.data.success;
+};
+
 
 // User register endpoint
 app.post('/register',
@@ -48,7 +83,11 @@ app.post('/register',
             return res.status(400).json({ message: 'There are validation errors in the form' });
         }
 
-        const { email, password } = req.body;
+        const { email, password, captchaToken } = req.body;
+        if (captchaToken && !await verifyCaptcha(captchaToken)) {
+            return res.status(400).json({ message: 'Invalid CAPTCHA' });
+        }
+
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
             const user = await User.create({ email, password: hashedPassword });
@@ -69,7 +108,7 @@ app.post('/login',[
         body('email').notEmpty().isEmail().isLength({ max: 255 }),
         body('password').notEmpty().isLength({ max: 60 })
             // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
-            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
     ],
     async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -77,14 +116,14 @@ app.post('/login',[
         return res.status(400).json({ message: 'There are validation errors in the form' });
     }
 
-    const { email, password } = req.body;
+    const { email, password} = req.body;
     try {
         const user = await User.findOne({ where: { email } });
         if (!user || !await bcrypt.compare(password, <string>user.password)) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
         const token = generateToken(user);
-        res.json({ message: 'Logged in successfully', token });
+        res.json({ message: 'User logged in successfully', token });
     } catch (error) {
         res.status(500).json({ message: 'Error logging in user', error });
     }
@@ -204,8 +243,7 @@ app.get('/auth/facebook/callback', async (req, res) => {
     }
 });
 
-// Sending mail
-app.post('/forgot-password', async (req, res) => {
+app.post('/forgot-password', async (req: Request, res: Response) => {
     const { email } = req.body;
     try {
         const user = await User.findOne({ where: { email } });
@@ -213,12 +251,21 @@ app.post('/forgot-password', async (req, res) => {
             return res.status(400).json({ message: 'User not found' });
         }
 
-        const token = crypto.randomBytes(32).toString('hex');
         const resetToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
         const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
-        await sendMail(user.email, 'Password Reset', `Click here to reset your password: ${resetUrl}`);
-
+        const html = `
+            Hello,
+            We received a request to reset your password. If you didn't make the request, just ignore this email. Otherwise, you can reset your password using this link:
+            ${resetUrl}
+            Please note that this link is only valid for the next 60 minutes.
+            If you're having trouble clicking the password reset link, copy and paste the URL into your web browser.
+            If you have any issues or questions, please contact our support team.
+            
+            Best regards,
+            Web-plemiona
+        `;
+        await sendMail(user.email, 'Web-plemiona: Password reset', html);
         res.status(200).json({ message: 'Password reset link sent to your email' });
     } catch (error) {
         console.error('Error sending reset link:', error);
@@ -237,8 +284,7 @@ app.post('/reset-password/:token', async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'Invalid or expired token' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        user.password = hashedPassword;
+        user.password = await bcrypt.hash(password, 10);
         await user.save();
 
         res.status(200).json({ message: 'Password reset successfully', success: true });
@@ -247,7 +293,6 @@ app.post('/reset-password/:token', async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error resetting password' });
     }
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 5000;
