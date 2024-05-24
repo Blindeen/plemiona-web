@@ -1,4 +1,4 @@
-import { createHashRouter, Outlet } from 'react-router-dom';
+import {createBrowserRouter, createHashRouter, Outlet} from 'react-router-dom';
 
 import LandingPage from 'Pages/LandingPage';
 import LobbyPage from 'Pages/LobbyPage';
@@ -10,19 +10,43 @@ import { GameSessionProvider } from 'GameSessionContext';
 
 import { PrivateRoute } from 'privateRoute';
 import { hasGameEnded, hasGameStarted, isAuthenticated } from 'utils';
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
+import ResetPasswordPage from "./Pages/ResetPasswordPage";
 
 export const routes = {
   landingPage: '/',
+  loginPage: 'login',
+  forgotPasswordPage: 'forgot-password',
+  resetPasswordPage: 'reset-password',
+  registerPage: 'register',
   lobbyPage: 'lobby',
   villagePage: 'village',
   worldPage: 'world',
   leaderboardPage: 'leaderboard',
 };
 
-export const router = createHashRouter([
+export const router = createBrowserRouter([
   {
     path: routes.landingPage,
     element: <LandingPage />,
+  },
+  {
+    path: routes.loginPage,
+    element: <LoginPage />,
+  },
+  {
+    path: routes.forgotPasswordPage,
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: routes.resetPasswordPage,
+    element: <ResetPasswordPage />,
+  },
+  {
+    path: routes.registerPage,
+    element: <RegisterPage />,
   },
   {
     element: (

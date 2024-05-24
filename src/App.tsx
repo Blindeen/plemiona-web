@@ -4,6 +4,9 @@ import { useRef } from 'react';
 import { router } from 'router';
 import 'App.css';
 
+// Axios configuration
+import './axiosConfig';
+
 const App = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
 

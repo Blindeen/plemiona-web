@@ -17,11 +17,11 @@ const BattleLogModal = () => {
   const getBattlePhaseIcon = (phase: string) => {
     switch (phase) {
       case 'O':
-        return <ArrowRightOutlined />;
+        return <ArrowRightOutlined/>;
       case 'R':
-        return <ArrowLeftOutlined />;
+        return <ArrowLeftOutlined/>;
       case 'F':
-        return <CheckOutlined />;
+        return <CheckOutlined/>;
     }
   };
 
@@ -100,7 +100,7 @@ const BattleLogModal = () => {
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         <SectionHeader>Battle logs</SectionHeader>
-        {isCollapsed ? <UpOutlined style={{ fontSize: 24 }} /> : <DownOutlined style={{ fontSize: 24 }} />}
+        {isCollapsed ? <UpOutlined style={{fontSize: 24}} /> : <DownOutlined style={{fontSize: 24}} />}
       </div>
       {isCollapsed ? null : (
         <Row gutter={[20, 0]}>

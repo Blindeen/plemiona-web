@@ -127,7 +127,7 @@ const BattleReportsModal = (props: BattleReportsModalProps) => {
   );
 
   return (
-    <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} spinning={loading}>
+    <Spin indicator={<LoadingOutlined style={{fontSize: 24}} spin />} spinning={loading}>
       <Modal
         open={props.isBattleReportsModalOpen}
         onCancel={() => props.setIsBattleReportsModalOpen(false)}
